@@ -17,7 +17,7 @@ join.post('/join/joinSuccess', async (ctx) => {
   console.log(data);
   const dbData = await DBC();
   await dbData.insertOne(data);
-  ctx.body = 'loginSuccess!!!!!!!';
+  ctx.body = 'loginSuccess!!!';
 });
 
 module.exports = join;
