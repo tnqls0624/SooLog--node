@@ -1,0 +1,24 @@
+html
+    head
+        link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
+    body
+        div.border-2
+            div.m-20.w-120.text-center.text-3xl.font-bold hello
+                div.text-xl
+                    center
+                        form(action="/api/join/joinSuccess" method="post")#form
+                            div
+                                div.inline-block 아이디
+                                input(type="text" name="login")#id.m-6.border-4.w-70.inline-block
+                            div
+                                div.inline-block 비밀번호
+                                input(type="text" name="pw")#pw.m-6.border-4.w-70.inline-block
+                            div
+                                div.inline-block 비밀번호확인
+                                input(type="text" name="pw2")#pw2.m-6.border-4.w-70.inline-block
+                            button.m-6.border-4.w-70.bg-green-400
+                                a(href='/')='돌아가기'
+                            button.m-6.border-4.w-70.bg-green-400
+                                div 등록
+        script(src="/joinPage.js")
+
