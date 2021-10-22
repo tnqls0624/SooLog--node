@@ -1,6 +1,6 @@
 html 
     head 
-        link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
+        link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" , rel="stylesheet")
     body 
         div.border-2
             div.m-20.w-120.text-center.text-3xl.font-bold hello
@@ -8,8 +8,9 @@ html
                     center
                         form
                             div.inline-block 아이디
-                            input(type="text" name="login").m-6.border-4.w-70.inline-block
+                            input(type="text" ,  name="login").m-6.border-4.w-70.inline-block
                             div.inline-block 비밀번호
                             input.m-6.border-4.w-70.inline-block
                         button.m-6.border-4.w-70.bg-green-400
                             a(href='/')='돌아가기'
+           script(src="/joinPage.js")
