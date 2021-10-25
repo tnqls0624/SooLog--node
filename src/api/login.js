@@ -13,10 +13,12 @@ login.post('/login/loginSuccess', async (ctx) => {
     id: data.id,
     pw: data.pw,
   });
-  if (data.id === user.id && data.pw === user.pw) {
+  if (!user) {
+    ctx.body = `로그인 실패`;
+  } else if (data.id === user.id && data.pw === user.pw) {
     ctx.body = `${user.name}님 안녕하세요!`;
   } else {
-    ctx.body = `로그인 실패`;
+    throw new Error('why?');
   }
 });
 

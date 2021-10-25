@@ -20,6 +20,7 @@ join.post('/join/joinSuccess', async (ctx) => {
     }
     const result = {
       id: data.id,
+      name: data.name,
       pw: data.pw,
     };
     console.log(result);
