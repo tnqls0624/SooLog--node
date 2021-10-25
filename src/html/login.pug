@@ -6,11 +6,13 @@ html
             div.m-20.w-120.text-center.text-3xl.font-bold hello
                 div.text-xl
                     center
-                        form
+                        form(action="/api/login/loginSuccess" , method="post")#form
                             div.inline-block 아이디
-                            input(type="text" ,  name="login").m-6.border-4.w-70.inline-block
+                            input(type="text" ,  name="id").m-6.border-4.w-70.inline-block
                             div.inline-block 비밀번호
-                            input.m-6.border-4.w-70.inline-block
-                        button.m-6.border-4.w-70.bg-green-400
-                            a(href='/')='돌아가기'
-           script(src="/joinPage.js")
+                            input(type="text" ,  name="pw").m-6.border-4.w-70.inline-block
+                            div
+                                button.m-6.border-4.w-70.bg-green-400
+                                    a(href='/')='돌아가기'
+                                button.m-6.border-4.w-70.bg-green-400
+                                    div 로그인하기
