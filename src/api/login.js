@@ -1,10 +1,12 @@
 const Router = require('koa-router');
 const bcrypt = require('bcrypt');
 const DBC = require('./DBC');
+const generateToken = require('../token/token');
+require('dotenv').config();
 const login = new Router();
 
 login.get('/login', async (ctx) => {
-  await ctx.render('login');
+  await ctx.render('home_login');
 });
 
 login.post('/login/loginSuccess', async (ctx) => {
@@ -23,7 +25,22 @@ login.post('/login/loginSuccess', async (ctx) => {
   }
   // 암호를 복호화하여 클라이언트로부터의 암호와 DB에서의 암호를 비교 후 판별
   const same = await bcrypt.compareSync(password, user.pw);
-  if (same) ctx.body = `${user.name}님 안녕하세요!`;
+  if (same) {
+    const payload = {
+      id: user.id,
+      pw: user.pw,
+      name: user.name,
+    };
+    const token = await generateToken(payload);
+    console.log(token);
+    ctx.cookies.set('access_token', token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+    await ctx.render('home_login');
+  } else {
+    ctx.body = '비밀번호가 틀립니다.';
+  }
 });
 
 module.exports = login;
