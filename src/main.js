@@ -10,15 +10,16 @@ const app = new koa();
 const router = new Router();
 const PORT = 5000;
 const bodyParser = require('koa-bodyparser');
-
+//퍼그
 new Pug({
   viewPath: path.resolve(__dirname, './html'),
   app,
 });
+//라우터
 router.use('/', home.routes());
 router.use('/api', login.routes());
 router.use('/api', join.routes());
-
+//미들웨어
 app.use(bodyParser());
 app.use(serve(__dirname + '/public'));
 app.use(router.routes());
