@@ -4,6 +4,7 @@ const Router = require('koa-router');
 const home = require('./api/home');
 const login = require('./api/login');
 const join = require('./api/join');
+const myPage = require('./api/mypage');
 const path = require('path');
 const serve = require('koa-static');
 const app = new koa();
@@ -19,6 +20,7 @@ new Pug({
 router.use('/', home.routes());
 router.use('/api', login.routes());
 router.use('/api', join.routes());
+router.use('/api', myPage.routes());
 //미들웨어
 app.use(bodyParser());
 app.use(serve(__dirname + '/public'));
