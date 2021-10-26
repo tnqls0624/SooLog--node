@@ -2,6 +2,7 @@ var msg = require('alert');
 const Router = require('koa-router');
 const join = new Router();
 const DBC = require('./DBC');
+const bcrypt = require('bcrypt');
 
 join.get('/join', async (ctx) => {
   await ctx.render('join');
@@ -18,10 +19,12 @@ join.post('/join/joinSuccess', async (ctx) => {
       msg(`패스워드가 다릅니다. 패스워드를 확인해주세요`);
       ctx.redirect('/api/join');
     }
+    const password = data.pw;
+    const encodedPassword = await bcrypt.hash(password, 10);
     const result = {
       id: data.id,
       name: data.name,
-      pw: data.pw,
+      pw: encodedPassword,
     };
     console.log(result);
     await client.insertOne(result);
@@ -29,7 +32,6 @@ join.post('/join/joinSuccess', async (ctx) => {
   } else {
     if (user.id === data.id) {
       msg(`${user.id} 는 이미 존재하는 아이디입니다.`);
-      // (`${user.login} 는 이미 존재하는 아이디입니다.`);
       ctx.redirect('/api/join');
     }
   }
