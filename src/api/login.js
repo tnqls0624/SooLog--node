@@ -37,7 +37,7 @@ login.post('/login/loginSuccess', async (ctx) => {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
-    await ctx.render('home_login');
+    await ctx.render('loginPage');
   } else {
     ctx.body = '비밀번호가 틀립니다.';
   }
