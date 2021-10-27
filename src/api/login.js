@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const DBC = require('./DBC');
 const generateToken = require('../token/generateToken');
 const refreshToken = require('../token/refreshToken');
-const { Db } = require('mongodb');
 require('dotenv').config();
 const login = new Router();
 
@@ -38,8 +37,7 @@ login.post('/login/loginSuccess', async (ctx) => {
       name: user.name,
     };
     //access_token 발급
-    const token = await generateToken(payload);
-    console.log(token);
+    const actoken = await generateToken(payload);
     //refresh_token 발급
     const rfToken = await refreshToken(payload);
     //DB에 데이터 추가
@@ -56,9 +54,9 @@ login.post('/login/loginSuccess', async (ctx) => {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
-    ctx.cookies.set('access_token', token, {
+    ctx.cookies.set('access_token', actoken, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60,
+      maxAge: 1000 * 60,
     });
     await ctx.render('loginPage');
   } else {

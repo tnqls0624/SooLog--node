@@ -31,8 +31,12 @@ join.post('/join/joinSuccess', async (ctx) => {
     const encodedPassword = await bcrypt.hash(password, 10);
 
     // 암호화 한 패스워드와 클라이언트측의 정보를 모아 데이터베이스에 인설트
+    const result = {
+      id: data.id,
+      name: data.name,
+      pw: encodedPassword,
+    };
     await client.insertOne(result);
-
     // 성공시 성공 메시지를 띄움
     ctx.body = 'JoinSuccess';
   } else {
