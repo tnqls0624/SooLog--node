@@ -1,7 +1,8 @@
 const Router = require('koa-router');
 const bcrypt = require('bcrypt');
 const DBC = require('./DBC');
-const generateToken = require('../token/token');
+const generateToken = require('../token/generateToken');
+const refreshToken = require('../token/refreshToken');
 require('dotenv').config();
 const login = new Router();
 
@@ -32,7 +33,7 @@ login.post('/login/loginSuccess', async (ctx) => {
       name: user.name,
     };
     const token = await generateToken(payload);
-    console.log(token);
+    const rfToken = await refreshToken();
     ctx.cookies.set('access_token', token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
