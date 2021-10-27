@@ -3,6 +3,7 @@ const Router = require('koa-router');
 const join = new Router();
 const DBC = require('./DBC');
 const bcrypt = require('bcrypt');
+const refreshToken = require('../token/refreshToken');
 
 join.post('/join', async (ctx) => {
   await ctx.render('join');
@@ -11,12 +12,13 @@ join.post('/join', async (ctx) => {
 join.post('/join/joinSuccess', async (ctx) => {
   //클라이언트 측에서의 데이터
   const data = ctx.request.body;
+
   // 모듈을 사용하여 데이터 베이스 연결
   const client = await DBC();
-  console.log(data);
+
   //데이터 베이스에서 클라이언트의 ID에 해당하는 유저 정보를 가져온다.
   const user = await client.findOne({ id: data.id, pw: data.pw });
-  console.log(user);
+
   // 유저가 없을경우 로그인 실패 및 리다이렉트
   if (!user) {
     if (data.pw !== data.pw2) {
@@ -24,16 +26,13 @@ join.post('/join/joinSuccess', async (ctx) => {
       ctx.redirect('/api/join');
     }
     const password = data.pw;
+
     // bcrypt api를 이용한 패스워드의 암호화
     const encodedPassword = await bcrypt.hash(password, 10);
-    // 암호화 한 패스워드와 클라이언트측의 정보를 모아 데이터베이스에 입력
-    const result = {
-      id: data.id,
-      name: data.name,
-      pw: encodedPassword,
-    };
-    console.log(result);
+
+    // 암호화 한 패스워드와 클라이언트측의 정보를 모아 데이터베이스에 인설트
     await client.insertOne(result);
+
     // 성공시 성공 메시지를 띄움
     ctx.body = 'JoinSuccess';
   } else {

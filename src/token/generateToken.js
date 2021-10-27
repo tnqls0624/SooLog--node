@@ -7,7 +7,7 @@ async function generateToken(payload) {
       payload,
       jwtSecret,
       {
-        expiresIn: '5m',
+        expiresIn: '1m',
         issuer: 'soobeen',
       },
       (error, token) => {
