@@ -4,7 +4,7 @@ const join = new Router();
 const DBC = require('./DBC');
 const bcrypt = require('bcrypt');
 
-join.get('/join', async (ctx) => {
+join.post('/join', async (ctx) => {
   await ctx.render('join');
 });
 

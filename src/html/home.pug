@@ -7,7 +7,7 @@ html
                 nav.flex.justify-between
                     div#kv.w-40.bg-gray-400.text-6xl kv
                     form(method="post")
-                        ul.inline-block.pt-4
+                        ul.inline-block.pt-5
                             li.inline-block.pr-2 아이디 &nbsp;
                                 input(type="text", name="id").border.border-gray-700
                             li.inline-block 비밀번호 &nbsp;
@@ -16,10 +16,14 @@ html
                                 button(type="submit", formaction="/api/login/loginSuccess").border.border-black.bg-blue-700.rounded-md.py-1.px-2 로그인
                             li.inline-block.text-white
                                 button(type="submit", formaction="/api/join").border.border-black.bg-blue-700.rounded-md.py-1.px-2 회원가입
-                    ul.inline-block.text-xs
-                        li.inline-block 마이페이지
-                        li.inline-block 장바구니
-                        li.inline-block 고객센터
+                    form
+                        ul.inline-block.pt-4.text-xs
+                            li.inline-block.text-white.mr-2
+                                button(type="submit" , formaction="/api/myPage").border.border-black.bg-blue-700.rounded-md.py-1.px-2 마이페이지
+                            li.inline-block.text-white.mr-2
+                                button(type="submit" , formaction="/").border.border-black.bg-blue-700.rounded-md.py-1.px-2 장바구니
+                            li.inline-block.text-white.mr-2
+                                button(type="submit" , formaction="/").border.border-black.bg-blue-700.rounded-md.py-1.px-2 고객센터
                         //- li 로그아웃
 
             main
