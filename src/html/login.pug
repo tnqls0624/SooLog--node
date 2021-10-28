@@ -1,19 +1,20 @@
 html 
     head 
         link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" , rel="stylesheet")
+        meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body 
         div.border-2
             div.m-20.w-120.text-center.text-3xl.font-bold 로그인이 필요합니다
                 div.text-xl
                     center
-                        form(action="/api/login/loginSuccess" , method="post")#form
+                        form#form(action="/api/login/loginSuccess" , method="post")
                             div.inline-block 아이디
-                            input(type="text" name="id").m-6.border-4.w-70.inline-block
+                            input#id(type="text" name="id").m-6.border-4.w-70.inline-block
                             div.inline-block 비밀번호
-                            input(type="text" name="pw").m-6.border-4.w-70.inline-block
-                            div
-                                button.m-6.border-4.w-70.bg-green-400
+                            input#pw(type="text" name="pw").m-6.border-4.w-70.inline-block
+                            div.text-white
+                                button#returnBtn.m-6.border.border-black.bg-blue-700.rounded-md.py-1.px-2
                                     a(href='/')='돌아가기'
-                                button.m-6.border-4.w-70.bg-green-400
+                                button#loginBtn.m-6.border.border-black.bg-blue-700.rounded-md.py-1.px-2
                                     div 로그인하기
                                     //test

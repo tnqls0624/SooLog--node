@@ -1,27 +1,29 @@
 html
     head
         link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" , rel="stylesheet")
+        meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
         div.border-2
-            div.m-20.w-120.text-center.text-3xl.font-bold hello
-                div.text-xl
-                    center
-                        form(action="/api/join/joinSuccess" ,  method="post")#form
-                            div
-                                div.inline-block 아이디
-                                input(type="text" name="id")#id.m-6.border-4.w-70.inline-block
-                            div
-                                div.inline-block 이름
-                                input(type="text" name="name")#name.m-6.border-4.w-70.inline-block
-                            div
-                                div.inline-block 비밀번호
-                                input(type="text" name="pw")#pw.m-6.border-4.w-70.inline-block
-                            div
-                                div.inline-block 비밀번호확인
-                                input(type="text" name="pw2")#pw2.m-6.border-4.w-70.inline-block
-                            button.m-6.border-4.w-70.bg-green-400
-                                a(href='/')='돌아가기'
-                            button#button.m-6.border-4.w-70.bg-green-400
-                                div 등록
+            div.m-20.w-120.text-center.text-7xl.font-bold 회원가입
+            div.text-xl.clear-both
+                div.float-left.w-auto
+                form.float-right.pt-12.pr-72(action="/api/join/joinSuccess" ,  method="post")#form
+                    div.clear-both
+                        div.inline-block.float-left.m-6.text-right 아이디
+                        input(type="text" name="id")#id.m-5.border-4.w-70.inline-block.float-right
+                    div.clear-both
+                        div.inline-block.float-left.m-6 이름
+                        input(type="text" name="name")#name.m-5.border-4.w-70.inline-block.float-right
+                    div.clear-both
+                        div.inline-block.float-left.m-6 비밀번호
+                        input(type="text" name="pw")#pw.m-5.border-4.w-70.inline-block.float-right
+                    div.clear-both
+                        div.inline-block.float-left.m-6 비밀번호확인
+                        input(type="text" name="pw2")#pw2.m-5.border-4.w-70.inline-block.float-right
+                    div.clear-both.px-28.text-white
+                        button.m-6.border.border-black.bg-blue-700.rounded-md.py-1.px-2.w-70
+                            a(href='/')='돌아가기'
+                        button#button.m-6.border.border-black.bg-blue-700.rounded-md.py-1.px-2.w-70
+                            div 등록
         script(src="/joinPage.js")
 
