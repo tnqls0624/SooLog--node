@@ -27,6 +27,7 @@ router.use('/api', logout.routes());
 //미들웨어
 app.use(bodyParser());
 app.use(serve(__dirname + '/public'));
+app.use(serve(__dirname + '/img'));
 app.use(router.routes());
 app.use(router.allowedMethods());
 app.listen(PORT, () => {

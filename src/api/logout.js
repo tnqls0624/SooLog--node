@@ -7,6 +7,10 @@ logout.get('/logout', async (ctx) => {
     maxAge: 0,
     httpOnly: true,
   });
+  ctx.cookies.set('refresh_token', null, {
+    maxAge: 0,
+    httpOnly: true,
+  });
   await ctx.render('home');
 });
 

@@ -7,7 +7,7 @@ require('dotenv').config();
 const login = new Router();
 
 login.get('/login', async (ctx) => {
-  await ctx.render('home_login');
+  await ctx.render('login');
 });
 
 login.post('/login/loginSuccess', async (ctx) => {
@@ -25,42 +25,48 @@ login.post('/login/loginSuccess', async (ctx) => {
 
   // 유저가 없을경우 로그인 실패
   if (!user) {
-    ctx.body = `로그인 실패`;
-  }
-
-  // 암호를 복호화하여 클라이언트로부터의 암호와 DB에서의 암호를 비교 후 판별
-  const same = await bcrypt.compareSync(password, user.pw);
-  if (same) {
-    const payload = {
-      id: user.id,
-      pw: user.pw,
-      name: user.name,
-    };
-    //access_token 발급
-    const actoken = await generateToken(payload);
-    //refresh_token 발급
-    const rfToken = await refreshToken(payload);
-    //DB에 데이터 추가
-    await client.updateOne(
-      { id: user.id },
-      {
-        $set: {
-          token: rfToken,
-        },
-      }
+    ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    ctx.res.write(
+      "<script>alert('해당하는 유저가 존재하지 않습니다.')</script>"
     );
-    //브라우저에 쿠키 세팅
-    ctx.cookies.set('refresh_token', rfToken, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    });
-    ctx.cookies.set('access_token', actoken, {
-      httpOnly: true,
-      maxAge: 1000 * 60,
-    });
-    await ctx.render('loginPage');
+    ctx.res.write('<script>window.location="/"</script>');
   } else {
-    ctx.body = '비밀번호가 틀립니다.';
+    // 암호를 복호화하여 클라이언트로부터의 암호와 DB에서의 암호를 비교 후 판별
+    const same = await bcrypt.compareSync(password, user.pw);
+    if (same) {
+      const payload = {
+        id: user.id,
+        pw: user.pw,
+        name: user.name,
+      };
+      //access_token 발급
+      const actoken = await generateToken(payload);
+      //refresh_token 발급
+      const rfToken = await refreshToken(payload);
+      //DB에 데이터 추가
+      await client.updateOne(
+        { id: user.id },
+        {
+          $set: {
+            token: rfToken,
+          },
+        }
+      );
+      //브라우저에 쿠키 세팅
+      ctx.cookies.set('refresh_token', rfToken, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+      });
+      ctx.cookies.set('access_token', actoken, {
+        httpOnly: true,
+        maxAge: 1000 * 60,
+      });
+      await ctx.render('loginPage');
+    } else {
+      ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      ctx.res.write("<script>alert('비밀번호가 맞지 않습니다.')</script>");
+      ctx.res.write('<script>window.location="/"</script>');
+    }
   }
 });
 
