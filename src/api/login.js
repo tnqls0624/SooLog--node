@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const bcrypt = require('bcrypt');
-const DBC = require('./DBC');
+const userSchema = require('../models/user');
 const generateToken = require('../token/generateToken');
 const refreshToken = require('../token/refreshToken');
 require('dotenv').config();
@@ -16,12 +16,8 @@ login.post('/login/loginSuccess', async (ctx) => {
   const password = data.pw;
 
   // 모듈을 사용하여 데이터 베이스 연결
-  const client = await DBC();
-
   //데이터 베이스에서 클라이언트의 ID에 해당하는 유저 정보를 가져온다.
-  const user = await client.findOne({
-    id: data.id,
-  });
+  const user = await userSchema.findOne({ id: data.id }).exec();
 
   // 유저가 없을경우 로그인 실패
   if (!user) {
@@ -44,14 +40,13 @@ login.post('/login/loginSuccess', async (ctx) => {
       //refresh_token 발급
       const rfToken = await refreshToken(payload);
       //DB에 데이터 추가
-      await client.updateOne(
-        { id: user.id },
-        {
+      userSchema
+        .findOneAndUpdate(user.id, {
           $set: {
-            token: rfToken,
+            rftoken: rfToken,
           },
-        }
-      );
+        })
+        .exec();
       //브라우저에 쿠키 세팅
       ctx.cookies.set('refresh_token', rfToken, {
         httpOnly: true,
@@ -61,7 +56,10 @@ login.post('/login/loginSuccess', async (ctx) => {
         httpOnly: true,
         maxAge: 1000 * 60,
       });
-      await ctx.render('loginPage');
+      await ctx.render('home', {
+        actoken: actoken,
+        name: user.name,
+      });
     } else {
       ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
       ctx.res.write("<script>alert('비밀번호가 맞지 않습니다.')</script>");

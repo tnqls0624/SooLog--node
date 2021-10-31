@@ -1,17 +1,14 @@
 const decodeToken = require('../token/decodeToken');
 const refreshToken = require('../token/refreshToken');
 const generateToken = require('../token/generateToken');
-const DBC = require('../api/DBC');
+const userSchema = require('../models/user');
 
 let auth = async (ctx, next) => {
-  const client = await DBC();
   //해당 토큰을 받아온다
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
 
-  const user = await client.findOne({
-    token: _refreshToken,
-  });
+  const user = await userSchema.findOne({ rftoken: _refreshToken }).exec();
   //액세스 토큰이 없는경우
   if (_accessToken === null) {
     await ctx.render('notAccess');
