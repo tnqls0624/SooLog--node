@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const join = new Router();
-const DBC = require('./DBC');
+const userSchema = require('../models/user');
 const bcrypt = require('bcrypt');
 
 join.get('/join', async (ctx) => {
@@ -14,10 +14,8 @@ join.post('/join/joinSuccess', async (ctx) => {
   const rePw = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/;
 
   // 모듈을 사용하여 데이터 베이스 연결
-  const client = await DBC();
-
   //데이터 베이스에서 클라이언트의 ID에 해당하는 유저 정보를 가져온다.
-  const user = await client.findOne({ id: data.id });
+  const user = await userSchema.findOne({ id: data.id }).exec();
 
   // 유저가 없을경우
   const idBool = check(re, data.id);
@@ -41,12 +39,12 @@ join.post('/join/joinSuccess', async (ctx) => {
           const encodedPassword = await bcrypt.hash(password, 10);
 
           // 암호화 한 패스워드와 클라이언트측의 정보를 모아 데이터베이스에 인설트
-          const result = {
+          const payload = new userSchema({
             id: data.id,
             name: data.name,
             pw: encodedPassword,
-          };
-          await client.insertOne(result);
+          });
+          await payload.save();
           // 성공시 성공 메시지를 띄움
           ctx.res.writeHead(200, {
             'Content-Type': 'text/html; charset=utf-8',
