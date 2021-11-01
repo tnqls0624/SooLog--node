@@ -1,0 +1,78 @@
+doctype html
+html
+    head
+        link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
+        meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
+    body
+        div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-6xl.my-0.mx-auto.border-solid
+            header
+                nav.flex.justify-between
+                    div#kv.w-40.bg-gray-200.text-6xl kv
+                    - const token= actoken
+                    - const _name= name
+                    if token
+                        div #{_name} 님 환영합니다!
+                    else
+                        form(method="post")
+                            ul.inline-block.pt-3
+                                li.inline-block.pr-2 아이디 &nbsp;
+                                    input(type="text", name="id").border.border-gray-200.border-solid
+                                li.inline-block 비밀번호 &nbsp;
+                                    input(type="text", name="pw").border.border-gray-200.mr-2.border-solid
+                                li.inline-block.text-white.mr-2
+                                    button(type="submit", formaction="/api/login/loginSuccess").border.border-black.bg-blue-700.rounded-md.py-1.px-2.border-solid 로그인
+                                li.inline-block.text-white
+                                    a.border.border-black.bg-blue-700.rounded-md.py-1.px-2.border-solid(href='/api/join') 회원가입
+                    form
+                        ul.inline-block.pt-4.text-xs
+                            li.inline-block.text-white.mr-2
+                                button(type="submit" , formaction="/api/myPage").border.border-black.bg-blue-700.rounded-md.py-1.px-2.border-solid 마이페이지
+                            li.inline-block.text-white.mr-2
+                                button(type="submit" , formaction="/").border.border-black.bg-blue-700.rounded-md.py-1.px-2.border-solid 고객센터
+                            if token
+                                li.inline-block.text-white.mr-2
+                                    button(type="submit" , formaction="/api/logout").border.border-black.bg-blue-700.rounded-md.py-1.px-2 로그아웃
+            main
+                - const _posts= posts
+                div.clear-both
+                    div.w-60.border-r-2.border-gray-200.float-left.h-full.border-solid
+                        ul
+                            li 게시글
+                            li 텍스트
+                            li 텍스트
+                            li 텍스트
+                            li 텍스트
+                            li 텍스트
+                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid
+                        div#post_title 타이틀
+                            div#post_content
+                                table.border-2.border-gray-200.border-solid
+                                    thead
+                                        tr
+                                            th Title
+                                            th.date Date
+                                    tbody
+                                        if  _posts === null || _posts === undefined
+                                            tr
+                                                td.col-span-2 게시물이 없습니다
+                                        each val,idx in _posts
+                                            tr
+                                                td
+                                                    a(href=`/api/posts/${val.id}`)
+                                                        div.ellipsis #{val.title}
+                                                td.date
+                                                    span#data_date(data-date=val.createdAt)
+                                div
+                                    a.border.border-black.bg-blue-700.rounded-md.py-1.px-2.border-solid(href='/api/posts/new') New
+                    div.w-60.border-l-2.border-gray-200.float-right.h-full
+                        ul
+                            li 텍스트
+                            li 텍스트
+                            li 텍스트
+                            li 텍스트
+                            li 텍스트
+                            li 텍스트
+            footer.border-t-2.border-gray-200
+        script(src="/homePage.js")
+        script(src="/post.js")
+
