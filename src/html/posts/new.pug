@@ -19,19 +19,20 @@ html
                                     input(type="text", name="id").border.border-gray-200.border-solid
                                 li.inline-block 비밀번호 &nbsp;
                                     input(type="text", name="pw").border.border-gray-200.mr-2.border-solid
-                                li.inline-block.text-white.mr-2
-                                    button(type="submit", formaction="/api/login/loginSuccess").border.border-black.bg-blue-700.rounded-md.py-1.px-2.border-solid 로그인
-                                li.inline-block.text-white
-                                    a.border.border-black.bg-blue-700.rounded-md.py-1.px-2.border-solid(href='/api/join') 회원가입
+                                li.inline-block.mr-2
+                                    button(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
+                                li.inline-block
+                                    div
+                                        a.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
                     form
                         ul.inline-block.pt-4.text-xs
                             li.inline-block.text-white.mr-2
-                                button(type="submit" , formaction="/api/myPage").border.border-black.bg-blue-700.rounded-md.py-1.px-2.border-solid 마이페이지
+                                button(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
                             li.inline-block.text-white.mr-2
-                                button(type="submit" , formaction="/").border.border-black.bg-blue-700.rounded-md.py-1.px-2.border-solid 고객센터
+                                button(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
                             if token
                                 li.inline-block.text-white.mr-2
-                                    button(type="submit" , formaction="/api/logout").border.border-black.bg-blue-700.rounded-md.py-1.px-2 로그아웃
+                                    button(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
             main
                 - const _posts= posts
                 div.clear-both
