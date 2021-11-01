@@ -7,9 +7,9 @@
     if (dateObj instanceof Date) {
       return (
         dateObj.getFullYear() +
-        '-' +
+        '/ ' +
         get2digits(dateObj.getMonth() + 1) +
-        '-' +
+        '/ ' +
         get2digits(dateObj.getDate())
       );
     }
@@ -19,10 +19,9 @@
     if (dateObj instanceof Date) {
       return (
         get2digits(dateObj.getHours()) +
-        '-' +
-        get2digits(dateObj.getMinutes) +
-        '-' +
-        get2digits(dateObj.getSeconds())
+        '시' +
+        get2digits(dateObj.getMinutes()) +
+        '분'
       );
     }
   }
@@ -41,10 +40,11 @@
   function convertDateTime() {
     const dataDate_time = document.querySelectorAll('#dataDate-time');
     dataDate_time.forEach((item) => {
-      const dateString = item.dataset['date-time'];
+      const dateString = item.getAttribute('data-date-time');
+      console.log(dateString);
       if (dateString) {
         const date = new Date(dateString);
-        item.innerHTML = getDate(date) + ' ' + getTime(date);
+        item.innerHTML = getDate(date) + ' - ' + getTime(date);
       }
     });
   }
