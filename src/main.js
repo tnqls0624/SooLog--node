@@ -9,7 +9,7 @@ const logout = require('./api/logout');
 const path = require('path');
 const auth = require('./middleware/auth');
 const db = require('./DBC');
-const post = require('./api/post');
+const posts = require('./api/post');
 const serve = require('koa-static');
 const app = new koa();
 const router = new Router();
@@ -26,7 +26,7 @@ router.use('/api', login.routes());
 router.use('/api', join.routes());
 router.use('/api', myPage.routes());
 router.use('/api', logout.routes());
-router.use('/api', post.routes());
+router.use('/api', posts.routes());
 //미들웨어
 app.use(bodyParser());
 db();
