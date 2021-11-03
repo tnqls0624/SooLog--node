@@ -15,24 +15,25 @@ html
                     else
                         form(method="post")
                             ul.inline-block.pt-3
-                                li.inline-block.pr-2 아이디 &nbsp;
-                                    input(type="text", name="id").border.border-gray-200.border-solid
-                                li.inline-block 비밀번호 &nbsp;
-                                    input(type="text", name="pw").border.border-gray-200.mr-2.border-solid
-                                li.inline-block.mr-2
-                                    button(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
+                                li.inline-block.pr-6 아이디 &nbsp;
+                                    input#input(type="text", name="id").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
+                                li.inline-block.pr-6 비밀번호 &nbsp;
+                                    input#input(type="text", name="pw").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
+                                li.inline-block.mr-4
+                                    div
+                                        button#btn(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
                                 li.inline-block
                                     div
-                                        a.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
+                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
                     form
                         ul.inline-block.pt-4.text-xs
                             li.inline-block.text-white.mr-2
-                                button(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
+                                button#btn(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
                             li.inline-block.text-white.mr-2
-                                button(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
+                                button#btn(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
                             if token
                                 li.inline-block.text-white.mr-2
-                                    button(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
+                                    button#btn(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
             main
                 div.clear-both
                     div.w-60.border-r-2.border-gray-200.float-left.h-full.border-solid
@@ -105,4 +106,4 @@ html
                             li 텍스트
             footer.border-t-2.border-gray-200
         script(src="/homePage.js")
-
+        script(src="/post.js")

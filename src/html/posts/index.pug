@@ -10,29 +10,31 @@ html
                     div#kv.w-40.bg-gray-200.text-6xl kv
                     - const token= actoken
                     - const _name= name
+                    //- - const _writer= writer
                     if token
                         div #{_name} 님 환영합니다!
                     else
                         form(method="post")
                             ul.inline-block.pt-3
-                                li.inline-block.pr-2 아이디 &nbsp;
-                                    input(type="text", name="id").border.border-gray-200.border-solid
-                                li.inline-block 비밀번호 &nbsp;
-                                    input(type="text", name="pw").border.border-gray-200.mr-2.border-solid
-                                li.inline-block.mr-2
-                                    button(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
+                                li.inline-block.pr-6 아이디 &nbsp;
+                                    input#input(type="text", name="id").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
+                                li.inline-block.pr-6 비밀번호 &nbsp;
+                                    input#input(type="text", name="pw").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
+                                li.inline-block.mr-4
+                                    div
+                                        button#btn(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
                                 li.inline-block
                                     div
-                                        a.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
+                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
                     form
                         ul.inline-block.pt-4.text-xs
                             li.inline-block.text-white.mr-2
-                                button(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
+                                button#btn(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
                             li.inline-block.text-white.mr-2
-                                button(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
+                                button#btn(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
                             if token
                                 li.inline-block.text-white.mr-2
-                                    button(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
+                                    button#btn(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
             main
                 - const _posts= posts
                 div.clear-both
@@ -44,27 +46,30 @@ html
                             li 텍스트
                             li 텍스트
                             li 텍스트
-                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid
-                        div#post_title 타이틀
-                            div#post_content
-                                table.border-2.border-gray-200.border-solid
+                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.pt-14
+                        div#post_title.text-center 타이틀
+                            div#post_content.p-10
+                                table.border-t-2.border-b-2.border-gray-200.border-solid.w-full.max-w-2xl
                                     thead
                                         tr
-                                            th Title
+                                            th.w-96 Title
+                                            th.w-20 작성자
                                             th.date Date
                                     tbody
-                                        if  _posts === null || _posts === undefined
+                                        if  _posts === null || _posts === undefined || _posts.length === 0
                                             tr
-                                                td.col-span-2 게시물이 없습니다
+                                                td.text-center 게시물이 없습니다
                                         each val,idx in _posts
                                             tr
-                                                td
+                                                td.px-1#select
                                                     a(href=`/api/posts/${val.id}`)
-                                                        div.ellipsis #{val.title}
-                                                td.date
+                                                        div.overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-96.h-5 #{val.title}
+                                                td.px-1
+                                                    span #{val.writer}
+                                                td.date.px-1
                                                     span#data_date(data-date=val.createdAt)
-                                div
-                                    a.border.border-black.bg-blue-700.rounded-md.py-1.px-2.border-solid(href='/api/posts/new') New
+                                div.inline-block.pt-6
+                                    a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href='/api/posts/new') New
                     div.w-60.border-l-2.border-gray-200.float-right.h-full
                         ul
                             li 텍스트

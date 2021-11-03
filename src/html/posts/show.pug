@@ -8,7 +8,7 @@ html
             header
                 nav.flex.justify-between
                     div#kv.w-40.bg-gray-200.text-6xl kv
-                    - const token= actoken
+                    - const token= acToken
                     - const _name= name
                     if token
                         div #{_name} 님 환영합니다!
@@ -20,21 +20,22 @@ html
                                 li.inline-block 비밀번호 &nbsp;
                                     input(type="text", name="pw").border.border-gray-200.mr-2.border-solid
                                 li.inline-block.mr-2
-                                    button(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
+                                    button#btn(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
                                 li.inline-block
                                     div
-                                        a.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
+                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
                     form
                         ul.inline-block.pt-4.text-xs
                             li.inline-block.text-white.mr-2
-                                button(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
+                                button#btn(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
                             li.inline-block.text-white.mr-2
-                                button(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
+                                button#btn(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
                             if token
                                 li.inline-block.text-white.mr-2
-                                    button(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
+                                    button#btn(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
             main
                 - const _posts= posts
+                - const _postId= postId
                 div.clear-both
                     div.w-60.border-r-2.border-gray-200.float-left.h-screen.border-solid
                         ul
@@ -45,26 +46,28 @@ html
                             li 텍스트
                             li 텍스트
                     div.float-left.h-full.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl
-                        - const _post = post
+                    - const _post = post
                         div#post_title.text-center.pt-14.pb-28 타이틀
                         div#card.p-10
                             div#card_head
-                                label(for="title") Title 
+                                label(for="title") Title
                                 div.border-gray-200.border-b-2.border-gray-200.p-5.break-words #{_post.title}
                             div.p-4
                             div#card_body
-                                label(for="body") Body 
+                                label(for="body") Body
                                 div#post-body.border-gray-200.border-b-2.border-gray-200.p-5.break-words #{_post.body}
                         div.m-2.p-2
                             div
-                                span Created : 
+                                span Created :
                                 span#dataDate-time(data-date-time=_post.createdAt)
                             if _post.updatedAt
                                 div
                                     span Updated :
                                     span#dataDate-time(data-date-time=_post.updatedAt)
                         div
-                            a.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href="/api/posts") Back
+                            a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href="/api/posts") Back
+                        //- div
+                        //-     a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href=`/api/posts/${_postId}`) Edit
                     div.w-60.border-l-2.border-gray-200.float-right.h-screen
                         ul
                             li 텍스트

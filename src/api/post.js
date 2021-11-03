@@ -13,8 +13,8 @@ async function findUser(_refreshToken) {
 posts.get('/posts', async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
-  const user = await userSchema.findOne({ rftoken: _refreshToken }).exec();
-  const _posts = await PostSchema.find({}).sort('-createAt').exec();
+  const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
+  const _posts = await PostSchema.find({}).sort('-createdAt').exec();
   if (user) {
     await ctx.render('posts/index', {
       posts: _posts,
@@ -33,40 +33,34 @@ posts.get('/posts', async (ctx) => {
 posts.get('/posts/new', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
-  const user = findUser(_refreshToken);
+  const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
-  if (user) {
-    await ctx.render('posts/new', {
-      posts: _posts,
-      actoken: _accessToken,
-      name: user.name,
-    });
-  } else {
-    await ctx.render('posts/new', {
-      posts: _posts,
-      actoken: _accessToken,
-    });
-  }
+  await ctx.render('posts/new', {
+    posts: _posts,
+    acToken: _accessToken,
+    name: user.name,
+    id: user.id,
+  });
 });
 
 // 작성
 posts.post('/posts', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
-  const user = findUser(_refreshToken);
+  const user = await findUser(_refreshToken);
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
   const data = ctx.request.body;
   PostSchema.create(data);
   if (user) {
     await ctx.redirect('/api/posts', {
       posts: _posts,
-      actoken: _accessToken,
+      acToken: _accessToken,
       name: user.name,
     });
   } else {
     await ctx.redirect('/api/posts', {
       posts: _posts,
-      actoken: _accessToken,
+      acToken: _accessToken,
     });
   }
 });
@@ -81,13 +75,14 @@ posts.get('/posts/:id', auth, async (ctx) => {
   if (user) {
     await ctx.render('posts/show', {
       post: post,
-      actoken: _accessToken,
+      acToken: _accessToken,
       name: user.name,
+      postId: post.id,
     });
   } else {
     await ctx.render('posts/show', {
       post: post,
-      actoken: _accessToken,
+      acToken: _accessToken,
     });
   }
 });
@@ -96,19 +91,19 @@ posts.get('/posts/:id', auth, async (ctx) => {
 posts.get('/posts/:id/edit', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
-  const user = findUser(_refreshToken);
+  const user = await findUser(_refreshToken);
   const data = ctx.params;
   const post = await PostSchema.findOne({ _id: data.id });
   if (user) {
     ctx.render('posts/edit', {
       post: post,
-      actoken: _accessToken,
+      acToken: _accessToken,
       name: user.name,
     });
   } else {
     ctx.render('posts/edit', {
       post: post,
-      actoken: _accessToken,
+      acToken: _accessToken,
     });
   }
 });
@@ -117,7 +112,7 @@ posts.get('/posts/:id/edit', auth, async (ctx) => {
 posts.put('/posts/:id', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
-  const user = findUser(_refreshToken);
+  const user = await findUser(_refreshToken);
   const data = ctx.params;
   ctx.request.body.updataAt = Date.now();
   PostSchema.findOneAndUpdate({ id: data.id }, ctx.request.body);
@@ -137,7 +132,7 @@ posts.put('/posts/:id', auth, async (ctx) => {
 posts.delete('/posts/:id', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
-  const user = findUser(_refreshToken);
+  const user = await findUser(_refreshToken);
   const data = ctx.params;
   PostSchema.deleteOne({ id: data.id });
   if (user) {

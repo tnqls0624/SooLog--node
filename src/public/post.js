@@ -48,6 +48,35 @@
       }
     });
   }
+  function writer() {
+    const writer = document.getElementById('writer');
+    const writerData = writer.getAttribute('data-writer');
+    writer.innerHTML = writerData;
+  }
+  const btn = document.querySelectorAll('#btn');
+  btn.forEach((item) => {
+    item.addEventListener('mouseover', () => {
+      item.classList.add('hover:bg-blue-700');
+    });
+  });
+
+  const input = document.querySelectorAll('#input');
+  input.forEach((item) => {
+    item.addEventListener('focus', () => {
+      item.setAttribute(
+        'class',
+        'mr-4 bg-white rounded-lg placeholder-gray-400 text-gray-900 appearance-none inline-block shadow-md focus:outline-none focus:ring-2 focus:ring-blue-600'
+      );
+    });
+  });
+
+  const select = document.querySelectorAll('#select');
+  select.forEach((item) => {
+    item.addEventListener('mouseover', () => {
+      item.classList.add('hover:bg-blue-300');
+    });
+  });
   convertDate();
   convertDateTime();
+  writer();
 })();

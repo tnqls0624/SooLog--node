@@ -40,13 +40,11 @@ login.post('/login/loginSuccess', async (ctx) => {
       //refresh_token 발급
       const rfToken = await refreshToken(payload);
       //DB에 데이터 추가
-      userSchema
-        .findOneAndUpdate(user.id, {
-          $set: {
-            rftoken: rfToken,
-          },
-        })
-        .exec();
+      await userSchema.findOneAndUpdate(
+        { id: user.id },
+        { $set: { rfToken: rfToken } },
+        { upsert: true }
+      );
       //브라우저에 쿠키 세팅
       ctx.cookies.set('refresh_token', rfToken, {
         httpOnly: true,

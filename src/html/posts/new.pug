@@ -8,31 +8,33 @@ html
             header
                 nav.flex.justify-between
                     div#kv.w-40.bg-gray-200.text-6xl kv
-                    - const token= actoken
+                    - const token= acToken
                     - const _name= name
+                    - const _id = id
                     if token
                         div #{_name} 님 환영합니다!
                     else
                         form(method="post")
                             ul.inline-block.pt-3
-                                li.inline-block.pr-2 아이디 &nbsp;
-                                    input(type="text", name="id").border.border-gray-200.border-solid
-                                li.inline-block 비밀번호 &nbsp;
-                                    input(type="text", name="pw").border.border-gray-200.mr-2.border-solid
-                                li.inline-block.mr-2
-                                    button(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
+                                li.inline-block.pr-6 아이디 &nbsp;
+                                    input#input(type="text", name="id").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
+                                li.inline-block.pr-6 비밀번호 &nbsp;
+                                    input#input(type="text", name="pw").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
+                                li.inline-block.mr-4
+                                    div
+                                        button#btn(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
                                 li.inline-block
                                     div
-                                        a.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
+                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
                     form
                         ul.inline-block.pt-4.text-xs
                             li.inline-block.text-white.mr-2
-                                button(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
+                                button#btn(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
                             li.inline-block.text-white.mr-2
-                                button(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
+                                button#btn(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
                             if token
                                 li.inline-block.text-white.mr-2
-                                    button(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
+                                    button#btn(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
             main
                 - const _posts= posts
                 div.clear-both
@@ -44,18 +46,22 @@ html
                             li 텍스트
                             li 텍스트
                             li 텍스트
-                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid
+                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl
                         div#post_title 타이틀
-                            form(action="/api/posts" method="post")
+                            form(action="/api/posts" method="post").p-10
                                 div.form-group
-                                    label(for="title") Title
-                                    input(type="text", name='title', value='')#title.form-control
-                                div.form-group
-                                    label(for="body") Body
-                                    textarea#body(name="body", cols="30", rows="5").form-control
-                                div
-                                    a(href="/api/posts") 돌아가기
-                                    button(type="submit") 등록
+                                    label(for="title").block.text-left.pt-14 Title
+                                    input#newPost(type="text", name='title', value='').px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
+                                div.form-group.pb-16
+                                    label(for="body").block.text-left.pt-16 Body
+                                    textarea#newPost(type="text" name="body",  rows="5").px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
+                                div.pb-6 Writer :&nbsp;
+                                    span#writer(data-writer= _id)
+                                    input(type="hidden", name="writer" value=_id)
+                                div.inline-block.mr-4
+                                    a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href="/api/posts") 돌아가기
+                                div.inline-block
+                                    button#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(type="submit") 등록
                     div.w-60.border-l-2.border-gray-200.float-right.h-full
                         ul
                             li 텍스트
