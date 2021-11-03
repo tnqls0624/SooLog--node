@@ -15,12 +15,13 @@ html
                     else
                         form(method="post")
                             ul.inline-block.pt-3
-                                li.inline-block.pr-2 아이디 &nbsp;
-                                    input(type="text", name="id").border.border-gray-200.border-solid
-                                li.inline-block 비밀번호 &nbsp;
-                                    input(type="text", name="pw").border.border-gray-200.mr-2.border-solid
-                                li.inline-block.mr-2
-                                    button#btn(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
+                                li.inline-block.pr-6 아이디 &nbsp;
+                                    input#input(type="text", name="id").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
+                                li.inline-block.pr-6 비밀번호 &nbsp;
+                                    input#input(type="text", name="pw").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
+                                li.inline-block.mr-4
+                                    div
+                                        button#btn(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
                                 li.inline-block
                                     div
                                         a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
@@ -37,7 +38,7 @@ html
                 - const _posts= posts
                 - const _postId= postId
                 div.clear-both
-                    div.w-60.border-r-2.border-gray-200.float-left.h-screen.border-solid
+                    div.w-60.float-left
                         ul
                             li 게시글
                             li 텍스트
@@ -45,30 +46,30 @@ html
                             li 텍스트
                             li 텍스트
                             li 텍스트
-                    div.float-left.h-full.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl
-                    - const _post = post
-                        div#post_title.text-center.pt-14.pb-28 타이틀
-                        div#card.p-10
-                            div#card_head
+                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
+                        - const _post = post
+                        div#post_title.text-center 타이틀
+                            div#card.p-10.text-left
                                 label(for="title") Title
                                 div.border-gray-200.border-b-2.border-gray-200.p-5.break-words #{_post.title}
-                            div.p-4
-                            div#card_body
+                            div.p-10.text-left
                                 label(for="body") Body
                                 div#post-body.border-gray-200.border-b-2.border-gray-200.p-5.break-words #{_post.body}
-                        div.m-2.p-2
-                            div
-                                span Created :
-                                span#dataDate-time(data-date-time=_post.createdAt)
-                            if _post.updatedAt
-                                div
-                                    span Updated :
-                                    span#dataDate-time(data-date-time=_post.updatedAt)
-                        div
-                            a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href="/api/posts") Back
+                        div.m-2.p-2.clear-both
+                                div.text-right
+                                    span Created :
+                                    span#dataDate-time(data-date-time=_post.createdAt)
+                                if _post.updatedAt
+                                    div.text-right
+                                        span Updated :
+                                        span#dataDate-time(data-date-time=_post.updatedAt)
+                        div.mx-2.p-10.text-center
+                            a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-6(href="/api/posts") Back
+                            a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-6(href=`/api/posts/${_postId}/edit`) Edit
+                            a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href="/api/posts") Delete
                         //- div
                         //-     a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href=`/api/posts/${_postId}`) Edit
-                    div.w-60.border-l-2.border-gray-200.float-right.h-screen
+                    div.w-60.float-right
                         ul
                             li 텍스트
                             li 텍스트

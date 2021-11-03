@@ -10,7 +10,6 @@ html
                     div#kv.w-40.bg-gray-200.text-6xl kv
                     - const token= actoken
                     - const _name= name
-                    //- - const _writer= writer
                     if token
                         div #{_name} 님 환영합니다!
                     else
@@ -38,7 +37,7 @@ html
             main
                 - const _posts= posts
                 div.clear-both
-                    div.w-60.border-r-2.border-gray-200.float-left.h-full.border-solid
+                    div.w-60.float-left
                         ul
                             li 게시글
                             li 텍스트
@@ -46,7 +45,7 @@ html
                             li 텍스트
                             li 텍스트
                             li 텍스트
-                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.pt-14
+                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
                         div#post_title.text-center 타이틀
                             div#post_content.p-10
                                 table.border-t-2.border-b-2.border-gray-200.border-solid.w-full.max-w-2xl
@@ -63,14 +62,14 @@ html
                                             tr
                                                 td.px-1#select
                                                     a(href=`/api/posts/${val.id}`)
-                                                        div.overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-96.h-5 #{val.title}
+                                                        .overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-96.leading-10 #{val.title}
                                                 td.px-1
                                                     span #{val.writer}
                                                 td.date.px-1
                                                     span#data_date(data-date=val.createdAt)
                                 div.inline-block.pt-6
                                     a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href='/api/posts/new') New
-                    div.w-60.border-l-2.border-gray-200.float-right.h-full
+                    div.w-60.float-right
                         ul
                             li 텍스트
                             li 텍스트

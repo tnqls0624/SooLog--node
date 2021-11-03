@@ -93,15 +93,16 @@ posts.get('/posts/:id/edit', auth, async (ctx) => {
   let _refreshToken = ctx.cookies.get('refresh_token');
   const user = await findUser(_refreshToken);
   const data = ctx.params;
-  const post = await PostSchema.findOne({ _id: data.id });
+  const post = await PostSchema.findOne({ _id: ObjectId(data.id) }).exec();
   if (user) {
-    ctx.render('posts/edit', {
+    await ctx.render('posts/edit', {
       post: post,
       acToken: _accessToken,
       name: user.name,
+      postId: post.id,
     });
   } else {
-    ctx.render('posts/edit', {
+    await ctx.render('posts/edit', {
       post: post,
       acToken: _accessToken,
     });
@@ -109,20 +110,33 @@ posts.get('/posts/:id/edit', auth, async (ctx) => {
 });
 
 //업데이트
-posts.put('/posts/:id', auth, async (ctx) => {
+posts.post('/posts/:id', auth, async (ctx) => {
+  const data = ctx.request.body;
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
   const user = await findUser(_refreshToken);
-  const data = ctx.params;
-  ctx.request.body.updataAt = Date.now();
-  PostSchema.findOneAndUpdate({ id: data.id }, ctx.request.body);
+  const param = ctx.params;
+  const updatedAt = Date.now();
+  await PostSchema.findOneAndUpdate(
+    { _id: ObjectId(param.id) },
+    {
+      $set: {
+        title: data.title,
+        body: data.body,
+        updatedAt: updatedAt,
+      },
+    },
+    { upsert: true }
+  );
+  const post = await PostSchema.findOne({ _id: ObjectId(param.id) }).exec();
   if (user) {
-    await ctx.redirect('/posts/' + data.id, {
+    await ctx.redirect('/api/posts/' + param.id, {
       actoken: _accessToken,
       name: user.name,
+      postId: post.id,
     });
   } else {
-    await ctx.redirect('/posts/' + data.id, {
+    await ctx.redirect('/api/posts/' + param.id, {
       actoken: _accessToken,
     });
   }
