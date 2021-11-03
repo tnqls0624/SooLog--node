@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  rftoken: {
+  rfToken: {
     type: String,
   },
 });
