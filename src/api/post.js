@@ -9,13 +9,28 @@ const auth = require('../middleware/auth');
 posts.get('/posts', async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
+  let page = Math.max(1, parseInt(ctx.query.page));
+  let limit = Math.max(1, parseInt(ctx.query.limit));
+  page = !isNaN(page) ? page : 1;
+  limit = !isNaN(limit) ? limit : 10;
+  const skip = (page - 1) * limit;
+  const count = await PostSchema.countDocuments({});
+  const maxPage = Math.ceil(count / limit);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
-  const _posts = await PostSchema.find({}).sort('-createdAt').exec();
+  const _posts = await PostSchema.find({})
+    .populate('writer')
+    .sort('-createdAt')
+    .skip(skip)
+    .limit(limit)
+    .exec();
   if (user) {
     await ctx.render('posts/index', {
       posts: _posts,
       actoken: _accessToken,
       name: user.name,
+      currentPage: page,
+      maxPage: maxPage,
+      limit: limit,
     });
   } else {
     await ctx.render('posts/index', {

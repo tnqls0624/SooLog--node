@@ -76,6 +76,13 @@
       item.classList.add('hover:bg-blue-300');
     });
   });
+
+  const pageBtn = document.querySelectorAll('#pageBtn');
+  pageBtn.forEach((item) => {
+    item.addEventListener('mouseover', () => {
+      item.classList.add('hover:bg-gray-50');
+    });
+  });
   convertDate();
   convertDateTime();
   writer();
