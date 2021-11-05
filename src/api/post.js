@@ -5,7 +5,6 @@ const PostSchema = require('../models/post');
 const userSchema = require('../models/user');
 const commentSchema = require('../models/comments');
 const auth = require('../middleware/auth');
-const flash = require('koa-flash');
 // 첫화면 만든 시간을 순서로 게시글을 가져옴
 posts.get('/posts', async (ctx) => {
   const searchQuery = await createSearchQuery(ctx.query);
