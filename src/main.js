@@ -15,6 +15,7 @@ const app = new koa();
 const router = new Router();
 const PORT = 5000;
 const bodyParser = require('koa-bodyparser');
+const flash = require('koa-flash');
 //퍼그
 new Pug({
   viewPath: path.resolve(__dirname, './html'),
@@ -30,6 +31,7 @@ router.use('/api', posts.routes());
 router.use('/api', comments.routes());
 //미들웨어
 app.use(bodyParser());
+app.use(flash());
 db();
 app.use(serve(__dirname + '/public'));
 app.use(serve(__dirname + '/img'));

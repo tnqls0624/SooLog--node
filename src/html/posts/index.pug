@@ -69,18 +69,17 @@ html
                                                     span #{val.writer}
                                                 td.date.px-1
                                                     span#data_date(data-date=val.createdAt)
-                                div.inline-block.pt-6.text-right.w-full
-                                        - const offset = 2
+                                div.inline-block.pt-6.w-full
                                         - const previousBtnEnabled = currentPage>1
                                         - const nextBtnEnabled = currentPage<maxPage
-                                        - const index = 1
-                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-10(href='/api/posts/new') 글작성
+                                        - let index = 0
+                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.inline-block.float-right(href='/api/posts/new') 글작성
                                         //- Pagination
-                                        mixin pagination(amount, active, last)
-                                            .pagination.pt-4.text-center
+                                        mixin pagination(amount, active, ellipsis, last)
+                                            .pagination.pt-4.text-center.inline-block
                                                 //- prev arrow
                                                 if (previousBtnEnabled)
-                                                    a#pageBtn(href=`/api/posts?page=${currentPage-1}&limit=${limit}` title="Prev page").relative.inline-flex.items-center.px-2.py-2.rounded-l-md.border.border-gray-300.bg-white.text-sm.font-medium.text-gray-500.inline-block Previous
+                                                    a#pageBtn(href=`/api/posts?page=${currentPage-1}&limit=${limit}` title="Prev page").relative.inline-flex.items-center.px-2.py-2.rounded-l-md.border.border-gray-300.bg-white.text-sm.font-medium.text-gray-500.inline-block 이전
                                                 else
                                                 ul.pagination__list.w-50.inline-block
                                                     //- before ellipsis
@@ -88,29 +87,53 @@ html
                                                         if (index === active)
                                                             li.inline-block
                                                                 a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Current page #{index}").z-10.bg-indigo-50.border-indigo-500.text-indigo-600.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
+                                                        else if (index === ellipsis)
+                                                            li.inline-block
+                                                                a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Show more").bg-white.border-gray-300.text-gray-500.relative.items-center.px-4.py-2.border.text-sm.font-medium.inline-block ...
+                                                        else if (index >= ellipsis)
                                                         else
                                                             li.inline-block
                                                                 a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Go to page #{index}").bg-white.border-gray-300.text-gray-500.hover.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
                                                     //- after ellipsis
-                                                    - for (var index = amount + 1; index <= last; index++)
+                                                    - for ( index = amount + 1; index <= last; index++)
                                                         li.inline-block
-                                                            a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Go to pagе #{index}").bg-white.border-gray-300.text-gray-500.hidden.relative.items-center.px-4.py-2.border.text-sm.font-medium= index
+                                                            a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Go to pagе #{index}").bg-white.border-gray-300.text-gray-500.relative.items-center.px-4.py-2.border.text-sm.font-medium= index
 
                                                 //- next arrow
                                                 if (nextBtnEnabled)
-                                                    a#pageBtn(href=`/api/posts?page=${currentPage+1}&limit=${limit}` title="Next page").relative.inline-flex.items-center.px-2.py-2.rounded-r-md.border.border-gray-300.bg-white.text-sm.font-medium.text-gray-500.inline-block Next
+                                                    a#pageBtn(href=`/api/posts?page=${currentPage+1}&limit=${limit}` title="Next page").relative.inline-flex.items-center.px-2.py-2.rounded-r-md.border.border-gray-300.bg-white.text-sm.font-medium.text-gray-500.inline-block 다음
                                                 else
-                                        +pagination(maxPage, currentPage, maxPage)
-
+                                        +pagination(maxPage, currentPage, 4, maxPage)
+                                        form#limitForm(action="/api/posts", method="get").inline-block.float-left
+                                            div.text-left
+                                                label(for="show")
+                                                select#limitPost(name="limit").border.bg-white.rounded.px-3.py-2.outline-none
+                                                    option -개시글 수-
+                                                    if limit == 5
+                                                        option(value="5").selected 5개씩 보기
+                                                    else
+                                                        option(value="5") 5개씩 보기
+                                                    if limit == 10
+                                                        option(value="10").selected 10개씩 보기
+                                                    else
+                                                        option(value="10") 10개씩 보기
+                                                    if limit == 20
+                                                        option(value="20").selected 20개씩 보기
+                                                    else
+                                                        option(value="20") 20개씩 보기
+                                form(action="/api/posts", method="get").float-left.px-2.py-6.text-center.w-full
+                                    select(name="searchType").border.bg-white.rounded.px-1.py-2.outline-none.mr-1
+                                        option -분류-
+                                        option(value="title,body") Title, Body
+                                        option(value="title") Title
+                                        option(value="body") Body
+                                    input(type="text" name="searchText" value=searchText).border.bg-white.rounded.px-3.py-2.outline-none.mr-2
+                                    button(type="submit").bg-blue-500.text-white.font-bold.py-2.px-4.rounded.inline-block 검색
                     div.w-60.float-right
                         ul
-                            li 텍스트
-                            li 텍스트
-                            li 텍스트
-                            li 텍스트
-                            li 텍스트
-                            li 텍스트
+                            li 채팅창
             footer.border-t-2.border-gray-200
         script(src="/homePage.js")
         script(src="/post.js")
+        script(src="/postLimit.js")
 

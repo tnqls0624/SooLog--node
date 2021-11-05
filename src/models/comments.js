@@ -37,3 +37,16 @@ const commentSchema = mongoose.Schema(
     },
   }
 );
+
+commentSchema
+  .virtual('childComments')
+  .get(() => {
+    return this._childComments;
+  })
+  .set((value) => {
+    this.__childComments = value;
+  });
+
+const Comment = mongoose.model('comment', commentSchema);
+
+module.exports = Comment;

@@ -48,11 +48,7 @@
       }
     });
   }
-  function writer() {
-    const writer = document.getElementById('writer');
-    const writerData = writer.getAttribute('data-writer');
-    writer.innerHTML = writerData;
-  }
+
   const btn = document.querySelectorAll('#btn');
   btn.forEach((item) => {
     item.addEventListener('mouseover', () => {
@@ -83,7 +79,7 @@
       item.classList.add('hover:bg-gray-50');
     });
   });
+
   convertDate();
   convertDateTime();
-  writer();
 })();

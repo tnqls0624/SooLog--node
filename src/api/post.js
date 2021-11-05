@@ -3,10 +3,12 @@ const Router = require('koa-router');
 const posts = new Router();
 const PostSchema = require('../models/post');
 const userSchema = require('../models/user');
+const commentSchema = require('../models/comments');
 const auth = require('../middleware/auth');
-
+const flash = require('koa-flash');
 // 첫화면 만든 시간을 순서로 게시글을 가져옴
 posts.get('/posts', async (ctx) => {
+  const searchQuery = await createSearchQuery(ctx.query);
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
   let page = Math.max(1, parseInt(ctx.query.page));
@@ -14,10 +16,10 @@ posts.get('/posts', async (ctx) => {
   page = !isNaN(page) ? page : 1;
   limit = !isNaN(limit) ? limit : 10;
   const skip = (page - 1) * limit;
-  const count = await PostSchema.countDocuments({});
+  const count = await PostSchema.countDocuments(searchQuery);
   const maxPage = Math.ceil(count / limit);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
-  const _posts = await PostSchema.find({})
+  const _posts = await PostSchema.find(searchQuery)
     .populate('writer')
     .sort('-createdAt')
     .skip(skip)
@@ -31,6 +33,8 @@ posts.get('/posts', async (ctx) => {
       currentPage: page,
       maxPage: maxPage,
       limit: limit,
+      searchType: ctx.query.searchType,
+      searchText: ctx.query.searchText,
     });
   } else {
     await ctx.render('posts/index', {
@@ -58,11 +62,20 @@ posts.get('/posts/new', auth, async (ctx) => {
 posts.post('/posts', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
-  // const user = await findUser(_refreshToken);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
   const data = ctx.request.body;
-  PostSchema.create(data);
+  const post = await PostSchema.create(data);
+  data += user.id;
+  console.log(data);
+  data += ObjectId(post.id);
+  commentSchema.create(ctx.request.body, (err, comment) => {
+    if (err) {
+      flash('commentForm', { _id: null, form: data });
+      flash('commentError', { _id: null, errors: data });
+    }
+    return ctx.redirect('/posts/' + post._id);
+  });
   if (user) {
     await ctx.redirect('/api/posts', {
       posts: _posts,
@@ -193,4 +206,30 @@ posts.post('/posts/:id/delete', auth, async (ctx) => {
     });
   }
 });
+
+async function createSearchQuery(queries) {
+  var searchQuery = {};
+  if (
+    queries.searchType &&
+    queries.searchText &&
+    queries.searchText.length >= 3
+  ) {
+    // 1
+    var searchTypes = queries.searchType.toLowerCase().split(',');
+    var postQueries = [];
+    if (searchTypes.indexOf('title') >= 0) {
+      postQueries.push({
+        title: { $regex: new RegExp(queries.searchText, 'i') },
+      });
+    }
+    if (searchTypes.indexOf('body') >= 0) {
+      postQueries.push({
+        body: { $regex: new RegExp(queries.searchText, 'i') },
+      });
+    }
+    if (postQueries.length > 0) searchQuery = { $or: postQueries };
+  }
+  return searchQuery;
+}
+
 module.exports = posts;
