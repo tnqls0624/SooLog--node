@@ -64,17 +64,7 @@ posts.post('/posts', auth, async (ctx) => {
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
   const data = ctx.request.body;
-  const post = await PostSchema.create(data);
-  data += user.id;
-  console.log(data);
-  data += ObjectId(post.id);
-  commentSchema.create(ctx.request.body, (err, comment) => {
-    if (err) {
-      flash('commentForm', { _id: null, form: data });
-      flash('commentError', { _id: null, errors: data });
-    }
-    return ctx.redirect('/posts/' + post._id);
-  });
+  await PostSchema.create(data);
   if (user) {
     await ctx.redirect('/api/posts', {
       posts: _posts,
@@ -99,6 +89,10 @@ posts.get('/posts/:id', auth, async (ctx) => {
   const data = ctx.params;
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const post = await PostSchema.findOne({ _id: ObjectId(data.id) }).exec();
+  const comments = await commentSchema
+    .find({ post: ObjectId(data.id) })
+    .sort('createdAt')
+    .populate({ path: 'writer' });
   if (user) {
     await ctx.render('posts/show', {
       post: post,
@@ -107,6 +101,7 @@ posts.get('/posts/:id', auth, async (ctx) => {
       name: user.name,
       postId: post.id,
       writer: post.writer,
+      comments: comments,
     });
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -187,8 +182,9 @@ posts.post('/posts/:id/delete', auth, async (ctx) => {
   let _refreshToken = ctx.cookies.get('refresh_token');
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const param = ctx.params;
-  await PostSchema.deleteOne({ id: ObjectId(param.id) });
+  await PostSchema.deleteOne({ _id: ObjectId(param.id) });
   const _posts = await PostSchema.find({}).sort('-createdAt').exec();
+
   if (user) {
     await ctx.redirect('/api/posts', {
       posts: _posts,
