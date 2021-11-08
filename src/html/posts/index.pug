@@ -83,8 +83,8 @@ html
                                                 else
                                                 ul.pagination__list.w-50.inline-block
                                                     //- before ellipsis
-                                                    - for (index = 1; index <= amount; index++)
-                                                        if (index === active)
+                                                    - for (index = 1; index <= maxPage; index++)
+                                                        if (index === currentPage)
                                                             li.inline-block
                                                                 a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Current page #{index}").z-10.bg-indigo-50.border-indigo-500.text-indigo-600.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
                                                         else if (index === ellipsis)
