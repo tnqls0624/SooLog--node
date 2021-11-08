@@ -50,6 +50,7 @@ html
                             li 텍스트
                     div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
                         - const _post = post
+                        - const _comments = comments
                         form(action=`/api/posts/${_postId}/delete`, method="post")
                             div#post_title.text-center 타이틀
                                 div#card.p-10.text-left
@@ -71,8 +72,19 @@ html
                                 a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-6(href=`/api/posts/${_postId}/edit`) Edit
                                 if _userId === _writer
                                     button#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded Delete
-                        //- div
-                        //-     a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href=`/api/posts/${_postId}`) Edit
+                        h4 Comments
+                            if _comments.length
+                                div
+                                    each val,idx in _comments
+                                        div #{val.writer}
+                                        div #{val.text}
+                            form(action=`/api/comments/${post._id}`, method="post")
+                                div
+                                    label(for="text") text
+                                    textarea(name="text", cols="30", rows="10")
+                                div
+                                    button Add Comment
+
                     div.w-60.float-right
                         ul
                             li 채팅창
