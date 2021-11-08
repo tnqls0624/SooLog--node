@@ -49,6 +49,18 @@
     });
   }
 
+  function convertCommentTime() {
+    const comment_time = document.querySelectorAll('#data-comment-time');
+    comment_time.forEach((item) => {
+      const dateString = item.getAttribute('data-comment-time');
+      console.log(dateString);
+      if (dateString) {
+        const date = new Date(dateString);
+        item.innerHTML = getDate(date) + ' - ' + getTime(date);
+      }
+    });
+  }
+
   const btn = document.querySelectorAll('#btn');
   btn.forEach((item) => {
     item.addEventListener('mouseover', () => {
@@ -82,4 +94,5 @@
 
   convertDate();
   convertDateTime();
+  convertCommentTime();
 })();

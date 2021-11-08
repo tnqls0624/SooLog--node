@@ -92,7 +92,7 @@ posts.get('/posts/:id', auth, async (ctx) => {
   const comments = await commentSchema
     .find({ post: ObjectId(data.id) })
     .sort('createdAt')
-    .populate({ path: 'writer' });
+    .exec();
   if (user) {
     await ctx.render('posts/show', {
       post: post,
