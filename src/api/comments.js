@@ -21,6 +21,24 @@ comments.post('/comments/:id', async (ctx) => {
   ctx.redirect(`/api/posts/${post._id}`);
 });
 
+comments.post('/comments/:id/edit', async (ctx) => {
+  const data = ctx.request.body;
+  const param = ctx.params;
+  const post = await getPost(param);
+  const updatedAt = Date.now();
+  commentSchema.findOneAndUpdate(
+    { _id: ObjectId(param.id) },
+    {
+      $set: {
+        text: data.text,
+        updatedAt: updatedAt,
+      },
+    },
+    { upsert: true }
+  );
+  ctx.redirect(`/api/posts/${post._id}`);
+});
+
 module.exports = comments;
 
 async function getPost(param) {

@@ -2,6 +2,7 @@ doctype html
 html
     head
         link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
+        //- link(href="/css/style.css" rel="stylesheet")
         meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
         div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-6xl.my-0.mx-auto.border-solid
@@ -81,6 +82,14 @@ html
                                             div.inline-block.w-28.h-full.align-top.py-2 #{val.writer}
                                             div.inline-block.w-80.align-middle.py-2 #{val.text}
                                             div.float-right.text-xs#data-comment-time(data-comment-time=val.createdAt)
+                                            if _comments.updatedAt
+                                                div.float-right.text-xs  _comments.updatedAt
+                                            if _comments.writer === _userId
+                                                div.float-right.text-xs
+                                                    div
+                                                        a#commentEdit Edit
+                                                    div
+                                                        a#commentEditCancel Cancel
                             form(action=`/api/comments/${post._id}`, method="post")
                                 div.clear-both.px-8.py-10
                                     div.float-left
