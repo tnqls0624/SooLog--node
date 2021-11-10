@@ -99,7 +99,6 @@ posts.get('/posts/:id', auth, async (ctx) => {
       userId: user.id,
       acToken: _accessToken,
       name: user.name,
-      postId: post.id,
       writer: post.writer,
       comments: comments,
     });

@@ -41,7 +41,6 @@
     const dataDate_time = document.querySelectorAll('#dataDate-time');
     dataDate_time.forEach((item) => {
       const dateString = item.getAttribute('data-date-time');
-      console.log(dateString);
       if (dateString) {
         const date = new Date(dateString);
         item.innerHTML = getDate(date) + ' - ' + getTime(date);
@@ -53,7 +52,17 @@
     const comment_time = document.querySelectorAll('#data-comment-time');
     comment_time.forEach((item) => {
       const dateString = item.getAttribute('data-comment-time');
-      console.log(dateString);
+      if (dateString) {
+        const date = new Date(dateString);
+        item.innerHTML = getDate(date) + ' - ' + getTime(date);
+      }
+    });
+  }
+
+  function convertCommentUpdateTime() {
+    const comment_time = document.querySelectorAll('#data-comment-updatedAt');
+    comment_time.forEach((item) => {
+      const dateString = item.getAttribute('data-comment-updatedAt');
       if (dateString) {
         const date = new Date(dateString);
         item.innerHTML = getDate(date) + ' - ' + getTime(date);
@@ -95,4 +104,5 @@
   convertDate();
   convertDateTime();
   convertCommentTime();
+  convertCommentUpdateTime();
 })();
