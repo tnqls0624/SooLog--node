@@ -26,8 +26,8 @@ comments.post('/comments/:id/edit', async (ctx) => {
   const param = ctx.params;
   const post = await getPost(param);
   const updatedAt = Date.now();
-  commentSchema.findOneAndUpdate(
-    { _id: ObjectId(param.id) },
+  await commentSchema.findOneAndUpdate(
+    { _id: ObjectId(data.commentId) },
     {
       $set: {
         text: data.text,
@@ -36,6 +36,16 @@ comments.post('/comments/:id/edit', async (ctx) => {
     },
     { upsert: true }
   );
+  ctx.redirect(`/api/posts/${post._id}`);
+});
+
+comments.post('/comments/:id/delete', async (ctx) => {
+  const data = ctx.request.body;
+  const param = ctx.params;
+  const post = await getPost(param);
+  await commentSchema.deleteOne({
+    _id: ObjectId(data.commentId),
+  });
   ctx.redirect(`/api/posts/${post._id}`);
 });
 
