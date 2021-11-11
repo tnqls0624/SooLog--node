@@ -76,9 +76,9 @@ html
                         div.px-8.py-4
                             h4.border-b-2.border-gray-200.border-solid.px-2.py-1.bg-gray-300 댓글
                             if _comments.length
-                                div
+                                div.clear-both
                                     each val,idx in _comments
-                                        div.border-b-2.border-gray-200.border-solid.clear-both.px-2.pt-2.pb-4.text-sm
+                                        div.border-b-2.border-gray-200.border-solid.clear-both.px-2.pt-2.pb-4.text-sm.clear-both
                                             div.inline-block.w-28.h-full.align-top.py-2.break-words #{val.writer}
                                             div.inline-block.w-80.align-middle.py-2.break-words #{val.text}
                                             div.text-xs.float-right
@@ -87,8 +87,17 @@ html
                                                 if val.updatedAt
                                                     span 수정일
                                                     div.text-xs#data-comment-updatedAt(data-comment-updatedAt=val.updatedAt)
+                                            span.pr-2.text-blue-500
+                                                button#commentParent(data-commentId=`${val._id}`) 댓글
+                                                div#reply_show.hidden.text-black(data-commentText=`${val._id}`)
+                                                        form(action=`/api/comments/${_post._id}/edit` method="post").pt-3
+                                                            div.inline-block.text-left.pb-1.pl-28.align-top
+                                                                textarea.border-2.border-black.rounded-md(name="text", cols="46", rows="3")=val.text
+                                                                input(type="hidden", name="commentId", value=val._id)
+                                                            div.inline-block.pl-10
+                                                                button#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded 작성
                                             if val.writer === _userId
-                                                div
+                                                div.inline-block
                                                     div.text-blue-500
                                                         div.inline-block.pr-2
                                                             button#commentEdit(data-commentId=`${val._id}`) 편집

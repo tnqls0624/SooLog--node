@@ -1,11 +1,24 @@
 (() => {
   const commentEdit = document.querySelectorAll('#commentEdit');
   const commentShow = document.querySelectorAll('#comment_show');
+  const commentParent = document.querySelectorAll('#commentParent');
+  const reply_show = document.querySelectorAll('#reply_show');
 
   commentEdit.forEach((item) => {
     item.addEventListener('click', (e) => {
       const data = e.target.dataset;
       commentShow.forEach((item) => {
+        if (data.commentid === item.getAttribute('data-commentText')) {
+          item.classList.toggle('hidden');
+        }
+      });
+    });
+  });
+
+  commentParent.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      const data = e.target.dataset;
+      reply_show.forEach((item) => {
         if (data.commentid === item.getAttribute('data-commentText')) {
           item.classList.toggle('hidden');
         }
