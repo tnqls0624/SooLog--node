@@ -93,6 +93,13 @@ posts.get('/posts/:id', auth, async (ctx) => {
     .find({ post: ObjectId(data.id) })
     .sort('createdAt')
     .exec();
+  const commentTrees = await convertToTrees(
+    comments,
+    '_id',
+    'parentComment',
+    'childComment'
+  );
+  console.log(comments);
   if (user) {
     await ctx.render('posts/show', {
       post: post,
@@ -100,7 +107,7 @@ posts.get('/posts/:id', auth, async (ctx) => {
       acToken: _accessToken,
       name: user.name,
       writer: post.writer,
-      comments: comments,
+      comments: commentTrees,
     });
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -224,6 +231,37 @@ async function createSearchQuery(queries) {
     if (postQueries.length > 0) searchQuery = { $or: postQueries };
   }
   return searchQuery;
+}
+
+async function convertToTrees(
+  array,
+  idFieldName,
+  parentIdFiledName,
+  childrenFiledName
+) {
+  let cloned = array.slice();
+
+  for (let i = cloned.length - 1; i > -1; i--) {
+    const parentId = cloned[i][parentIdFiledName];
+
+    if (parentId) {
+      const filtered = array.filter((elem) => {
+        return elem[idFieldName].toString() == parentId.toString();
+      });
+
+      if (filtered.length) {
+        const parent = filtered[0];
+
+        if (parent[childrenFiledName]) {
+          parent[childrenFiledName].unshift(cloned[i]);
+        } else {
+          parent[childrenFiledName] = [cloned[i]];
+        }
+      }
+      cloned.splice(i, 1);
+    }
+  }
+  return cloned;
 }
 
 module.exports = posts;
