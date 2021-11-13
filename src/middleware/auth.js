@@ -28,9 +28,9 @@ let auth = async (ctx, next) => {
       });
       ctx.cookies.set('access_token', newToken, {
         httpOnly: true,
-        maxAge: 1000 * 60,
+        maxAge: 1000 * 60 * 60 * 2,
       });
-      console.log('auth');
+      console.log('액세스토큰 갱신');
       await next();
     }
   } else {
@@ -50,6 +50,7 @@ let auth = async (ctx, next) => {
           },
         }
       );
+      console.log('리프레시토큰 갱신');
       await next();
     } else {
       // 전부 다 있는경우

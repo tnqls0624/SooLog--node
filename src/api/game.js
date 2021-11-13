@@ -1,14 +1,14 @@
 const { ObjectId } = require('bson');
 const Router = require('koa-router');
-const posts = new Router();
+const game = new Router();
 const PostSchema = require('../models/post');
 const userSchema = require('../models/user');
 const commentSchema = require('../models/comments');
 const auth = require('../middleware/auth');
 // 첫화면 만든 시간을 순서로 게시글을 가져옴
-posts.get('/posts', async (ctx) => {
+game.get('/game', async (ctx) => {
   const searchQuery = await createSearchQuery(ctx.query);
-  const postTitle = 'any';
+  const postTitle = 'game';
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
   let page = Math.max(1, parseInt(ctx.query.page));
@@ -23,12 +23,13 @@ posts.get('/posts', async (ctx) => {
     postTitle: postTitle,
     searchQuery,
   })
+    .populate('writer')
     .sort('-createdAt')
     .skip(skip)
     .limit(limit)
     .exec();
   if (user) {
-    await ctx.render('posts/index', {
+    await ctx.render('game/index', {
       posts: _posts,
       actoken: _accessToken,
       name: user.name,
@@ -39,7 +40,7 @@ posts.get('/posts', async (ctx) => {
       searchText: ctx.query.searchText,
     });
   } else {
-    await ctx.render('posts/index', {
+    await ctx.render('game/index', {
       posts: _posts,
       actoken: _accessToken,
     });
@@ -47,12 +48,12 @@ posts.get('/posts', async (ctx) => {
 });
 
 // 작성페이지 이동
-posts.get('/posts/new', auth, async (ctx) => {
+game.get('/game/new', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
-  await ctx.render('posts/new', {
+  await ctx.render('game/new', {
     posts: _posts,
     acToken: _accessToken,
     name: user.name,
@@ -61,15 +62,16 @@ posts.get('/posts/new', auth, async (ctx) => {
 });
 
 // 작성
-posts.post('/posts', auth, async (ctx) => {
+game.post('/game', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
-  const data = ctx.request.body;
+  let data = ctx.request.body;
+  console.log(data);
   await PostSchema.create(data);
   if (user) {
-    await ctx.redirect('/api/posts', {
+    await ctx.redirect('/api/game', {
       posts: _posts,
       acToken: _accessToken,
       name: user.name,
@@ -77,7 +79,7 @@ posts.post('/posts', auth, async (ctx) => {
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     ctx.res.write("<script>alert('작성에 실패하였습니다.')</script>");
-    await ctx.redirect('/api/posts', {
+    await ctx.redirect('/api/game', {
       posts: _posts,
       acToken: _accessToken,
       name: user.name,
@@ -86,7 +88,7 @@ posts.post('/posts', auth, async (ctx) => {
 });
 
 //작성글 확인
-posts.get('/posts/:id', auth, async (ctx) => {
+game.get('/game/:id', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
   const data = ctx.params;
@@ -98,7 +100,7 @@ posts.get('/posts/:id', auth, async (ctx) => {
     .exec();
 
   if (user) {
-    await ctx.render('posts/show', {
+    await ctx.render('game/show', {
       post: post,
       userId: user.id,
       acToken: _accessToken,
@@ -109,7 +111,7 @@ posts.get('/posts/:id', auth, async (ctx) => {
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     ctx.res.write("<script>alert('작성글을 확인 하실 수 없습니다.')</script>");
-    await ctx.redirect('/api/posts', {
+    await ctx.redirect('/api/game', {
       posts: _posts,
       acToken: _accessToken,
       name: user.name,
@@ -118,14 +120,14 @@ posts.get('/posts/:id', auth, async (ctx) => {
 });
 
 // 편집
-posts.get('/posts/:id/edit', auth, async (ctx) => {
+game.get('/game/:id/edit', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const data = ctx.params;
   const post = await PostSchema.findOne({ _id: ObjectId(data.id) }).exec();
   if (user) {
-    await ctx.render('posts/edit', {
+    await ctx.render('game/edit', {
       post: post,
       acToken: _accessToken,
       name: user.name,
@@ -134,7 +136,7 @@ posts.get('/posts/:id/edit', auth, async (ctx) => {
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     ctx.res.write("<script>alert('편집 하실 수 없습니다.')</script>");
-    await ctx.redirect('/api/posts', {
+    await ctx.redirect('/api/game', {
       posts: _posts,
       acToken: _accessToken,
       name: user.name,
@@ -143,7 +145,7 @@ posts.get('/posts/:id/edit', auth, async (ctx) => {
 });
 
 //업데이트
-posts.post('/posts/:id', auth, async (ctx) => {
+game.post('/game/:id', auth, async (ctx) => {
   const data = ctx.request.body;
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
@@ -163,7 +165,7 @@ posts.post('/posts/:id', auth, async (ctx) => {
   );
   const post = await PostSchema.findOne({ _id: ObjectId(param.id) }).exec();
   if (user) {
-    await ctx.redirect('/api/posts/' + param.id, {
+    await ctx.redirect('/api/game/' + param.id, {
       actoken: _accessToken,
       name: user.name,
       postId: post.id,
@@ -171,7 +173,7 @@ posts.post('/posts/:id', auth, async (ctx) => {
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     ctx.res.write("<script>alert('업데이트에 실패하였습니다.')</script>");
-    await ctx.redirect('/api/posts', {
+    await ctx.redirect('/api/game', {
       posts: _posts,
       acToken: _accessToken,
       name: user.name,
@@ -180,7 +182,7 @@ posts.post('/posts/:id', auth, async (ctx) => {
 });
 
 //삭제
-posts.post('/posts/:id/delete', auth, async (ctx) => {
+game.post('/game/:id/delete', auth, async (ctx) => {
   let _accessToken = ctx.cookies.get('access_token');
   let _refreshToken = ctx.cookies.get('refresh_token');
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
@@ -189,7 +191,7 @@ posts.post('/posts/:id/delete', auth, async (ctx) => {
   const _posts = await PostSchema.find({}).sort('-createdAt').exec();
 
   if (user) {
-    await ctx.redirect('/api/posts', {
+    await ctx.redirect('/api/game', {
       posts: _posts,
       acToken: _accessToken,
       name: user.name,
@@ -197,7 +199,7 @@ posts.post('/posts/:id/delete', auth, async (ctx) => {
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     ctx.res.write("<script>alert('삭제에 실패하였습니다.')</script>");
-    await ctx.redirect('/api/posts', {
+    await ctx.redirect('/api/game', {
       posts: _posts,
       acToken: _accessToken,
       name: user.name,
@@ -230,4 +232,4 @@ async function createSearchQuery(queries) {
   return searchQuery;
 }
 
-module.exports = posts;
+module.exports = game;

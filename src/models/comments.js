@@ -13,6 +13,9 @@ const commentSchema = mongoose.Schema(
     parentComment: {
       type: String,
     },
+    childComment: {
+      type: Array,
+    },
     text: {
       type: String,
       required: [true, 'text is required'],
@@ -41,7 +44,7 @@ commentSchema
     return this._childComments;
   })
   .set((value) => {
-    this.__childComments = value;
+    this._childComments = value;
   });
 
 const Comment = mongoose.model('comment', commentSchema);

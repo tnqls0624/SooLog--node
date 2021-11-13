@@ -8,7 +8,7 @@ async function refreshToken() {
       {},
       jwtSecret,
       {
-        expiresIn: '5m',
+        expiresIn: '7d',
         issuer: 'soobeen',
       },
       (error, token) => {

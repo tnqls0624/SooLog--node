@@ -26,14 +26,22 @@
     });
   });
 
-  const commentDelete = document.getElementById('commentDelete');
-  commentDelete.addEventListener('click', (e) => {
-    const returnValue = confirm('삭제하시겠습니다?');
-    if (returnValue) {
-      alert('삭제되었습니다!');
-    } else {
-      alert('취소되었습니다!');
-      e.preventDefault();
-    }
+  const commentDelete = document.querySelectorAll('#commentDelete');
+
+  commentDelete.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      const returnValue = confirm('삭제하시겠습니다?');
+      if (returnValue) {
+        alert('삭제되었습니다!');
+      } else {
+        alert('취소되었습니다!');
+        e.preventDefault();
+      }
+    });
+  });
+
+  const clear = document.querySelectorAll('#clear');
+  clear.forEach((item) => {
+    item.style.minHeight = '3.5rem';
   });
 })();

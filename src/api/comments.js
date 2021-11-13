@@ -16,8 +16,19 @@ comments.post('/comments/:id', async (ctx) => {
     post: post._id,
     writer: user.id,
     text: data.text,
+    parentComment: data.parentComment || null,
   };
-  await commentSchema.create(result);
+  const CS = await commentSchema.create(result);
+  if (data.parentComment) {
+    await commentSchema.findOneAndUpdate(
+      { _id: ObjectId(data.parentComment) },
+      {
+        $addToSet: {
+          childComment: CS.id,
+        },
+      }
+    );
+  }
   ctx.redirect(`/api/posts/${post._id}`);
 });
 
