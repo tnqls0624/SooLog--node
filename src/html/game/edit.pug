@@ -10,7 +10,6 @@ html
                     div#kv.w-40.bg-gray-200.text-6xl kv
                     - const token= acToken
                     - const _name= name
-                    - const _id = id
                     if token
                         div #{_name} 님 환영합니다!
                     else
@@ -36,40 +35,45 @@ html
                                 li.inline-block.text-white.mr-2
                                     button#btn(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
             main
-                - const _posts= posts
+                - const _postId= postId
                 div.clear-both
-                    div.w-60.border-r-2.border-gray-200.float-left.h-full.border-solid
+                    div.w-60.float-left
                         ul
                             li
                                 a#text_hover(href="/api/posts/") 자유 게시글
-                            li
+                            li 
                                 a#text_hover(href="/api/game/") 게임 게시글
                             li 텍스트
                             li 텍스트
                             li 텍스트
                             li 텍스트
-                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl
-                        div#post_title 타이틀
-                            form(action="/api/posts" method="post").p-10
-                                div.form-group
-                                    label(for="title").block.text-left.pt-14 Title
-                                    input#newPost(type="text", name='title', value='').px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
-                                    input(type="hidden", name="postTitle", value="any")
-                                div.form-group.pb-16
-                                    label(for="body").block.text-left.pt-16 Body
-                                    textarea#newPost(type="text" name="body",  rows="5").px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
-                                div.pb-6 Writer :&nbsp;
-                                    span#writer(data-writer= _id)
-                                    input(type="hidden", name="writer" value=_id)
-                                div.inline-block.mr-4
-                                    a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href="/api/posts") 돌아가기
-                                div.inline-block
-                                    button#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(type="submit") 등록
-                    div.w-60.border-l-2.border-gray-200.float-right.h-full
+                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
+                        - const _post = post
+                        form(action=`/api/game/${_postId}` method="post")
+                            div#post_title.text-center 타이틀
+                                div#card.p-10.text-left
+                                    label(for="title") Title
+                                    input(type="text" id="title" name="title" value=_post.title).border-gray-200.border-b-2.border-gray-200.p-5.break-words.block.w-full
+                                div.p-10.text-left
+                                    label(for="body") Body
+                                    textarea(name="body", cols="40", rows="10").border-gray-200.border-b-2.border-gray-200.p-5.block.w-full.h-full.break-words #{_post.body}
+                            div.m-2.p-2.clear-both
+                                div.text-right
+                                    span Created :
+                                    span#dataDate-time(data-date-time=_post.createdAt)
+                                if _post.updatedAt
+                                    div.text-right
+                                        span Updated :
+                                        span#dataDate-time(data-date-time=_post.updatedAt)
+                            div.mx-2.p-10.text-center
+                                a#btn.inline-block.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-6(href="/api/game") Back
+                                button#btn.inline-block.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-6 Submit
+                            //- div
+                            //-     a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href=`/api/posts/${_postId}`) Edit
+                    div.w-60.float-right
                         ul
                             li 채팅창
-            footer.border-t-2.border-gray-200
+00
         script(src="/homePage.js")
         script(src="/post.js")
-        script(src="/postWriter.js")
 

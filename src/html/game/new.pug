@@ -42,7 +42,7 @@ html
                         ul
                             li
                                 a#text_hover(href="/api/posts/") 자유 게시글
-                            li
+                            li 
                                 a#text_hover(href="/api/game/") 게임 게시글
                             li 텍스트
                             li 텍스트
@@ -50,11 +50,11 @@ html
                             li 텍스트
                     div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl
                         div#post_title 타이틀
-                            form(action="/api/posts" method="post").p-10
+                            form(action="/api/game" method="post").p-10
                                 div.form-group
                                     label(for="title").block.text-left.pt-14 Title
                                     input#newPost(type="text", name='title', value='').px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
-                                    input(type="hidden", name="postTitle", value="any")
+                                    input(type="hidden", name="postTitle", value="game")
                                 div.form-group.pb-16
                                     label(for="body").block.text-left.pt-16 Body
                                     textarea#newPost(type="text" name="body",  rows="5").px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
@@ -62,7 +62,7 @@ html
                                     span#writer(data-writer= _id)
                                     input(type="hidden", name="writer" value=_id)
                                 div.inline-block.mr-4
-                                    a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href="/api/posts") 돌아가기
+                                    a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href="/api/game") 돌아가기
                                 div.inline-block
                                     button#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(type="submit") 등록
                     div.w-60.border-l-2.border-gray-200.float-right.h-full

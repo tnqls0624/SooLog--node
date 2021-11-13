@@ -64,7 +64,7 @@ html
                                         each val,idx in _posts
                                             tr
                                                 td.px-1#select
-                                                    a(href=`/api/posts/${val.id}`)
+                                                    a(href=`/api/game/${val.id}`)
                                                         .overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-96.leading-10 #{val.title}
                                                 td.px-1
                                                     span #{val.writer}
@@ -74,38 +74,38 @@ html
                                         - const previousBtnEnabled = currentPage>1
                                         - const nextBtnEnabled = currentPage<maxPage
                                         - let index = 0
-                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.inline-block.float-right(href='/api/posts/new') 글작성
+                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.inline-block.float-right(href='/api/game/new') 글작성
                                         //- Pagination
                                         mixin pagination(amount, active, ellipsis, last)
                                             .pagination.pt-4.text-center.inline-block
                                                 //- prev arrow
                                                 if (previousBtnEnabled)
-                                                    a#pageBtn(href=`/api/posts?page=${currentPage-1}&limit=${limit}` title="Prev page").relative.inline-flex.items-center.px-2.py-2.rounded-l-md.border.border-gray-300.bg-white.text-sm.font-medium.text-gray-500.inline-block 이전
+                                                    a#pageBtn(href=`/api/game?page=${currentPage-1}&limit=${limit}` title="Prev page").relative.inline-flex.items-center.px-2.py-2.rounded-l-md.border.border-gray-300.bg-white.text-sm.font-medium.text-gray-500.inline-block 이전
                                                 else
                                                 ul.pagination__list.w-50.inline-block
                                                     //- before ellipsis
                                                     - for (index = 1; index <= maxPage; index++)
                                                         if (index === currentPage)
                                                             li.inline-block
-                                                                a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Current page #{index}").z-10.bg-indigo-50.border-indigo-500.text-indigo-600.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
+                                                                a#pageBtn(href=`/api/game?page=${index}&limit=${limit}` title="Current page #{index}").z-10.bg-indigo-50.border-indigo-500.text-indigo-600.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
                                                         else if (index === ellipsis)
                                                             li.inline-block
-                                                                a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Show more").bg-white.border-gray-300.text-gray-500.relative.items-center.px-4.py-2.border.text-sm.font-medium.inline-block ...
+                                                                a#pageBtn(href=`/api/game?page=${index}&limit=${limit}` title="Show more").bg-white.border-gray-300.text-gray-500.relative.items-center.px-4.py-2.border.text-sm.font-medium.inline-block ...
                                                         else if (index >= ellipsis)
                                                         else
                                                             li.inline-block
-                                                                a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Go to page #{index}").bg-white.border-gray-300.text-gray-500.hover.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
+                                                                a#pageBtn(href=`/api/game?page=${index}&limit=${limit}` title="Go to page #{index}").bg-white.border-gray-300.text-gray-500.hover.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
                                                     //- after ellipsis
                                                     - for ( index = amount + 1; index <= last; index++)
                                                         li.inline-block
-                                                            a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Go to pagе #{index}").bg-white.border-gray-300.text-gray-500.relative.items-center.px-4.py-2.border.text-sm.font-medium= index
+                                                            a#pageBtn(href=`/api/game?page=${index}&limit=${limit}` title="Go to pagе #{index}").bg-white.border-gray-300.text-gray-500.relative.items-center.px-4.py-2.border.text-sm.font-medium= index
 
                                                 //- next arrow
                                                 if (nextBtnEnabled)
-                                                    a#pageBtn(href=`/api/posts?page=${currentPage+1}&limit=${limit}` title="Next page").relative.inline-flex.items-center.px-2.py-2.rounded-r-md.border.border-gray-300.bg-white.text-sm.font-medium.text-gray-500.inline-block 다음
+                                                    a#pageBtn(href=`/api/game?page=${currentPage+1}&limit=${limit}` title="Next page").relative.inline-flex.items-center.px-2.py-2.rounded-r-md.border.border-gray-300.bg-white.text-sm.font-medium.text-gray-500.inline-block 다음
                                                 else
                                         +pagination(maxPage, currentPage, 4, maxPage)
-                                        form#limitForm(action="/api/posts", method="get").inline-block.float-left
+                                        form#limitForm(action="/api/game", method="get").inline-block.float-left
                                             div.text-left
                                                 label(for="show")
                                                 select#limitPost(name="limit").border.bg-white.rounded.px-3.py-2.outline-none
@@ -122,7 +122,7 @@ html
                                                         option(value="20").selected 20개씩 보기
                                                     else
                                                         option(value="20") 20개씩 보기
-                                form(action="/api/posts", method="get").float-left.px-2.py-6.text-center.w-full
+                                form(action="/api/game", method="get").float-left.px-2.py-6.text-center.w-full
                                     select(name="searchType").border.bg-white.rounded.px-1.py-2.outline-none.mr-1
                                         option -분류-
                                         option(value="title,body") Title, Body

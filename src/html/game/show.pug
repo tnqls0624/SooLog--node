@@ -45,14 +45,14 @@ html
                         ul
                             li
                                 a#text_hover(href="/api/posts/") 자유 게시글
-                            li
+                            li 
                                 a#text_hover(href="/api/game/") 게임 게시글
                             li 텍스트
                             li 텍스트
                             li 텍스트
                             li 텍스트
                     div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2.pb-6
-                        form(action=`/api/posts/${_post.id}/delete`, method="post").border-b-2.border-gray-200.border-solid
+                        form(action=`/api/game/${_post.id}/delete`, method="post").border-b-2.border-gray-200.border-solid
                             div#post_title.text-center 타이틀
                                 div#card.p-10.text-left
                                     label(for="title") 제목
@@ -69,8 +69,8 @@ html
                                             span 수정일 :
                                             span#dataDate-time(data-date-time=_post.updatedAt)
                             div.mx-2.p-10.text-center
-                                a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-6(href="/api/posts") 돌아가기
-                                a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-6(href=`/api/posts/${_post.id}/edit`) 편집
+                                a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-6(href="/api/game") 돌아가기
+                                a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-6(href=`/api/game/${_post.id}/edit`) 편집
                                 if _userId === _writer
                                     button#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded 삭제
                         div.px-8.py-4
@@ -141,7 +141,7 @@ html
                                                                                 input(type="hidden", name="commentId", value=_comments[i]._id)
                                                                             div.inline-block.pl-10
                                                                                 button#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded 편집
-                            form(action=`/api/comments/${post._id}`, method="post")
+                            form(action=`/api/game/${post._id}`, method="post")
                                 div.clear-both.px-8.py-10
                                     div.float-left
                                         textarea.border-2.border-black.rounded-md(name="text", cols="46", rows="3")
