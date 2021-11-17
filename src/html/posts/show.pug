@@ -121,10 +121,10 @@ html
                                                             div#clear.inline-block.w-80.align-middle.py-2.break-words #{_comments[i].text}
                                                             div.text-xs.float-right
                                                                 span 작성일
-                                                                div#data-comment-time(data-comment-time=val.createdAt)
-                                                                if val.updatedAt
+                                                                div#data-comment-time(data-comment-time=_comments[i].createdAt)
+                                                                if _comments[i].updatedAt
                                                                     span 수정일
-                                                                    div.text-xs#data-comment-updatedAt(data-comment-updatedAt=val.updatedAt)
+                                                                    div.text-xs#data-comment-updatedAt(data-comment-updatedAt=_comments[i].updatedAt)
                                                             if _comments[i].writer === _userId
                                                                 div.inline-block
                                                                     div.text-blue-500
