@@ -16,17 +16,43 @@ posts.get('/posts', async (ctx) => {
   page = !isNaN(page) ? page : 1;
   limit = !isNaN(limit) ? limit : 10;
   const skip = (page - 1) * limit;
-  const count = await PostSchema.countDocuments(searchQuery);
+  const count = await PostSchema.countDocuments({ searchQuery, postTitle });
   const maxPage = Math.ceil(count / limit);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
-  const _posts = await PostSchema.find({
-    postTitle: postTitle,
-    searchQuery,
-  })
-    .sort('-createdAt')
-    .skip(skip)
-    .limit(limit)
-    .exec();
+  const _posts = await PostSchema.aggregate([
+    { $match: { $or: [{ postTitle }, { searchQuery }] } },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'writer',
+        foreignField: 'id',
+        as: 'writer',
+      },
+    },
+    { $unwind: '$writer' },
+    { $sort: { createdAt: -1 } },
+    { $skip: skip },
+    { $limit: limit },
+    {
+      $lookup: {
+        from: 'comments',
+        localField: 'id',
+        foreignField: 'post',
+        as: 'comments',
+      },
+    },
+
+    {
+      $project: {
+        title: 1,
+        writer: {
+          id: 1,
+        },
+        createdAt: 1,
+        commentCount: { $size: '$comments' },
+      },
+    },
+  ]).exec();
   if (user) {
     await ctx.render('posts/index', {
       posts: _posts,
@@ -67,7 +93,16 @@ posts.post('/posts', auth, async (ctx) => {
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
   const data = ctx.request.body;
-  await PostSchema.create(data);
+  const { _id } = await PostSchema.create(data);
+  await PostSchema.findOneAndUpdate(
+    { _id: _id },
+    {
+      $set: {
+        id: _id,
+      },
+    },
+    { upsert: true }
+  );
   if (user) {
     await ctx.redirect('/api/posts', {
       posts: _posts,

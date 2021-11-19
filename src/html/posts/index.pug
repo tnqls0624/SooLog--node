@@ -64,10 +64,11 @@ html
                                         each val,idx in _posts
                                             tr
                                                 td.px-1#select
-                                                    a(href=`/api/posts/${val.id}`)
-                                                        .overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-96.leading-10 #{val.title}
+                                                    a(href=`/api/posts/${val._id}`).overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-96.leading-10 #{val.title}
+                                                        if val.commentCount
+                                                            span.text-xs.text-blue-500 &nbsp;[#{val.commentCount}]
                                                 td.px-1
-                                                    span #{val.writer}
+                                                    span #{val.writer.id}
                                                 td.date.px-1
                                                     span#data_date(data-date=val.createdAt)
                                 div.inline-block.pt-6.w-full

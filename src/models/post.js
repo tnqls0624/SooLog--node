@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const postSchema = mongoose.Schema({
+  id: {
+    type: String,
+  },
   postTitle: {
     type: String,
     required: true,
