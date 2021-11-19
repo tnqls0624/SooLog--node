@@ -16,18 +16,43 @@ game.get('/game', async (ctx) => {
   page = !isNaN(page) ? page : 1;
   limit = !isNaN(limit) ? limit : 10;
   const skip = (page - 1) * limit;
-  const count = await PostSchema.countDocuments(searchQuery);
+  const count = await PostSchema.countDocuments({ searchQuery, postTitle });
   const maxPage = Math.ceil(count / limit);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
-  const _posts = await PostSchema.find({
-    postTitle: postTitle,
-    searchQuery,
-  })
-    .populate('writer')
-    .sort('-createdAt')
-    .skip(skip)
-    .limit(limit)
-    .exec();
+  const _posts = await PostSchema.aggregate([
+    { $match: { $or: [{ postTitle }, { searchQuery }] } },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'writer',
+        foreignField: 'id',
+        as: 'writer',
+      },
+    },
+    { $unwind: '$writer' },
+    { $sort: { createdAt: -1 } },
+    { $skip: skip },
+    { $limit: limit },
+    {
+      $lookup: {
+        from: 'comments',
+        localField: 'id',
+        foreignField: 'post',
+        as: 'comments',
+      },
+    },
+
+    {
+      $project: {
+        title: 1,
+        writer: {
+          id: 1,
+        },
+        createdAt: 1,
+        commentCount: { $size: '$comments' },
+      },
+    },
+  ]).exec();
   if (user) {
     await ctx.render('game/index', {
       posts: _posts,
