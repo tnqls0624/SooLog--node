@@ -53,6 +53,7 @@ game.get('/game', async (ctx) => {
       },
     },
   ]).exec();
+  console.log(_posts);
   if (user) {
     await ctx.render('game/index', {
       posts: _posts,
@@ -92,9 +93,17 @@ game.post('/game', auth, async (ctx) => {
   let _refreshToken = ctx.cookies.get('refresh_token');
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
-  let data = ctx.request.body;
-  console.log(data);
-  await PostSchema.create(data);
+  const data = ctx.request.body;
+  const { _id } = await PostSchema.create(data);
+  await PostSchema.findOneAndUpdate(
+    { _id: _id },
+    {
+      $set: {
+        id: _id,
+      },
+    },
+    { upsert: true }
+  );
   if (user) {
     await ctx.redirect('/api/game', {
       posts: _posts,

@@ -53,6 +53,7 @@ posts.get('/posts', async (ctx) => {
       },
     },
   ]).exec();
+  console.log(_posts);
   if (user) {
     await ctx.render('posts/index', {
       posts: _posts,
