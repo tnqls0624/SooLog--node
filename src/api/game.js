@@ -9,8 +9,7 @@ const auth = require('../middleware/auth');
 game.get('/game', async (ctx) => {
   const searchQuery = await createSearchQuery(ctx.query);
   const postTitle = 'game';
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   let page = Math.max(1, parseInt(ctx.query.page));
   let limit = Math.max(1, parseInt(ctx.query.limit));
   page = !isNaN(page) ? page : 1;
@@ -48,6 +47,8 @@ game.get('/game', async (ctx) => {
         writer: {
           id: 1,
         },
+        views: 1,
+        numId: 1,
         createdAt: 1,
         commentCount: { $size: '$comments' },
       },
@@ -74,8 +75,7 @@ game.get('/game', async (ctx) => {
 
 // 작성페이지 이동
 game.get('/game/new', auth, async (ctx) => {
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
   await ctx.render('game/new', {
@@ -88,8 +88,7 @@ game.get('/game/new', auth, async (ctx) => {
 
 // 작성
 game.post('/game', auth, async (ctx) => {
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
   const data = ctx.request.body;
@@ -122,8 +121,7 @@ game.post('/game', auth, async (ctx) => {
 
 //작성글 확인
 game.get('/game/:id', auth, async (ctx) => {
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const data = ctx.params;
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const post = await PostSchema.findOne({ _id: ObjectId(data.id) }).exec();
@@ -154,8 +152,7 @@ game.get('/game/:id', auth, async (ctx) => {
 
 // 편집
 game.get('/game/:id/edit', auth, async (ctx) => {
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const data = ctx.params;
   const post = await PostSchema.findOne({ _id: ObjectId(data.id) }).exec();
@@ -180,8 +177,7 @@ game.get('/game/:id/edit', auth, async (ctx) => {
 //업데이트
 game.post('/game/:id', auth, async (ctx) => {
   const data = ctx.request.body;
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const param = ctx.params;
   const updatedAt = Date.now();
@@ -216,8 +212,7 @@ game.post('/game/:id', auth, async (ctx) => {
 
 //삭제
 game.post('/game/:id/delete', auth, async (ctx) => {
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const param = ctx.params;
   await PostSchema.deleteOne({ _id: ObjectId(param.id) });
@@ -263,6 +258,16 @@ async function createSearchQuery(queries) {
     if (postQueries.length > 0) searchQuery = { $or: postQueries };
   }
   return searchQuery;
+}
+
+async function loadToken(ctx) {
+  const _accessToken = ctx.cookies.get('access_token');
+  const _refreshToken = ctx.cookies.get('refresh_token');
+  const token = {
+    _accessToken,
+    _refreshToken,
+  };
+  return token;
 }
 
 module.exports = game;

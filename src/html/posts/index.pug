@@ -5,7 +5,7 @@ html
         link(href="" rel="stylesheet")
         meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
-        div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-6xl.my-0.mx-auto.border-solid
+        div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-7xl.my-0.mx-auto.border-solid
             header
                 nav.flex.justify-between
                     div#kv.w-40.bg-gray-200.text-6xl kv
@@ -38,39 +38,45 @@ html
             main
                 - const _posts= posts
                 div.clear-both
-                    div.w-60.float-left
+                    div.w-40.float-left
                         ul
                             li
                                 a#text_hover(href="/api/posts/") 자유 게시글
-                            li 
+                            li
                                 a#text_hover(href="/api/game/") 게임 게시글
                             li 텍스트
                             li 텍스트
                             li 텍스트
                             li 텍스트
-                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
+                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-3xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
                         div#post_title.text-center 타이틀
                             div#post_content.p-10
                                 table.border-t-2.border-b-2.border-gray-200.border-solid.w-full.max-w-2xl
                                     thead
                                         tr
-                                            th.w-96 Title
-                                            th.w-20 작성자
-                                            th.date Date
+                                            th.w-14 글번호
+                                            th.w-80 제목
+                                            th.w-30 작성자
+                                            th.date.w-26 날짜
+                                            th.w-14 조회수
                                     tbody
                                         if  _posts === null || _posts === undefined || _posts.length === 0
                                             tr
                                                 td.text-center 게시물이 없습니다
                                         each val,idx in _posts
                                             tr
-                                                td.px-1#select
-                                                    a(href=`/api/posts/${val._id}`).overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-96.leading-10.block.h-12 #{val.title}
+                                                td.px-1
+                                                    span #{val.numId}
+                                                td.px-1#select.text-left
+                                                    a(href=`/api/posts/${val._id}`).overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-80.leading-10.block.h-12 #{val.title}
                                                         if val.commentCount
                                                             span.text-xs.text-blue-500 &nbsp;[#{val.commentCount}]
                                                 td.px-1
                                                     span #{val.writer.id}
                                                 td.date.px-1
                                                     span#data_date(data-date=val.createdAt)
+                                                td.px-1
+                                                    span #{val.views}
                                 div.inline-block.pt-6.w-full
                                         - const previousBtnEnabled = currentPage>1
                                         - const nextBtnEnabled = currentPage<maxPage
@@ -131,7 +137,7 @@ html
                                         option(value="body") Body
                                     input(type="text" name="searchText" value=searchText).border.bg-white.rounded.px-3.py-2.outline-none.mr-2
                                     button(type="submit").bg-blue-500.text-white.font-bold.py-2.px-4.rounded.inline-block 검색
-                    div.w-60.float-right
+                    div.w-80.float-right
                         ul
                             li 채팅창
             footer.border-t-2.border-gray-200
