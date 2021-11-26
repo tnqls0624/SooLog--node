@@ -20,7 +20,7 @@ posts.get('/posts', async (ctx) => {
   const maxPage = Math.ceil(count / limit);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.aggregate([
-    { $match: { $or: [{ postTitle }, { searchQuery }] } },
+    { $match: { $and: [{ postTitle }, searchQuery] } },
     {
       $lookup: {
         from: 'users',
@@ -53,7 +53,6 @@ posts.get('/posts', async (ctx) => {
       },
     },
   ]).exec();
-  console.log(_posts);
   if (user) {
     await ctx.render('posts/index', {
       posts: _posts,
