@@ -36,7 +36,7 @@ login.post('/login/loginSuccess', async (ctx) => {
         name: user.name,
       };
       //access_token 발급
-      const actoken = await generateToken(payload);
+      const acToken = await generateToken(payload);
       //refresh_token 발급
       const rfToken = await refreshToken(payload);
       //DB에 데이터 추가
@@ -50,12 +50,12 @@ login.post('/login/loginSuccess', async (ctx) => {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
       });
-      ctx.cookies.set('access_token', actoken, {
+      ctx.cookies.set('access_token', acToken, {
         httpOnly: true,
-        maxAge: 1000 * 60,
+        maxAge: 1000 * 60 * 60 * 2,
       });
       await ctx.render('home', {
-        actoken: actoken,
+        actoken: acToken,
         name: user.name,
       });
     } else {
