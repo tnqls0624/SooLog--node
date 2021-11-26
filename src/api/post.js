@@ -9,8 +9,7 @@ const auth = require('../middleware/auth');
 posts.get('/posts', async (ctx) => {
   const searchQuery = await createSearchQuery(ctx.query);
   const postTitle = 'any';
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   let page = Math.max(1, parseInt(ctx.query.page));
   let limit = Math.max(1, parseInt(ctx.query.limit));
   page = !isNaN(page) ? page : 1;
@@ -48,6 +47,8 @@ posts.get('/posts', async (ctx) => {
         writer: {
           id: 1,
         },
+        views: 1,
+        numId: 1,
         createdAt: 1,
         commentCount: { $size: '$comments' },
       },
@@ -74,8 +75,7 @@ posts.get('/posts', async (ctx) => {
 
 // 작성페이지 이동
 posts.get('/posts/new', auth, async (ctx) => {
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
   await ctx.render('posts/new', {
@@ -88,8 +88,7 @@ posts.get('/posts/new', auth, async (ctx) => {
 
 // 작성
 posts.post('/posts', auth, async (ctx) => {
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
   const data = ctx.request.body;
@@ -122,8 +121,7 @@ posts.post('/posts', auth, async (ctx) => {
 
 //작성글 확인
 posts.get('/posts/:id', auth, async (ctx) => {
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const data = ctx.params;
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const post = await PostSchema.findOne({ _id: ObjectId(data.id) }).exec();
@@ -131,7 +129,8 @@ posts.get('/posts/:id', auth, async (ctx) => {
     .find({ post: ObjectId(data.id) })
     .sort('createdAt')
     .exec();
-
+  post.views++;
+  post.save();
   if (user) {
     await ctx.render('posts/show', {
       post: post,
@@ -154,8 +153,7 @@ posts.get('/posts/:id', auth, async (ctx) => {
 
 // 편집
 posts.get('/posts/:id/edit', auth, async (ctx) => {
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const data = ctx.params;
   const post = await PostSchema.findOne({ _id: ObjectId(data.id) }).exec();
@@ -180,8 +178,7 @@ posts.get('/posts/:id/edit', auth, async (ctx) => {
 //업데이트
 posts.post('/posts/:id', auth, async (ctx) => {
   const data = ctx.request.body;
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const param = ctx.params;
   const updatedAt = Date.now();
@@ -216,8 +213,7 @@ posts.post('/posts/:id', auth, async (ctx) => {
 
 //삭제
 posts.post('/posts/:id/delete', auth, async (ctx) => {
-  let _accessToken = ctx.cookies.get('access_token');
-  let _refreshToken = ctx.cookies.get('refresh_token');
+  let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const param = ctx.params;
   await PostSchema.deleteOne({ _id: ObjectId(param.id) });
@@ -263,6 +259,16 @@ async function createSearchQuery(queries) {
     if (postQueries.length > 0) searchQuery = { $or: postQueries };
   }
   return searchQuery;
+}
+
+async function loadToken(ctx) {
+  const _accessToken = ctx.cookies.get('access_token');
+  const _refreshToken = ctx.cookies.get('refresh_token');
+  const token = {
+    _accessToken,
+    _refreshToken,
+  };
+  return token;
 }
 
 module.exports = posts;
