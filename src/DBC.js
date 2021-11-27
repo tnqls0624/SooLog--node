@@ -19,7 +19,5 @@ function DBC() {
 }
 DBC();
 mongoose.connection.on('disconnected', DBC);
-require('./models/post');
-require('./models/user');
 
 module.exports = DBC;
