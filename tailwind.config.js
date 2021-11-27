@@ -4,7 +4,10 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
+    variants: {},
+    plugins: [],
+    width: {
+      chatW: '22rem',
+    },
   },
-  variants: {},
-  plugins: [],
 };
