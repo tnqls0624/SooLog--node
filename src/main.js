@@ -8,6 +8,7 @@ const myPage = require('./api/mypage');
 const logout = require('./api/logout');
 const comments = require('./api/comments');
 const game = require('./api/game');
+const chat = require('./api/chat');
 const path = require('path');
 const db = require('./DBC');
 const posts = require('./api/post');
@@ -30,6 +31,7 @@ router.use('/api', logout.routes());
 router.use('/api', posts.routes());
 router.use('/api', comments.routes());
 router.use('/api', game.routes());
+router.use('/api', chat.routes());
 //미들웨어
 app.use(bodyParser());
 db();
