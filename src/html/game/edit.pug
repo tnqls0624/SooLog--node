@@ -70,10 +70,18 @@ html
                                 button#btn.inline-block.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.mr-6 Submit
                             //- div
                             //-     a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(href=`/api/posts/${_postId}`) Edit
-                    div.w-60.float-right
-                        ul
-                            li 채팅창
-00
+                    div.h-60.w-4.float-left
+                    div.float-left.h-full.w-80.pt-16
+                        div.border-2
+                            h1.bg-gradient-to-r.bg.from-purple-100.to-gray-200.p-4.text-2xl.font-bold.text-center 채팅창
+                            div.pt-8.space-y-8.relative
+                                div#chats.bg-gray-100.p-2.h-80.break-words.overflow-auto 채팅 목록
+                                div.w-20
+                                form#form.space-x-4.flex.top-96.left-3.absolute
+                                    input#chatInput.flex-1.border.border-gray-200.p-4.rounded(placeholder="채팅을 입력해 보세요.")
+                                    input#chatId(type="hidden", name="id" value=_id)
+                                    button#chatSend.bg-blue-600.text-white.p-2.rounded 보내기
         script(src="/homePage.js")
         script(src="/post.js")
+        script(src="/chat.js")
 
