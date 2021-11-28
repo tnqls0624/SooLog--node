@@ -10,6 +10,7 @@ html
                     div#kv.w-40.bg-gray-200.text-6xl kv
                     - const token = actoken
                     - const _name = name
+                    - const _id = id
                     if token
                         div #{_name} 님 환영합니다!
                     else
@@ -46,7 +47,7 @@ html
                             li 텍스트
                             li 텍스트
                             li 텍스트
-                    div.float-left.h-full.max-w-3xl.border-t-2.border-gray-200.border-solid
+                    div.float-left.h-full.max-w-3xl.border-t-2.border-gray-200.border-solid.border-r-2.border-l-2
                         div
                             img(src="/banner.jpg", alt="배너")
                         div.max-w-3xl.border-solid.border-gray-200.px-4.py-2.clear-both.text-center
@@ -97,13 +98,17 @@ html
                                         a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
                                     li
                                         a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                    div.border-l-2.border-gray-200.float-left.h-full.chatW
-                        h1.bg-gradient-to-r.bg.from-purple-100.to-gray-200.p-16.text-4xl.font-bold 채팅창
-                        div.p-16.space-y-8
-                            div#chats.bg-gray-100.p-2 채팅 목록
-                                form#form.space-x-4.flex
-                                    input#input.flex-1.border.border-gray-200.p-4.rounded(placeholder="채팅을 입력해 보세요.")
-                                    button#send.bg-blue-600.text-white.p-2.rounded 보내기
+                    div.h-60.w-4.float-left
+                    div.float-left.h-full.w-80.pt-16
+                        div.border-2
+                            h1.bg-gradient-to-r.bg.from-purple-100.to-gray-200.p-4.text-2xl.font-bold.text-center 채팅창
+                            div.pt-8.space-y-8.relative
+                                div#chats.bg-gray-100.p-2.h-80.break-words.overflow-auto 채팅 목록
+                                div.w-20
+                                form#form.space-x-4.flex.top-96.left-3.absolute
+                                    input#chatInput.flex-1.border.border-gray-200.p-4.rounded(placeholder="채팅을 입력해 보세요.")
+                                    input#chatId(type="hidden", name="id" value=_id)
+                                    button#chatSend.bg-blue-600.text-white.p-2.rounded 보내기
             footer.border-t-2.border-gray-200
         script(src="/homePage.js")
         script(src="/post.js")

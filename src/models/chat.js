@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const chatSchema = mongoose.Schema({
+  type: {
+    type: String,
+  },
   id: {
     type: String,
   },

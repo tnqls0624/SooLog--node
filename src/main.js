@@ -9,13 +9,12 @@ const logout = require('./api/logout');
 const ChatSchema = require('./models/chat');
 const comments = require('./api/comments');
 const game = require('./api/game');
-const chat = require('./api/chat');
-const websockify = require('koa-websocket');
+const WebSocket = require('ws');
 const path = require('path');
 const db = require('./DBC');
 const posts = require('./api/post');
 const serve = require('koa-static');
-const app = websockify(new koa());
+const app = new koa();
 const router = new Router();
 const PORT = 5000;
 const bodyParser = require('koa-bodyparser');
@@ -41,56 +40,40 @@ app.use(serve(__dirname + '/public'));
 app.use(serve(__dirname + '/img'));
 app.use(router.routes());
 app.use(router.allowedMethods());
+// Using routes
+const wss = new WebSocket.Server({ port: 3000 });
+wss.on('connection', async (ws) => {
+  const chatsCursor = await ChatSchema.find({}).sort({ createdAt: 1 });
+  // const chats = await chatsCursor.toArray();
+  const chats = chatsCursor;
 
-app.ws.use(
-  router.all('/ws', async (ctx) => {
-    const chatsCursor = await ChatSchema.find({}).sort({ createdAt: -1 });
+  ws.on('message', async (message1) => {
+    const chat = JSON.parse(message1);
 
-    const chats = await chatsCursor.toArray();
-    ctx.websocket.send(
-      JSON.stringify({
-        type: 'sync',
-        payload: {
-          chats,
-        },
-      })
-    );
-
-    ctx.websocket.on('message', async (data) => {
-      if (typeof data !== 'string') {
-        return;
-      }
-
-      const chat = JSON.parse(data);
-
-      await ChatSchema.insertOne({
-        ...chat,
-        createdAt: new Date(),
-      });
-
-      const { nickname, message } = chat;
-
-      const { server } = app.ws;
-
-      if (!server) {
-        return;
-      }
-
-      server.clients.forEach((client) => {
-        client.send(
-          JSON.stringify({
-            type: 'chat',
-            payload: {
-              message,
-              nickname,
-            },
-          })
-        );
-      });
+    await ChatSchema.create({
+      ...chat,
     });
-  })
-);
+    const { nickname, message } = chat;
 
+    wss.clients.forEach((client) => {
+      client.send(
+        JSON.stringify({
+          type: 'chat',
+          message,
+          nickname,
+        })
+      );
+    });
+  });
+  ws.send(
+    JSON.stringify({
+      type: 'sync',
+      message: {
+        chats,
+      },
+    })
+  );
+});
 app.listen(PORT, () => {
   console.log('server is open');
 });

@@ -4,7 +4,7 @@ html
         link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
         meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
-        div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-6xl.my-0.mx-auto.border-solid
+        div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-7xl.my-0.mx-auto.border-solid
             header
                 nav.flex.justify-between
                     div#kv.w-40.bg-gray-200.text-6xl kv
@@ -38,7 +38,7 @@ html
             main
                 - const _posts= posts
                 div.clear-both
-                    div.w-60.border-r-2.border-gray-200.float-left.h-full.border-solid
+                    div.w-40.border-gray-200.float-left.h-full.border-solid
                         ul
                             li
                                 a#text_hover(href="/api/posts/") 자유 게시글
@@ -48,28 +48,37 @@ html
                             li 텍스트
                             li 텍스트
                             li 텍스트
-                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl
-                        div#post_title 타이틀
-                            form(action="/api/game" method="post").p-10
+                    div.float-left.h-full.max-w-3xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.border-r-2.border-l-2
+                        div#post_title.text-center.pt-16 게임게시글
+                            form(action="/api/game" method="post").p-10.text-right
                                 div.form-group
-                                    label(for="title").block.text-left.pt-14 Title
+                                    label(for="title").block.text-left.pt-14 &emsp;제목
                                     input#newPost(type="text", name='title', value='').px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
                                     input(type="hidden", name="postTitle", value="game")
                                 div.form-group.pb-16
-                                    label(for="body").block.text-left.pt-16 Body
+                                    label(for="body").block.text-left.pt-16 &emsp;본문
                                     textarea#newPost(type="text" name="body",  rows="5").px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
-                                div.pb-6 Writer :&nbsp;
+                                div.pb-6 작성자 :&nbsp;
                                     span#writer(data-writer= _id)
                                     input(type="hidden", name="writer" value=_id)
                                 div.inline-block.mr-4
                                     a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href="/api/game") 돌아가기
                                 div.inline-block
                                     button#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(type="submit") 등록
-                    div.w-60.border-l-2.border-gray-200.float-right.h-full
-                        ul
-                            li 채팅창
+                    div.h-60.w-4.float-left
+                    div.float-left.h-full.w-80.pt-16
+                        div.border-2
+                            h1.bg-gradient-to-r.bg.from-purple-100.to-gray-200.p-4.text-2xl.font-bold.text-center 채팅창
+                            div.pt-8.space-y-8.relative
+                                div#chats.bg-gray-100.p-2.h-80.break-words.overflow-auto 채팅 목록
+                                div.w-20
+                                form#form.space-x-4.flex.top-96.left-3.absolute
+                                    input#chatInput.flex-1.border.border-gray-200.p-4.rounded(placeholder="채팅을 입력해 보세요.")
+                                    input#chatId(type="hidden", name="id" value=_id)
+                                    button#chatSend.bg-blue-600.text-white.p-2.rounded 보내기
             footer.border-t-2.border-gray-200
         script(src="/homePage.js")
         script(src="/post.js")
         script(src="/postWriter.js")
+        script(src="/chat.js")
 

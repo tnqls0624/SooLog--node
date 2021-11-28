@@ -57,6 +57,7 @@ login.post('/login/loginSuccess', async (ctx) => {
       await ctx.render('home', {
         actoken: acToken,
         name: user.name,
+        id: user.id,
       });
     } else {
       ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
