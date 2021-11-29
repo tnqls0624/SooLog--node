@@ -22,12 +22,9 @@ login.post('/login/loginSuccess', async (ctx) => {
 
   //views가 많은 숫서의 게시물 5개를 뽑는다
   const popularityPost = await PostSchema.find().sort({ views: -1 }).limit(5);
-  let postTitle = [];
-  let postId = [];
-  for (let i = 0; i <= popularityPost.length - 1; i++) {
-    postTitle.push(popularityPost[i].title);
-    postId.push(popularityPost[i]._id);
-  }
+  const newPost = await PostSchema.find().sort({ createdAt: -1 }).limit(5);
+  const { postTitle, postId } = distinguishPost(popularityPost);
+  const _newPost = distinguishPost(newPost);
 
   // 유저가 없을경우 로그인 실패
   if (!user) {
@@ -70,6 +67,8 @@ login.post('/login/loginSuccess', async (ctx) => {
         id: user.id,
         postTitle: postTitle,
         postId: postId,
+        newPostTitle: _newPost.postTitle,
+        newPostId: _newPost.postId,
       });
     } else {
       ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -78,5 +77,13 @@ login.post('/login/loginSuccess', async (ctx) => {
     }
   }
 });
-
+function distinguishPost(post) {
+  let postTitle = [];
+  let postId = [];
+  for (let i = 0; i <= post.length - 1; i++) {
+    postTitle.push(post[i].title);
+    postId.push(post[i]._id);
+  }
+  return { postTitle, postId };
+}
 module.exports = login;
