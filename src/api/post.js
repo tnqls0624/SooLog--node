@@ -64,6 +64,7 @@ posts.get('/posts', async (ctx) => {
       limit: limit,
       searchType: ctx.query.searchType,
       searchText: ctx.query.searchText,
+      id: user.id,
     });
   } else {
     await ctx.render('posts/index', {
@@ -107,6 +108,7 @@ posts.post('/posts', auth, async (ctx) => {
       posts: _posts,
       acToken: _accessToken,
       name: user.name,
+      id: user.id,
     });
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -139,6 +141,7 @@ posts.get('/posts/:id', auth, async (ctx) => {
       name: user.name,
       writer: post.writer,
       comments: comments,
+      id: user.id,
     });
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -163,6 +166,7 @@ posts.get('/posts/:id/edit', auth, async (ctx) => {
       acToken: _accessToken,
       name: user.name,
       postId: post.id,
+      id: user.id,
     });
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -199,6 +203,7 @@ posts.post('/posts/:id', auth, async (ctx) => {
       actoken: _accessToken,
       name: user.name,
       postId: post.id,
+      id: user.id,
     });
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -224,6 +229,7 @@ posts.post('/posts/:id/delete', auth, async (ctx) => {
       posts: _posts,
       acToken: _accessToken,
       name: user.name,
+      id: user.id,
     });
   } else {
     ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
