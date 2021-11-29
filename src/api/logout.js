@@ -11,7 +11,7 @@ logout.get('/logout', async (ctx) => {
     maxAge: 0,
     httpOnly: true,
   });
-  await ctx.render('home');
+  await ctx.redirect('/');
 });
 
 module.exports = logout;

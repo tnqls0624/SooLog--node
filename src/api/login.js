@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const bcrypt = require('bcrypt');
 const userSchema = require('../models/user');
+const PostSchema = require('../models/post');
 const generateToken = require('../token/generateToken');
 const refreshToken = require('../token/refreshToken');
 require('dotenv').config();
@@ -18,6 +19,15 @@ login.post('/login/loginSuccess', async (ctx) => {
   // 모듈을 사용하여 데이터 베이스 연결
   //데이터 베이스에서 클라이언트의 ID에 해당하는 유저 정보를 가져온다.
   const user = await userSchema.findOne({ id: data.id }).exec();
+
+  //views가 많은 숫서의 게시물 5개를 뽑는다
+  const popularityPost = await PostSchema.find().sort({ views: -1 }).limit(5);
+  let postTitle = [];
+  let postId = [];
+  for (let i = 0; i <= popularityPost.length - 1; i++) {
+    postTitle.push(popularityPost[i].title);
+    postId.push(popularityPost[i]._id);
+  }
 
   // 유저가 없을경우 로그인 실패
   if (!user) {
@@ -58,6 +68,8 @@ login.post('/login/loginSuccess', async (ctx) => {
         actoken: acToken,
         name: user.name,
         id: user.id,
+        postTitle: postTitle,
+        postId: postId,
       });
     } else {
       ctx.res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });

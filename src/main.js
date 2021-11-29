@@ -40,7 +40,8 @@ app.use(serve(__dirname + '/public'));
 app.use(serve(__dirname + '/img'));
 app.use(router.routes());
 app.use(router.allowedMethods());
-// Using routes
+
+//웹소켓
 const wss = new WebSocket.Server({ port: 3000 });
 wss.on('connection', async (ws) => {
   const chatsCursor = await ChatSchema.find({}).sort({ createdAt: 1 });
@@ -49,12 +50,10 @@ wss.on('connection', async (ws) => {
 
   ws.on('message', async (message1) => {
     const chat = JSON.parse(message1);
-
     await ChatSchema.create({
       ...chat,
     });
     const { nickname, message } = chat;
-
     wss.clients.forEach((client) => {
       client.send(
         JSON.stringify({
@@ -74,6 +73,7 @@ wss.on('connection', async (ws) => {
     })
   );
 });
+
 app.listen(PORT, () => {
   console.log('server is open');
 });

@@ -4,13 +4,19 @@ html
         link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
         meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
+        
         div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-7xl.my-0.mx-auto.border-solid
             header
                 nav.flex.justify-between
-                    div#kv.w-40.bg-gray-200.text-6xl kv
+                    div#kv.w-32.bg-gray-200
+                        a(href="/")
+                            img(src="/logo.png", alt="")
                     - const token = actoken
                     - const _name = name
                     - const _id = id
+                    - const _postTitle = postTitle
+                    - const _postId = postId
+                    - let index = 0
                     if token
                         div #{_name} 님 환영합니다!
                     else
@@ -50,20 +56,13 @@ html
                     div.float-left.h-full.max-w-3xl.border-t-2.border-gray-200.border-solid.border-r-2.border-l-2
                         div
                             img(src="/banner.jpg", alt="배너")
-                        div.max-w-3xl.border-solid.border-gray-200.px-4.py-2.clear-both.text-center
-                            div.float-left.w-72.pl-4.border.border-gray-300
+                        div.max-w-3xl.border-solid.border-gray-200.px-10.py-6.clear-both.text-center
+                            div.float-left.w-72.border.border-gray-300
                                 div 인기 게시글
-                                ul.text-xs.mt-2
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트
+                                ul.text-sm.mt-1
+                                    - for (index; index <= 5; index++)
+                                        li.pb-2.overflow-hidden
+                                            a#text_hover(href=`/api/posts/${_postId[index]}`) #{_postTitle[index]}
                             div.float-right.w-72.pr-4.border.border-gray-300
                                 div 텍스트텍스트
                                 ul.text-xs.mt-2
@@ -100,15 +99,13 @@ html
                                         a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
                     div.h-60.w-4.float-left
                     div.float-left.h-full.w-80.pt-16
-                        div.border-2
-                            h1.bg-gradient-to-r.bg.from-purple-100.to-gray-200.p-4.text-2xl.font-bold.text-center 채팅창
-                            div.pt-8.space-y-8.relative
-                                div#chats.bg-gray-100.p-2.h-80.break-words.overflow-auto 채팅 목록
-                                div.w-20
-                                form#form.space-x-4.flex.top-96.left-3.absolute
-                                    input#chatInput.flex-1.border.border-gray-200.p-4.rounded(placeholder="채팅을 입력해 보세요.")
-                                    input#chatId(type="hidden", name="id" value=_id)
-                                    button#chatSend.bg-blue-600.text-white.p-2.rounded 보내기
+                        div#chatWrap.w-80.border.border-gray-300.rounded-md
+                            h1#chatHeader.h-16.text-center.text-2xl.pt-4.font-bold.border-b.border-gray-300 채팅창
+                            div#chats.h-96.overflow-y-auto.p-2.rounded-md
+                            form#form.block.w-full.h-12.border-2.border-red-50.rounded-md
+                                input#chatInput.h-10.px-2.border-none.outline-none.rounded-md(type="text" autocomplete="off" size="30" placeholder="채팅을 입력해 보세요.")
+                                input#chatId(type="hidden", name="id" value=_id)
+                                button#chatSend.inline-block.bg-none.text-blue-500 보내기
             footer.border-t-2.border-gray-200
         script(src="/homePage.js")
         script(src="/post.js")
