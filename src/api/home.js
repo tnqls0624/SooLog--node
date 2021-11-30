@@ -4,10 +4,9 @@ const PostSchema = require('../models/post');
 const userSchema = require('../models/user');
 const axios = require('axios');
 const cheerio = require('cheerio');
+let iconv = require('iconv-lite');
 home.get('/', async (ctx) => {
   //views가 많은 숫서의 게시물 5개를 뽑는다
-  let resultList = [];
-  let cnt = 0;
   const popularityPost_any = await popularityPost('any');
   const newPost_any = await newPost('any');
   const { postTitle: postTitle_any, postId: postId_any } =
@@ -20,38 +19,34 @@ home.get('/', async (ctx) => {
   const _newPost_game = await distinguishPost(newPost_game);
   let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
-
   const getHtml = async () => {
     try {
-      return await axios.get(
-        'https://news.naver.com/main/list.naver?mode=LS2D&mid=shm&sid1=105&sid2=283'
-      );
+      return await axios({
+        url: 'https://news.naver.com/main/list.naver?mode=LS2D&mid=shm&sid1=105&sid2=283',
+        method: 'GET',
+        responseType: 'arraybuffer',
+      });
     } catch (error) {
       console.error(error);
     }
   };
-  getHtml()
-    .then((html) => {
-      let ulList = [];
-      const $ = cheerio.load(html.data);
-      const $bodyList = $('div.list_body ul.type06_headline').children('li');
-      $bodyList.each(function (i, elem) {
-        ulList[i] = {
-          title: $(this).find('dt a').text(),
-          // url:
-          //   'search.naver.com/search.naver' +
-          //   $(this).find('div.list_title a').attr('href'),
-          // image_url: $(this).find('div.list_thumb a img').attr('src'),
-          // image_alt: $(this).find('div.list_thumb a img').attr('alt'),
-        };
-      });
-      const data = ulList.filter((n) => n.title);
-      return data;
-    })
-    .then((res) => {
-      console.log(res);
-    });
+  const html = await getHtml();
+  const content = iconv.decode(html.data, 'EUC-KR').toString();
+  let ulList = [];
+  const $ = cheerio.load(content);
+  const $bodyList = $('div.list_body ul.type06_headline').children('li');
+  $bodyList.each(function (i, elem) {
+    ulList[i] = {
+      title: $(this).find('dt a').text(),
+      url: $(this).find('dt a').attr('href'),
+      // image_url: $(this).find('div.list_thumb a img').attr('src'),
+      // image_alt: $(this).find('div.list_thumb a img').attr('alt'),
+    };
+  });
+  // let dataTitle = ulList.filter((n) => n.title);
 
+  const _newsDataTitle = newsPostTitle(ulList);
+  const _newsPostUrl = newsPostUrl(ulList);
   if (user) {
     await ctx.render('home', {
       actoken: _accessToken,
@@ -65,6 +60,8 @@ home.get('/', async (ctx) => {
       postId_game: postId_game,
       newPostTitle_game: _newPost_game.postTitle,
       newPostId_game: _newPost_game.postId,
+      newsDataTitle: _newsDataTitle,
+      newsPostUrl: _newsPostUrl,
     });
   } else {
     await ctx.render('home', {
@@ -76,6 +73,8 @@ home.get('/', async (ctx) => {
       postId_game: postId_game,
       newPostTitle_game: _newPost_game.postTitle,
       newPostId_game: _newPost_game.postId,
+      newsDataTitle: _newsDataTitle,
+      newsPostUrl: _newsPostUrl,
     });
   }
 });
@@ -109,6 +108,20 @@ async function loadToken(ctx) {
     _refreshToken,
   };
   return token;
+}
+let resultTitle = [];
+let resultUrl = [];
+function newsPostTitle(item) {
+  for (let i = 0; i < item.length - 1; i++) {
+    resultTitle.push(item[i].title.trim());
+  }
+  return resultTitle;
+}
+function newsPostUrl(item) {
+  for (let i = 0; i < item.length - 1; i++) {
+    resultUrl.push(item[i].url.trim());
+  }
+  return resultUrl;
 }
 
 module.exports = home;
