@@ -4,7 +4,6 @@ html
         link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
         meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
-        
         div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-7xl.my-0.mx-auto.border-solid
             header
                 nav.flex.justify-between
@@ -14,10 +13,14 @@ html
                     - const token = actoken
                     - const _name = name
                     - const _id = id
-                    - const _postTitle = postTitle
-                    - const _postId = postId
-                    - const _newPostTitle = newPostTitle
-                    - const _newPostId = newPostId
+                    - const _postTitle_any = postTitle_any
+                    - const _postId_any = postId_any
+                    - const _newPostTitle_any = newPostTitle_any
+                    - const _newPostId_any = newPostId_any
+                    - const _postTitle_game = postTitle_game
+                    - const _postId_game = postId_game
+                    - const _newPostTitle_game = newPostTitle_game
+                    - const _newPostId_game = newPostId_game
                     if token
                         div #{_name} 님 환영합니다!
                     else
@@ -57,40 +60,57 @@ html
                     div.float-left.h-full.max-w-3xl.border-t-2.border-gray-200.border-solid.border-r-2.border-l-2
                         div
                             img(src="/banner.jpg", alt="배너")
-                        div.max-w-3xl.border-solid.border-gray-200.px-10.py-6.clear-both.text-center
-                            div.float-left.w-72.border.px-2.border-gray-300
-                                div 인기 게시글
-                                ul.text-sm.p-2
-                                    - for (let index = 0; index <= 5; index++)
-                                        li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
-                                            a#text_hover(href=`/api/posts/${_postId[index]}`) #{_postTitle[index]}
-                            div.float-right.w-72.border.px-2.border-gray-300
-                                div 새로운 게시글
-                                ul.text-sm.p-2
-                                    - for (let index = 0; index <= 5; index++)
-                                        li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
-                                            a#text_hover(href=`/api/posts/${_newPostId[index]}`) #{_newPostTitle[index]}
-                        div.clear-both.px-6.py-4
-                            div.float-left.w-60.py-3.pl-3.h-80.relative
-                                div.pb-6.border-t-2
-                                div.border.border-gray-300.absolute.left-8
+                        div
+                            div.text-center.mt-8.mx-10.border.p-4.text-xl.font-bold 
+                                a#text_hover(href="/api/posts") 자유 게시판
+                            div.max-w-3xl.border-solid.border-gray-200.px-16.py-10.clear-both.text-center.flex.justify-between
+                                div.w-72.border.px-2.border-gray-300.inline-block
+                                    div 인기 게시글
+                                    ul.text-sm.p-2
+                                        - for (let index = 0; index <= 4; index++)
+                                            li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
+                                                a#text_hover(href=`/api/posts/${_postId_any[index]}`) #{_postTitle_any[index]}
+                                div.w-72.border.px-2.border-gray-300.inline-block
+                                    div 새로운 게시글
+                                    ul.text-sm.p-2
+                                        - for (let index = 0; index <= 4; index++)
+                                            li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
+                                                a#text_hover(href=`/api/posts/${_newPostId_any[index]}`) #{_newPostTitle_any[index]}
+                            div.text-center.mx-10.border.p-4.text-xl.font-bold
+                                a#text_hover(href="/api/game") 게임 게시판
+                            div.max-w-3xl.border-solid.border-gray-200.px-16.py-10.clear-both.text-center.flex.justify-between
+                                div.w-72.border.px-2.border-gray-300.inline-block
+                                    div 인기 게시글
+                                    ul.text-sm.p-2
+                                        - for (let index = 0; index <= 4; index++)
+                                            li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
+                                                a#text_hover(href=`/api/posts/${_postId_game[index]}`) #{_postTitle_game[index]}
+                                div.w-72.border.px-2.border-gray-300.inline-block
+                                    div 새로운 게시글
+                                    ul.text-sm.p-2
+                                        - for (let index = 0; index <= 4; index++)
+                                            li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
+                                                a#text_hover(href=`/api/posts/${_newPostId_game[index]}`) #{_newPostTitle_game[index]}
+                        div.px-6.py-6
+                            div.w-60.py-4.px-10.flex.justify-between.w-full
+                                div.border.border-gray-300.inline-block
                                     img(src="/fashion.jpg", alt="배너")
-                                div.absolute.bottom-6.left-7
-                                    a#text_hover(href="#") 텍스트텍스트텍스트텍스트
-                            div.float-right.w-96.border-t-2.mt-3.pt-5
-                                ul.mt-8.text-sm.text-center.leading-7
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                    li
-                                        a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+                                    div.w-40.overflow-ellipsis.whitespace-nowrap.overflow-hidden.text-center.mx-auto
+                                        a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+                                div.border.inline-block
+                                    ul.text-sm.text-center.leading-7.flex-wrap.justify-between
+                                        li
+                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+                                        li
+                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+                                        li
+                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+                                        li
+                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+                                        li
+                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+                                        li
+                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
                     div.h-60.w-4.float-left
                     div.float-left.h-full.w-80.pt-16
                         div#chatWrap.w-80.border.border-gray-300.rounded-md
@@ -104,3 +124,4 @@ html
         script(src="/homePage.js")
         script(src="/post.js")
         script(src="/chat.js")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js")
