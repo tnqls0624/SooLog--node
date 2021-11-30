@@ -21,6 +21,8 @@ html
                     - const _postId_game = postId_game
                     - const _newPostTitle_game = newPostTitle_game
                     - const _newPostId_game = newPostId_game
+                    - const _newsDataTitle = newsDataTitle
+                    - const _newsPostUrl = newsPostUrl
                     if token
                         div #{_name} 님 환영합니다!
                     else
@@ -91,26 +93,20 @@ html
                                         - for (let index = 0; index <= 4; index++)
                                             li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
                                                 a#text_hover(href=`/api/posts/${_newPostId_game[index]}`) #{_newPostTitle_game[index]}
-                        div.px-6.py-6
-                            div.w-60.py-4.px-10.flex.justify-between.w-full
+                        div.text-center.mx-10.border.p-4.text-xl.font-bold
+                            a#text_hover(href="/api/game") IT 관련 기사
+                        div.max-w-3xl.border-solid.border-gray-200.px-16.pt-10.clear-both.text-center.flex.justify-between
+                        div.px-6.pb-10
+                            div.w-60.px-10.flex.justify-between.w-full
                                 div.border.border-gray-300.inline-block
                                     img(src="/fashion.jpg", alt="배너")
-                                    div.w-40.overflow-ellipsis.whitespace-nowrap.overflow-hidden.text-center.mx-auto
+                                    div.w-40.overflow-ellipsis.whitespace-nowrap.overflow-hidden.text-center.mx-auto.align-bottom
                                         a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
                                 div.border.inline-block
                                     ul.text-sm.text-center.leading-7.flex-wrap.justify-between
-                                        li
-                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                        li
-                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                        li
-                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                        li
-                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                        li
-                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                        li
-                                            a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+                                        - for (let index = 0; index <= 8; index++)
+                                            li
+                                                a#text_hover(href=`${_newsPostUrl[index]}`, target="_blank") #{_newsDataTitle[index]}
                     div.h-60.w-4.float-left
                     div.float-left.h-full.w-80.pt-16
                         div#chatWrap.w-80.border.border-gray-300.rounded-md
@@ -120,7 +116,8 @@ html
                                 input#chatInput.h-10.px-1.border-none.outline-none.rounded-md.inline-block(type="text" autocomplete="off" size="30" placeholder="채팅을 입력해 보세요.")
                                 input#chatId(type="hidden", name="id" value=_id)
                                 button#chatSend.inline-block.bg-none.text-blue-500 보내기
-            footer.border-t-2.border-gray-200
+            footer.border-t-2.border-gray-200.border-t-2.h-full.max-w-7xl
+                div.p-10.w-10.h-10
         script(src="/homePage.js")
         script(src="/post.js")
         script(src="/chat.js")
