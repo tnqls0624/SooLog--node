@@ -43,9 +43,9 @@ html
                     div.w-40.float-left
                         ul
                             li
-                                a#text_hover(href="/api/posts/") 자유 게시글
+                                a#text_hover(href="/api/posts/") 자유 게시판
                             li
-                                a#text_hover(href="/api/game/") 게임 게시글
+                                a#text_hover(href="/api/game/") 게임 게시판
                             li 텍스트
                             li 텍스트
                             li 텍스트
@@ -53,7 +53,7 @@ html
                     div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
                         - const _post = post
                         form(action=`/api/posts/${_postId}` method="post")
-                            div#post_title.text-center 자유게시글
+                            div#post_title.text-center.font-bold 자유게시판
                                 div#card.p-10.text-left
                                     label(for="title") 제목
                                     input(type="text" id="title" name="title" value=_post.title).border-gray-200.border-b-2.border-gray-200.p-5.break-words.block.w-full

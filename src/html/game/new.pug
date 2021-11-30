@@ -52,7 +52,7 @@ html
                             li 텍스트
                     div.float-left.h-full.max-w-3xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.border-r-2.border-l-2
                         div#post_title.text-center.pt-16 게임게시글
-                            form(action="/api/game" method="post").p-10.text-right
+                            form(action="/api/game" method="post").p-10
                                 div.form-group
                                     label(for="title").block.text-left.pt-14 &emsp;제목
                                     input#newPost(type="text", name='title', value='').px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
@@ -60,7 +60,7 @@ html
                                 div.form-group.pb-16
                                     label(for="body").block.text-left.pt-16 &emsp;본문
                                     textarea#newPost(type="text" name="body",  rows="5").px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
-                                div.pb-6 작성자 :&nbsp;
+                                div.pb-6.text-right 작성자 :&nbsp;
                                     span#writer(data-writer= _id)
                                     input(type="hidden", name="writer" value=_id)
                                 div.inline-block.mr-4
