@@ -2,9 +2,11 @@
   "scripts": {
     "test": "jest",
     "debug": "node src/main.js",
-    "server": "nodemon src/main.js"
+    "server": "nodemon src/main.js",
+    "build": "postcss src/tailwind.css -o public/build/output.css"
   },
   "dependencies": {
+    "@tailwindcss/line-clamp": "^0.2.2",
     "@types/mongodb": "^4.0.7",
     "@types/node": "^16.4.13",
     "alert": "^5.0.10",
@@ -62,6 +64,8 @@
     "@types/supertest": "^2.0.11",
     "jest": "^27.2.0",
     "nodemon": "^2.0.12",
+    "postcss": "^8.4.4",
+    "postcss-cli": "^9.0.2",
     "supertest": "^6.1.6"
   }
 }

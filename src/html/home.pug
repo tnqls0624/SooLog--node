@@ -2,6 +2,7 @@ doctype html
 html
     head
         link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
+        link(href="/output.css" rel="stylesheet")
         meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
         div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-7xl.my-0.mx-auto.border-solid
@@ -23,6 +24,7 @@ html
                     - const _newPostId_game = newPostId_game
                     - const _newsDataTitle = newsDataTitle
                     - const _newsPostUrl = newsPostUrl
+                    - const _newsPostImg = newsPostImg
                     if token
                         div #{_name} 님 환영합니다!
                     else
@@ -63,7 +65,7 @@ html
                         div
                             img(src="/banner.jpg", alt="배너")
                         div
-                            div.text-center.mt-8.mx-10.border.p-4.text-xl.font-bold 
+                            div.text-center.mt-8.mx-10.border.p-4.text-xl.font-bold
                                 a#text_hover(href="/api/posts") 자유 게시판
                             div.max-w-3xl.border-solid.border-gray-200.px-16.py-10.clear-both.text-center.flex.justify-between
                                 div.w-72.border.px-2.border-gray-300.inline-block
@@ -93,20 +95,36 @@ html
                                         - for (let index = 0; index <= 4; index++)
                                             li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
                                                 a#text_hover(href=`/api/posts/${_newPostId_game[index]}`) #{_newPostTitle_game[index]}
-                        div.text-center.mx-10.border.p-4.text-xl.font-bold
-                            a#text_hover(href="/api/game") IT 관련 기사
-                        div.max-w-3xl.border-solid.border-gray-200.px-16.pt-10.clear-both.text-center.flex.justify-between
-                        div.px-6.pb-10
-                            div.w-60.px-10.flex.justify-between.w-full
-                                div.border.border-gray-300.inline-block
-                                    img(src="/fashion.jpg", alt="배너")
-                                    div.w-40.overflow-ellipsis.whitespace-nowrap.overflow-hidden.text-center.mx-auto.align-bottom
-                                        a#text_hover(href="#") 텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
-                                div.border.inline-block
-                                    ul.text-sm.text-center.leading-7.flex-wrap.justify-between
-                                        - for (let index = 0; index <= 8; index++)
-                                            li
-                                                a#text_hover(href=`${_newsPostUrl[index]}`, target="_blank") #{_newsDataTitle[index]}
+                        div.text-center.mx-10.border.p-4.text-xl.font-bold.mb-10
+                            a#text_hover(href="https://news.naver.com/main/list.naver?mode=LS2D&mid=shm&sid1=105&sid2=283" ,target="_blank") 오늘의 IT 관련 기사
+                        div.px-16.pb-10.flex.justify-between
+                            div
+                                div.text-sm.flex.w-40.justify-between.my-8
+                                    div.border.border-gray-300.inline-block.text-center.mr-5
+                                        div.h-16
+                                            img.bg-cover(src=`${_newsPostImg[0]}`, alt="이미지")
+                                        div.w-24.h-20.line-clamp-4
+                                            a#text_hover(href=`${_newsPostUrl[0]}`, target="_blank") #{_newsDataTitle[0]}
+                                    div.border.border-gray-300.inline-block.text-center
+                                        div.h-16
+                                            img.bg-cover(src=`${_newsPostImg[1]}`, alt="이미지")
+                                        div.w-24.h-20.line-clamp-4
+                                            a#text_hover(href=`${_newsPostUrl[1]}`, target="_blank") #{_newsDataTitle[1]}
+                                div.text-sm.flex.w-40.justify-between
+                                    div.border.border-gray-300.inline-block.text-center.mr-5
+                                        div.h-16
+                                            img.bg-cover(src=`${_newsPostImg[2]}`, alt="이미지")
+                                        div.w-24.h-20.line-clamp-4
+                                            a#text_hover(href=`${_newsPostUrl[2]}`, target="_blank") #{_newsDataTitle[2]}
+                                    div.border.border-gray-300.inline-block.text-center
+                                        div.h-16
+                                            img.bg-cover(src=`${_newsPostImg[3]}`, alt="이미지")
+                                        div.w-24.h-20.line-clamp-4
+                                            a#text_hover(href=`${_newsPostUrl[3]}`, target="_blank") #{_newsDataTitle[3]}
+                            ul.leading-5.border.border-gray-300.block.p-4.w-96
+                                - for (let index = 4; index <= 9; index++)
+                                    li.py-4
+                                        a#text_hover(href=`${_newsPostUrl[index]}`, target="_blank") #{_newsDataTitle[index]}
                     div.h-60.w-4.float-left
                     div.float-left.h-full.w-80.pt-16
                         div#chatWrap.w-80.border.border-gray-300.rounded-md
@@ -121,4 +139,3 @@ html
         script(src="/homePage.js")
         script(src="/post.js")
         script(src="/chat.js")
-        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js")

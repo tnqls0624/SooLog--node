@@ -39,14 +39,14 @@ home.get('/', async (ctx) => {
     ulList[i] = {
       title: $(this).find('dt a').text(),
       url: $(this).find('dt a').attr('href'),
-      // image_url: $(this).find('div.list_thumb a img').attr('src'),
+      image_url: $(this).find('dt a img').attr('src'),
       // image_alt: $(this).find('div.list_thumb a img').attr('alt'),
     };
   });
   // let dataTitle = ulList.filter((n) => n.title);
-
   const _newsDataTitle = newsPostTitle(ulList);
   const _newsPostUrl = newsPostUrl(ulList);
+  const _newsPostImg = newsPostImg(ulList);
   if (user) {
     await ctx.render('home', {
       actoken: _accessToken,
@@ -62,6 +62,7 @@ home.get('/', async (ctx) => {
       newPostId_game: _newPost_game.postId,
       newsDataTitle: _newsDataTitle,
       newsPostUrl: _newsPostUrl,
+      newsPostImg: _newsPostImg,
     });
   } else {
     await ctx.render('home', {
@@ -75,6 +76,7 @@ home.get('/', async (ctx) => {
       newPostId_game: _newPost_game.postId,
       newsDataTitle: _newsDataTitle,
       newsPostUrl: _newsPostUrl,
+      newsPostImg: _newsPostImg,
     });
   }
 });
@@ -111,17 +113,24 @@ async function loadToken(ctx) {
 }
 let resultTitle = [];
 let resultUrl = [];
+let resultImg = [];
 function newsPostTitle(item) {
-  for (let i = 0; i < item.length - 1; i++) {
+  for (let i = 0; i < item.length; i++) {
     resultTitle.push(item[i].title.trim());
   }
   return resultTitle;
 }
 function newsPostUrl(item) {
-  for (let i = 0; i < item.length - 1; i++) {
+  for (let i = 0; i < item.length; i++) {
     resultUrl.push(item[i].url.trim());
   }
   return resultUrl;
+}
+function newsPostImg(item) {
+  for (let i = 0; i < item.length; i++) {
+    resultImg.push(item[i].image_url);
+  }
+  return resultImg;
 }
 
 module.exports = home;

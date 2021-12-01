@@ -5,4 +5,7 @@
       item.setAttribute('class', 'hover:underline');
     });
   });
+  window.onbeforeunload = () => {
+    window.location.href('/');
+  };
 })();
