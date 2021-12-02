@@ -4,53 +4,44 @@ html
         link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
         meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
-        div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-7xl.my-0.mx-auto.border-solid
-            header
-                nav.flex.justify-between
-                    div#kv.w-32.bg-gray-200
-                        a(href="/")
-                            img(src="/logo.png", alt="")
-                    - const token= acToken
-                    - const _name= name
-                    - const _id = id
+        - const token= acToken
+        - const _name= name
+        - const _id = id
+        - const _posts= posts
+         div(class="bg-gray-50 font-sans leading-normal tracking-normal")
+            nav(id='header', class="fixed w-full z-10 top-0")
+                div(id="progress" class="h-1 z-20 top-0" style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);")
+                div(class="w-full md:max-w-7xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3")
+                    div(class="pl-4")
+                        a(class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/") SooLog
                     if token
-                        div #{_name} 님 환영합니다!
+                        ul(class="list-reset lg:flex justify-end flex-1 items-center")
+                            div(class="inline-block py-2 px-4 text-gray-900 font-bold no-underline") #{_name} 님 환영합니다!
+                            li(class="mr-3")
+                                a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline" href="/api/myPage") 마이페이지
+                            li(class="mr-3")
+                                a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline" href="/api/logout") 로그아웃
                     else
-                        form(method="post")
-                            ul.inline-block.pt-3
-                                li.inline-block.pr-6 아이디 &nbsp;
-                                    input#input(type="text", name="id").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
-                                li.inline-block.pr-6 비밀번호 &nbsp;
-                                    input#input(type="text", name="pw").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
-                                li.inline-block.mr-4
-                                    div
-                                        button#btn(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
-                                li.inline-block
-                                    div
-                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
-                    form
-                        ul.inline-block.pt-4.text-xs
-                            li.inline-block.text-white.mr-2
-                                button#btn(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
-                            li.inline-block.text-white.mr-2
-                                button#btn(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
-                            if token
-                                li.inline-block.text-white.mr-2
-                                    button#btn(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
+                        ul(class="list-reset lg:flex justify-end flex-1 items-center")
+                            li(class="mr-3")
+                                a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline" href="/api/login") 로그인
+                            li(class="mr-3")
+                                a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline" href="/api/join") 회원가입
+                div(class="w-full flex-grow lg:flex lg:items-center lg:w-auto lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20 md:max-w-7xl mx-auto" id="nav-content")
+                    ul(class="list-reset lg:flex justify-end flex-1 items-center")
+                        li(class="mr-3")
+                            a(class="inline-block py-2 px-4 text-gray-900  no-underline" href="/") 홈
+                        li(class="mr-3")
+                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="/api/posts/") 자유게시글
+                        li(class="mr-3")
+                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 font-bold hover:text-underline py-2 px-4" href="/api/game/") 게임게시글
+                        li(class="mr-3")
+                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") IT 기사
+                        li(class="mr-3")
+                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") link
             main
-                - const _posts= posts
-                div.clear-both
-                    div.w-40.border-gray-200.float-left.h-full.border-solid
-                        ul
-                            li
-                                a#text_hover(href="/api/posts/") 자유 게시글
-                            li 
-                                a#text_hover(href="/api/game/") 게임 게시글
-                            li 텍스트
-                            li 텍스트
-                            li 텍스트
-                            li 텍스트
-                    div.float-left.h-full.max-w-3xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.border-r-2.border-l-2
+                div(class="container w-full md:max-w-7xl mx-auto pt-28")
+                    div.float-left.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.border-r-2.border-l-2
                         div#post_title.text-center.pt-16 게임게시글
                             form(action="/api/game" method="post").p-10
                                 div.form-group
@@ -64,9 +55,9 @@ html
                                     span#writer(data-writer= _id)
                                     input(type="hidden", name="writer" value=_id)
                                 div.inline-block.mr-4
-                                    a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href="/api/game") 돌아가기
+                                    a(class="block md:inline-block appearance-none bg-green-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-green-400 py-2 px-4 mr-6" , href="/api/game") 돌아가기
                                 div.inline-block
-                                    button#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(type="submit") 등록
+                                    button(type="submit" , class="block md:inline-block appearance-none bg-green-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-green-400 py-2 px-4") 등록
                     div.h-60.w-4.float-left
                     div.float-left.h-full.w-80.pt-16
                         div#chatWrap.w-80.border.border-gray-300.rounded-md
@@ -75,7 +66,7 @@ html
                             form#form.block.w-full.h-12.border-2.border-red-50.rounded-md
                                 input#chatInput.h-10.px-1.border-none.outline-none.rounded-md(type="text" autocomplete="off" size="30" placeholder="채팅을 입력해 보세요.")
                                 input#chatId(type="hidden", name="id" value=_id)
-                                button#chatSend.inline-block.bg-none.text-blue-500 보내기
+                                button#chatSend.inline-block.bg-none.text-green-500 보내기
             footer.border-t-2.border-gray-200
         script(src="/homePage.js")
         script(src="/post.js")
