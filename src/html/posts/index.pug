@@ -5,53 +5,44 @@ html
         link(href="" rel="stylesheet")
         meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
-        div.border-t-2.border-gray-200.mt-3.clear-both.h-full.max-w-7xl.my-0.mx-auto.border-solid
-            header
-                nav.flex.justify-between
-                    div#kv.w-32.bg-gray-200.text-4xl
-                        a(href="/")
-                            img(src="/logo.png", alt="")
-                    - const token= actoken
-                    - const _name= name
-                    - const _id = id
+        - const token= actoken
+        - const _name= name
+        - const _id = id
+        - const _posts= posts
+        div(class="bg-gray-50 font-sans leading-normal tracking-normal")
+            nav(id='header', class="fixed w-full z-10 top-0 mx-auto")
+                div(id="progress" class="h-1 z-20 top-0" style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);")
+                div(class="w-full md:max-w-7xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3")
+                    div(class="pl-4")
+                        a(class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/") SooLog
                     if token
-                        div #{_name} 님 환영합니다!
+                        ul(class="list-reset lg:flex justify-end flex-1 items-center")
+                            div(class="inline-block py-2 px-4 text-gray-900 font-bold no-underline") #{_name} 님 환영합니다!
+                            li(class="mr-3")
+                                a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline" href="/api/myPage") 마이페이지
+                            li(class="mr-3")
+                                a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline" href="/api/logout") 로그아웃
                     else
-                        form(method="post")
-                            ul.inline-block.pt-3
-                                li.inline-block.pr-6 아이디 &nbsp;
-                                    input#input(type="text", name="id").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
-                                li.inline-block.pr-6 비밀번호 &nbsp;
-                                    input#input(type="text", name="pw").mr-4.bg-white.rounded-lg.placeholder-gray-400.text-gray-900.appearance-none.inline-block.shadow-md
-                                li.inline-block.mr-4
-                                    div
-                                        button#btn(type="submit", formaction="/api/login/loginSuccess").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그인
-                                li.inline-block
-                                    div
-                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.block(href='/api/join') 회원가입
-                    form
-                        ul.inline-block.pt-4.text-xs
-                            li.inline-block.text-white.mr-2
-                                button#btn(type="submit" , formaction="/api/myPage").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 마이페이지
-                            li.inline-block.text-white.mr-2
-                                button#btn(type="submit" , formaction="/").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 고객센터
-                            if token
-                                li.inline-block.text-white.mr-2
-                                    button#btn(type="submit" , formaction="/api/logout").bg-blue-500.text-white.font-bold.py-2.px-4.rounded 로그아웃
+                        ul(class="list-reset lg:flex justify-end flex-1 items-center")
+                            li(class="mr-3")
+                                a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline" href="/api/login") 로그인
+                            li(class="mr-3")
+                                a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline" href="/api/join") 회원가입
+                div(class="w-full flex-grow lg:flex lg:items-center lg:w-auto lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20 md:max-w-7xl mx-auto" id="nav-content")
+                    ul(class="list-reset lg:flex justify-end flex-1 items-center")
+                        li(class="mr-3")
+                            a(class="inline-block py-2 px-4 text-gray-900 no-underline" href="/") 홈
+                        li(class="mr-3")
+                            a(class="inline-block text-gray-600 no-underline font-bold hover:text-gray-900 hover:text-underline py-2 px-4" href="/api/posts/") 자유게시글
+                        li(class="mr-3")
+                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="/api/game/") 게임게시글
+                        li(class="mr-3")
+                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") IT 기사
+                        li(class="mr-3")
+                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") link
             main
-                - const _posts= posts
-                div.clear-both
-                    div.w-40.float-left
-                        ul
-                            li
-                                a#text_hover(href="/api/posts/") 자유 게시판
-                            li
-                                a#text_hover(href="/api/game/") 게임 게시판
-                            li 텍스트
-                            li 텍스트
-                            li 텍스트
-                            li 텍스트
-                    div.float-left.h-full.max-w-2xl.border-t-2.border-gray-200.border-solid.w-full.max-w-3xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
+                div(class="container w-full md:max-w-7xl mx-auto pt-28")
+                    div.float-left.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.w-full.max-w-3xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
                         div#post_title.text-center.font-bold 자유 게시판
                             div#post_content.p-10.font-normal
                                 table.border-t-2.border-b-2.border-gray-200.border-solid.w-full.max-w-2xl
@@ -73,7 +64,7 @@ html
                                                 td.px-1#select.text-left
                                                     a(href=`/api/posts/${val._id}`).overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-80.leading-10.block.h-12 #{val.title}
                                                         if val.commentCount
-                                                            span.text-xs.text-blue-500 &nbsp;[#{val.commentCount}]
+                                                            span.text-xs.text-green-500 &nbsp;[#{val.commentCount}]
                                                 td.px-1
                                                     span #{val.writer.id}
                                                 td.date.px-1
@@ -84,7 +75,7 @@ html
                                         - const previousBtnEnabled = currentPage>1
                                         - const nextBtnEnabled = currentPage<maxPage
                                         - let index = 0
-                                        a#btn.bg-blue-500.text-white.font-bold.py-2.px-4.rounded.inline-block.float-right(href='/api/posts/new') 글작성
+                                        a(href='/api/posts/new' , class="float-right flex-1 mt-4 block md:inline-block appearance-none bg-green-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-green-400 py-2 px-4") 글작성
                                         //- Pagination
                                         mixin pagination(amount, active, ellipsis, last)
                                             .pagination.pt-4.text-center.inline-block
@@ -97,7 +88,7 @@ html
                                                     - for (index = 1; index <= maxPage; index++)
                                                         if (index === currentPage)
                                                             li.inline-block
-                                                                a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Current page #{index}").z-10.bg-indigo-50.border-indigo-500.text-indigo-600.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
+                                                                a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Current page #{index}").z-10.bg-green-50.border-green-500.text-green-600.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
                                                         else if (index === ellipsis)
                                                             li.inline-block
                                                                 a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Show more").bg-white.border-gray-300.text-gray-500.relative.items-center.px-4.py-2.border.text-sm.font-medium.inline-block ...
@@ -115,7 +106,7 @@ html
                                                     a#pageBtn(href=`/api/posts?page=${currentPage+1}&limit=${limit}` title="Next page").relative.inline-flex.items-center.px-2.py-2.rounded-r-md.border.border-gray-300.bg-white.text-sm.font-medium.text-gray-500.inline-block 다음
                                                 else
                                         +pagination(maxPage, currentPage, 4, maxPage)
-                                        form#limitForm(action="/api/posts", method="get").inline-block.float-left
+                                        form#limitForm(action="/api/posts", method="get" class="float-left flex-1 mt-4")
                                             div.text-left
                                                 label(for="show")
                                                 select#limitPost(name="limit").border.bg-white.rounded.px-3.py-2.outline-none
@@ -139,7 +130,7 @@ html
                                         option(value="title") Title
                                         option(value="body") Body
                                     input(type="text" name="searchText" value=searchText).border.bg-white.rounded.px-3.py-2.outline-none.mr-2
-                                    button(type="submit").bg-blue-500.text-white.font-bold.py-2.px-4.rounded.inline-block 검색
+                                    button(type="submit" class="block md:inline-block appearance-none bg-green-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-green-400 py-2 px-4") 검색
                     div.h-60.w-4.float-left
                     div.float-left.h-full.w-80.pt-16
                         div#chatWrap.w-80.border.border-gray-300.rounded-md
@@ -148,7 +139,7 @@ html
                             form#form.block.w-full.h-12.border-2.border-red-50.rounded-md
                                 input#chatInput.h-10.px-1.border-none.outline-none.rounded-md(type="text" autocomplete="off" size="30" placeholder="채팅을 입력해 보세요.")
                                 input#chatId(type="hidden", name="id" value=_id)
-                                button#chatSend.inline-block.bg-none.text-blue-500 보내기
+                                button#chatSend.inline-block.bg-none.text-green-500 보내기
             footer.border-t-2.border-gray-200
         script(src="/homePage.js")
         script(src="/post.js")

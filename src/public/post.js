@@ -73,7 +73,7 @@
   const btn = document.querySelectorAll('#btn');
   btn.forEach((item) => {
     item.addEventListener('mouseover', () => {
-      item.classList.add('hover:bg-blue-700');
+      item.classList.add('hover:bg-green-700');
     });
   });
 
@@ -82,7 +82,7 @@
     item.addEventListener('focus', () => {
       item.setAttribute(
         'class',
-        'mr-4 bg-white rounded-lg placeholder-gray-400 text-gray-900 appearance-none inline-block shadow-md focus:outline-none focus:ring-2 focus:ring-blue-600'
+        'mr-4 bg-white rounded-lg placeholder-gray-400 text-gray-900 appearance-none inline-block shadow-md focus:outline-none focus:ring-2 focus:ring-green-600'
       );
     });
   });
@@ -90,7 +90,7 @@
   const select = document.querySelectorAll('#select');
   select.forEach((item) => {
     item.addEventListener('mouseover', () => {
-      item.classList.add('hover:bg-blue-300');
+      item.classList.add('hover:bg-green-300');
     });
   });
 
