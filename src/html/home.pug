@@ -47,9 +47,9 @@ html
                         li(class="mr-3")
                             a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="/api/game/") 게임게시글
                         li(class="mr-3")
-                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") IT 기사
+                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") IT게시글
                         li(class="mr-3")
-                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") link
+                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") IT 기사
             main
                 div(class="container w-full md:max-w-7xl mx-auto pt-28")
                     div.float-left.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.border-r-2.border-l-2
@@ -96,24 +96,34 @@ html
                                             img.bg-cover(src=`${_newsPostImg[0]}`, alt="이미지")
                                         div.w-24.h-20.line-clamp-4
                                             a#text_hover(href=`${_newsPostUrl[0]}`, target="_blank") #{_newsDataTitle[0]}
-                                    div.border.border-gray-300.inline-block.text-center
+                                    div.border.border-gray-300.inline-block.text-center.mr-5
                                         div.h-16
                                             img.bg-cover(src=`${_newsPostImg[1]}`, alt="이미지")
                                         div.w-24.h-20.line-clamp-4
                                             a#text_hover(href=`${_newsPostUrl[1]}`, target="_blank") #{_newsDataTitle[1]}
-                                div.text-sm.flex.w-40.justify-between
-                                    div.border.border-gray-300.inline-block.text-center.mr-5
+                                    div.border.border-gray-300.inline-block.text-center
                                         div.h-16
                                             img.bg-cover(src=`${_newsPostImg[2]}`, alt="이미지")
                                         div.w-24.h-20.line-clamp-4
                                             a#text_hover(href=`${_newsPostUrl[2]}`, target="_blank") #{_newsDataTitle[2]}
-                                    div.border.border-gray-300.inline-block.text-center
+                                div.text-sm.flex.w-40.justify-between
+                                    div.border.border-gray-300.inline-block.text-center.mr-5
                                         div.h-16
                                             img.bg-cover(src=`${_newsPostImg[3]}`, alt="이미지")
                                         div.w-24.h-20.line-clamp-4
                                             a#text_hover(href=`${_newsPostUrl[3]}`, target="_blank") #{_newsDataTitle[3]}
-                            ul.leading-5.border.border-gray-300.block.p-4.w-96
-                                - for (let index = 4; index <= 9; index++)
+                                    div.border.border-gray-300.inline-block.text-center.mr-5
+                                        div.h-16
+                                            img.bg-cover(src=`${_newsPostImg[4]}`, alt="이미지")
+                                        div.w-24.h-20.line-clamp-4
+                                            a#text_hover(href=`${_newsPostUrl[4]}`, target="_blank") #{_newsDataTitle[4]}
+                                    div.border.border-gray-300.inline-block.text-center
+                                        div.h-16
+                                            img.bg-cover(src=`${_newsPostImg[5]}`, alt="이미지")
+                                        div.w-24.h-20.line-clamp-4
+                                            a#text_hover(href=`${_newsPostUrl[5]}`, target="_blank") #{_newsDataTitle[5]}
+                            ul.leading-5.border.border-gray-300.block.p-4.w-96.mt-8
+                                - for (let index = 6; index <= 9; index++)
                                     li.py-4
                                         a#text_hover(href=`${_newsPostUrl[index]}`, target="_blank") #{_newsDataTitle[index]}
                     div.h-60.w-4.float-left

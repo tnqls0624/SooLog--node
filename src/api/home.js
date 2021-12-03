@@ -19,6 +19,7 @@ home.get('/', async (ctx) => {
   const _newPost_game = await distinguishPost(newPost_game);
   let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
+  //네이버 기사 크롤링
   const getHtml = async () => {
     try {
       return await axios({
