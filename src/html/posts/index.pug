@@ -9,15 +9,15 @@ html
         - const _name= name
         - const _id = id
         - const _posts= posts
-        div(class="bg-gray-50 font-sans leading-normal tracking-normal")
-            nav(id='header', class="fixed w-full z-10 top-0 mx-auto")
+        div(class="font-sans leading-normal tracking-normal")
+            nav(id='header', class="bg-white border-b border-gray-400 shadow fixed w-full z-10 top-0 mx-auto")
                 div(id="progress" class="h-1 z-20 top-0" style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);")
                 div(class="w-full md:max-w-7xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3")
                     div(class="pl-4")
                         a(class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/") SooLog
                     if token
                         ul(class="list-reset lg:flex justify-end flex-1 items-center")
-                            div(class="inline-block py-2 px-4 text-gray-900 font-bold no-underline") #{_name} 님 환영합니다!
+                            div(class="inline-block px-4 text-gray-900 font-bold no-underline") #{_name} 님 환영합니다!
                             li(class="mr-3")
                                 a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline" href="/api/myPage") 마이페이지
                             li(class="mr-3")
@@ -41,8 +41,8 @@ html
                         li(class="mr-3")
                             a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") link
             main
-                div(class="container w-full md:max-w-7xl mx-auto pt-28")
-                    div.float-left.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.w-full.max-w-3xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
+                div(class="container w-full md:max-w-7xl mx-auto pt-24")
+                    div.inline-block.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.w-full.max-w-3xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
                         div#post_title.text-center.font-bold 자유 게시판
                             div#post_content.p-10.font-normal
                                 table.border-t-2.border-b-2.border-gray-200.border-solid.w-full.max-w-4xl
@@ -64,7 +64,7 @@ html
                                                 td.px-1#select.text-left
                                                     a(href=`/api/posts/${val._id}`).overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-80.leading-10.block.h-12 #{val.title}
                                                         if val.commentCount
-                                                            span.text-xs.text-green-500 &nbsp;[#{val.commentCount}]
+                                                            span.text-xs.text-blue-500 &nbsp;[#{val.commentCount}]
                                                 td.px-1
                                                     span #{val.writer.id}
                                                 td.date.px-1
@@ -75,7 +75,7 @@ html
                                         - const previousBtnEnabled = currentPage>1
                                         - const nextBtnEnabled = currentPage<maxPage
                                         - let index = 0
-                                        a(href='/api/posts/new' , class="float-right flex-1 mt-4 block md:inline-block appearance-none bg-green-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-green-400 py-2 px-4") 글작성
+                                        a(href='/api/posts/new' , class="float-right flex-1 mt-4 block md:inline-block appearance-none bg-blue-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-blue-400 py-2 px-4") 글작성
                                         //- Pagination
                                         mixin pagination(amount, active, ellipsis, last)
                                             .pagination.pt-4.text-center.inline-block
@@ -88,7 +88,7 @@ html
                                                     - for (index = 1; index <= maxPage; index++)
                                                         if (index === currentPage)
                                                             li.inline-block
-                                                                a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Current page #{index}").z-10.bg-green-50.border-green-500.text-green-600.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
+                                                                a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Current page #{index}").z-10.bg-blue-50.border-blue-500.text-blue-600.relative.inline-flex.items-center.px-4.py-2.border.text-sm.font-medium= index
                                                         else if (index === ellipsis)
                                                             li.inline-block
                                                                 a#pageBtn(href=`/api/posts?page=${index}&limit=${limit}` title="Show more").bg-white.border-gray-300.text-gray-500.relative.items-center.px-4.py-2.border.text-sm.font-medium.inline-block ...
@@ -130,17 +130,33 @@ html
                                         option(value="title") Title
                                         option(value="body") Body
                                     input(type="text" name="searchText" value=searchText).border.bg-white.rounded.px-3.py-2.outline-none.mr-2
-                                    button(type="submit" class="block md:inline-block appearance-none bg-green-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-green-400 py-2 px-4") 검색
-                    div.h-60.w-4.float-left
-                    div.float-left.h-full.w-80.pt-16
+                                    button(type="submit" class="block md:inline-block appearance-none bg-blue-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-blue-400 py-2 px-4") 검색
+                    div.float-right.h-full.w-80.pt-16
                         div#chatWrap.w-80.border.border-gray-300.rounded-md
                             h1#chatHeader.h-16.text-center.text-2xl.pt-4.font-bold.border-b.border-gray-300 채팅창
                             div#chats.h-96.overflow-y-auto.p-2.rounded-md
                             form#form.block.w-full.h-12.border-2.border-red-50.rounded-md
                                 input#chatInput.h-10.px-1.border-none.outline-none.rounded-md(type="text" autocomplete="off" size="30" placeholder="채팅을 입력해 보세요.")
                                 input#chatId(type="hidden", name="id" value=_id)
-                                button#chatSend.inline-block.bg-none.text-green-500 보내기
-            footer.border-t-2.border-gray-200
+                                button#chatSend.inline-block.bg-none.text-blue-500 보내기
+            footer(class="bg-white border-t border-gray-400 shadow")
+                div(class="container max-w-4xl mx-auto flex py-8")
+                    div(class="w-full mx-auto flex")
+                        div(class="flex w-full md:w-1/2 ")
+                            div(class="px-8")
+                                h3(class="font-bold text-gray-900") About
+                                p(class="py-4 text-gray-600 text-sm")
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel mi ut felis tempus commodo nec id erat. Suspendisse consectetur dapibus velit ut lacinia.
+                        div(class="flex w-full md:w-1/2")
+                            div(class="px-8")
+                                h3(class="font-bold text-gray-900") Social
+                                ul(class="list-reset items-center text-sm pt-3")
+                                    li
+                                        a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1" href="#") Add social link
+                                    li
+                                        a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1" href="#") Add social link
+                                    li
+                                        a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1" href="#") Add social link
         script(src="/homePage.js")
         script(src="/post.js")
         script(src="/postLimit.js")
