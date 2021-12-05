@@ -8,15 +8,45 @@
   var scrollpos = window.scrollY;
   var header = document.getElementById('header');
   var navcontent = document.getElementById('nav-content');
-  const text_hover = document.querySelectorAll('#text_hover');
+  const hover_underline = document.querySelectorAll('#hover_underline');
+  const moveItPost = document.getElementById('itPost');
+  const itArea = document.getElementById('itArea');
+  const any_Bord = document.querySelectorAll('#any_Bord');
+  const any_Populate_btn = document.getElementById('any_Populate_btn');
+  const game_Bord = document.querySelectorAll('#game_Bord');
+  const game_Populate_btn = document.getElementById('game_Populate_btn');
+  let count_any = 0;
+  let count_game = 0;
+  any_Populate_btn.addEventListener('click', () => {
+    any_Bord.forEach((item) => {
+      item.classList.toggle('hidden');
+    });
+    if (count_any % 2 == 0) {
+      any_Populate_btn.innerHTML = '새로운글 보기';
+    } else {
+      any_Populate_btn.innerHTML = '인기글 보기';
+    }
+    count_any++;
+  });
+  game_Populate_btn.addEventListener('click', () => {
+    game_Bord.forEach((item) => {
+      item.classList.toggle('hidden');
+    });
+    if (count_game % 2 == 0) {
+      game_Populate_btn.innerHTML = '새로운글 보기';
+    } else {
+      game_Populate_btn.innerHTML = '인기글 보기';
+    }
+    count_game++;
+  });
 
-  text_hover.forEach((item) => {
+  hover_underline.forEach((item) => {
     item.addEventListener('mouseover', (ev) => {
-      item.setAttribute('class', 'hover:underline');
+      item.classList.add('hover:underline');
     });
   });
   window.onbeforeunload = () => {
-    window.location.href('/');
+    window.location.href = '/';
   };
 
   document.addEventListener('scroll', function () {
@@ -38,5 +68,8 @@
       navcontent.classList.remove('bg-white');
       navcontent.classList.add('bg-gray-100');
     }
+  });
+  moveItPost.addEventListener('click', () => {
+    itArea.scrollIntoView({ behavior: 'smooth' });
   });
 })();

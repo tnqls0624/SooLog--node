@@ -54,7 +54,7 @@
         divWrap.setAttribute('class', 'text-right');
         div.setAttribute(
           'class',
-          'inline-block rounded-xl px-1 py-1 mb-1 mt-1 bg-green-500 text-white'
+          'inline-block rounded-xl px-1 py-1 mb-1 mt-1 bg-blue-500 text-white'
         );
         div.innerText = `${message}`;
         divWrap.appendChild(div);

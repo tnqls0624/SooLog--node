@@ -3,31 +3,41 @@ html
     head
         link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
         link(href="/output.css" rel="stylesheet")
+        link(rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css")
         meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
         - const token = actoken
         - const _name = name
         - const _id = id
+        //자유게시판 인기
         - const _postTitle_any = postTitle_any
         - const _postId_any = postId_any
+        - const _postBody_any = postBody_any
+        //자유게시판 새로운
         - const _newPostTitle_any = newPostTitle_any
         - const _newPostId_any = newPostId_any
+        - const _newPostBody_any = newPostBody_any 
+        //게임게시판 인기
         - const _postTitle_game = postTitle_game
         - const _postId_game = postId_game
+        - const _postBody_game = postBody_game
+        //게임게시판 새로운
         - const _newPostTitle_game = newPostTitle_game
         - const _newPostId_game = newPostId_game
+        - const _newPostBody_game = newPostBody_game
+        //네이버 뉴스 기사
         - const _newsDataTitle = newsDataTitle
         - const _newsPostUrl = newsPostUrl
         - const _newsPostImg = newsPostImg
-        div(class="bg-gray-50 font-sans leading-normal tracking-normal")
-            nav(id='header', class="fixed w-full z-10 top-0")
+        div(class="font-sans leading-normal tracking-normal ",style="background:linear-gradient(to bottom, #4dc0b5 var(--scroll), transparent 0);")
+            nav(id='header', class="bg-white border-b border-gray-400 shadow fixed w-full z-10 top-0")
                 div(id="progress" class="h-1 z-20 top-0" style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);")
                 div(class="w-full md:max-w-7xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3")
                     div(class="pl-4")
                         a(class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/") SooLog
                     if token
                         ul(class="list-reset lg:flex justify-end flex-1 items-center")
-                            div(class="inline-block py-2 px-4 text-gray-900 font-bold no-underline") #{_name} 님 환영합니다!
+                            div(class="inline-block px-4 text-gray-900 font-bold no-underline") #{_name} 님 환영합니다!
                             li(class="mr-3")
                                 a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline" href="/api/myPage") 마이페이지
                             li(class="mr-3")
@@ -49,44 +59,63 @@ html
                         li(class="mr-3")
                             a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") IT게시글
                         li(class="mr-3")
-                            a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") IT 기사
+                            button#itPost(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4") IT 기사
             main
-                div(class="container w-full md:max-w-7xl mx-auto pt-28")
-                    div.float-left.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.border-r-2.border-l-2
+                div(class="clear-both container w-full md:max-w-7xl mx-auto pt-24")
+                    div.inline-block.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.border-r-2.border-l-2
                         div
                             img(src="/banner.jpg", alt="배너")
-                        div
-                            div.text-center.mt-8.mx-10.border.p-4.text-xl.font-bold
-                                a#text_hover(href="/api/posts") 자유 게시판
-                            div.max-w-3xl.border-solid.border-gray-200.px-16.py-10.clear-both.text-center.flex.justify-between
-                                div.w-72.border.px-2.border-gray-300.inline-block
-                                    div 인기 게시글
-                                    ul.text-sm.p-2
-                                        - for (let index = 0; index <= 4; index++)
-                                            li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
-                                                a#text_hover(href=`/api/posts/${_postId_any[index]}`) #{_postTitle_any[index]}
-                                div.w-72.border.px-2.border-gray-300.inline-block
-                                    div 새로운 게시글
-                                    ul.text-sm.p-2
-                                        - for (let index = 0; index <= 4; index++)
-                                            li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
-                                                a#text_hover(href=`/api/posts/${_newPostId_any[index]}`) #{_newPostTitle_any[index]}
-                            div.text-center.mx-10.border.p-4.text-xl.font-bold
-                                a#text_hover(href="/api/game") 게임 게시판
-                            div.max-w-3xl.border-solid.border-gray-200.px-16.py-10.clear-both.text-center.flex.justify-between
-                                div.w-72.border.px-2.border-gray-300.inline-block
-                                    div 인기 게시글
-                                    ul.text-sm.p-2
-                                        - for (let index = 0; index <= 4; index++)
-                                            li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
-                                                a#text_hover(href=`/api/posts/${_postId_game[index]}`) #{_postTitle_game[index]}
-                                div.w-72.border.px-2.border-gray-300.inline-block
-                                    div 새로운 게시글
-                                    ul.text-sm.p-2
-                                        - for (let index = 0; index <= 4; index++)
-                                            li.text-center.overflow-ellipsis.whitespace-nowrap.overflow-hidden
-                                                a#text_hover(href=`/api/posts/${_newPostId_game[index]}`) #{_newPostTitle_game[index]}
-                        div.text-center.mx-10.border.p-4.text-xl.font-bold.mb-10
+                        div(class="mt-4")
+                            div(class="text-right py-1 px-5")
+                                button#any_Populate_btn(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1") 인기글 보기
+                            div(class="flex h-full w-full py-1 px-5")
+                                div(class="pt-32 w-1/3 h-full text-center items-center break-words leading-8") 
+                                    div(class="pb-4 text-xl font-bold") 자유게시글
+                                    span(class="") 유저들이 자유롭게 글을 만들고 소통할 수 있는 공간입니다. 새로운글과 인기글 5개를 버튼을 통해 오른쪽 화면에서 보여주며 , 더 알아보기 버튼으로 자유게시글 전체를 보실 수 있습니다 <br/>  
+                                    span(class="pl-2")
+                                        a(href="/api/posts" class="font-bold ") 더 알아보기...
+                                div#any_Bord(class="w-2/3 flex-wrap hidden")
+                                    - for (let index = 0; index <= 4; index++)
+                                        a#hover_underline(href=`/api/posts/${_postId_any[index]}`, class="flex py-2 pl-8 block mb-2" )
+                                            div(class="w-36 h-24 overflow-hidden")
+                                                img(src="/fashion.jpg", alt="", srcset="")
+                                            div(class=" justify-end items-center p-3 w-full h-24")
+                                                div(class="font-bold h-5 line-clamp-1") #{_postTitle_any[index]}
+                                                div(class="pt-2 text-sm line-clamp-2") #{_postBody_any[index]}
+                                div#any_Bord(class="w-2/3 flex-wrap")
+                                    - for (let index = 0; index <= 4; index++)
+                                        a#hover_underline(href=`/api/posts/${_newPostId_any[index]}`, class="flex py-2 pl-8 block mb-2" , data-aos="fade-up", data-aos-anchor-placement="bottom-bottom")
+                                            div(class="w-36 h-24 overflow-hidden")
+                                                img(src="/fashion.jpg", alt="", srcset="")
+                                            div(class=" justify-end items-center p-3 w-full h-24")
+                                                div(class="font-bold h-5 line-clamp-1") #{_newPostTitle_any[index]}
+                                                div(class="pt-2 text-sm line-clamp-2") #{_newPostBody_any[index]}
+                        div(class="mt-14")
+                            div(class="text-right py-1 px-5")
+                                button#game_Populate_btn(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1") 인기글 보기
+                            div(class="flex h-full w-full py-1 px-5")
+                                div#game_Bord(class="w-2/3 flex-wrap hidden")
+                                    - for (let index = 0; index <= 4; index++)
+                                        a#hover_underline(href=`/api/posts/${_postId_game[index]}`, class="flex py-2 pl-8 block mb-2")
+                                            div(class="w-36 h-24 overflow-hidden")
+                                                img(src="/fashion.jpg", alt="", srcset="")
+                                            div(class=" justify-end items-center p-3 w-full h-24")
+                                                div(class="font-bold h-5 line-clamp-1") #{_postTitle_game[index]}
+                                                div(class="pt-2 text-sm line-clamp-2") #{_postBody_game[index]}
+                                div#game_Bord(class="w-2/3 flex-wrap")
+                                    - for (let index = 0; index <= 4; index++)
+                                        a#hover_underline(href=`/api/posts/${_newPostId_game[index]}`, class="flex py-2 pl-8 block mb-2" , data-aos="zoom-in-right")
+                                            div(class="w-36 h-24 overflow-hidden")
+                                                img(src="/fashion.jpg", alt="", srcset="")
+                                            div(class=" justify-end items-center p-3 w-full h-24")
+                                                div(class="font-bold h-5 line-clamp-1") #{_newPostTitle_game[index]}
+                                                div(class="pt-2 text-sm line-clamp-2") #{_newPostBody_game[index]}
+                                div(class="pt-32 w-1/3 h-full text-center items-center break-words leading-8") 
+                                    div(class="pb-4 text-xl font-bold") 게임게시글
+                                    span(class="") 유저들이 게임과 관련된 글을 만들고 소통할 수 있는 공간입니다. 새로운글과 인기글 5개를 버튼을 통해 오른쪽 화면에서 보여주며 , 더 알아보기 버튼으로 자유게시글 전체를 보실 수 있습니다 <br/>  
+                                    span(class="pl-2")
+                                        a(href="/api/game" class="font-bold ") 더 알아보기...
+                        div#itArea.text-center.mx-10.border.p-4.text-xl.font-bold.mb-10
                             a#text_hover(href="https://news.naver.com/main/list.naver?mode=LS2D&mid=shm&sid1=105&sid2=283" ,target="_blank") 오늘의 IT 관련 기사
                         div.px-16.pb-10.flex.justify-between
                             div
@@ -126,17 +155,32 @@ html
                                 - for (let index = 6; index <= 9; index++)
                                     li.py-4
                                         a#text_hover(href=`${_newsPostUrl[index]}`, target="_blank") #{_newsDataTitle[index]}
-                    div.h-60.w-4.float-left
-                    div.float-left.h-full.w-80.pt-16
+                    div.float-right.h-full.w-80.pt-16
                         div#chatWrap.w-80.border.border-gray-300.rounded-md
                             h1#chatHeader.h-16.text-center.text-2xl.pt-4.font-bold.border-b.border-gray-300 채팅창
                             div#chats.h-96.overflow-y-auto.p-2.rounded-md
                             form#form.block.w-full.h-12.border-2.border-red-50.rounded-md
                                 input#chatInput.h-10.px-1.border-none.outline-none.rounded-md.inline-block(type="text" autocomplete="off" size="30" placeholder="채팅을 입력해 보세요.")
                                 input#chatId(type="hidden", name="id" value=_id)
-                                button#chatSend.inline-block.bg-none.text-green-500 보내기
-            //- footer.border-t-2.border-gray-200.border-t-2.h-full.max-w-7xl
-            //-     div.p-10.w-10.h-10
+                                button#chatSend.inline-block.bg-none.text-blue-500 보내기
+            footer(class="bg-white border-t border-gray-400 shadow")
+                div(class="container max-w-4xl mx-auto flex py-8")
+                    div(class="w-full mx-auto flex")
+                        div(class="flex w-full md:w-1/2 ")
+                            div(class="px-8")
+                                h3(class="font-bold text-gray-900") About
+                                p(class="py-4 text-gray-600 text-sm")
+                                    Lorem 수로그에 오신것을 환영합니다...!
+                        div(class="flex w-full md:w-1/2")
+                            div(class="px-8")
+                                h3(class="font-bold text-gray-900") Contact
+                                ul(class="list-reset items-center text-sm pt-3")
+                                    li
+                                        a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1" href="https://github.com/tnqls0624" target="_blank") git hub
         script(src="/homePage.js")
         script(src="/post.js")
         script(src="/chat.js")
+        script(src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js")
+        script(src="https://unpkg.com/aos@2.3.1/dist/aos.js")
+        script(type='text/javascript').
+            AOS.init();

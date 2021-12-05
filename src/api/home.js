@@ -9,14 +9,28 @@ home.get('/', async (ctx) => {
   //views가 많은 숫서의 게시물 5개를 뽑는다
   const popularityPost_any = await popularityPost('any');
   const newPost_any = await newPost('any');
-  const { postTitle: postTitle_any, postId: postId_any } =
-    await distinguishPost(popularityPost_any);
-  const _newPost_any = await distinguishPost(newPost_any);
+  const {
+    postTitle: postTitle_any,
+    postId: postId_any,
+    postBody: postBody_any,
+  } = await distinguishPost(popularityPost_any);
+  const {
+    postTitle: newPostTitle_any,
+    postId: newPostId_any,
+    postBody: newPostBody_any,
+  } = await distinguishPost(newPost_any);
   const popularityPost_game = await popularityPost('game');
   const newPost_game = await newPost('game');
-  const { postTitle: postTitle_game, postId: postId_game } =
-    await distinguishPost(popularityPost_game);
-  const _newPost_game = await distinguishPost(newPost_game);
+  const {
+    postTitle: postTitle_game,
+    postId: postId_game,
+    postBody: postBody_game,
+  } = await distinguishPost(popularityPost_game);
+  const {
+    postTitle: newPostTitle_game,
+    postId: newPostId_game,
+    postBody: newPostBody_game,
+  } = await distinguishPost(newPost_game);
   let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   //네이버 기사 크롤링
@@ -53,14 +67,24 @@ home.get('/', async (ctx) => {
       actoken: _accessToken,
       name: user.name,
       id: user.id,
+      //자유게시판 인기
       postTitle_any: postTitle_any,
       postId_any: postId_any,
-      newPostTitle_any: _newPost_any.postTitle,
-      newPostId_any: _newPost_any.postId,
+      postBody_any: postBody_any,
+      //자유게시판 새로운
+      newPostTitle_any: newPostTitle_any,
+      newPostId_any: newPostId_any,
+      newPostBody_any: newPostBody_any,
+      //게임게시판 인기
       postTitle_game: postTitle_game,
       postId_game: postId_game,
-      newPostTitle_game: _newPost_game.postTitle,
-      newPostId_game: _newPost_game.postId,
+      postBody_game: postBody_game,
+      // postBody_game: postBody_game,
+      //게임게시판 새로운
+      newPostTitle_game: newPostTitle_game,
+      newPostId_game: newPostId_game,
+      newPostBody_game: newPostBody_game,
+      //네이버 뉴스기사
       newsDataTitle: _newsDataTitle,
       newsPostUrl: _newsPostUrl,
       newsPostImg: _newsPostImg,
@@ -85,11 +109,13 @@ home.get('/', async (ctx) => {
 async function distinguishPost(post) {
   let postTitle = [];
   let postId = [];
+  let postBody = [];
   for (let i = 0; i <= post.length - 1; i++) {
     postTitle.push(post[i].title);
     postId.push(post[i]._id);
+    postBody.push(post[i].body);
   }
-  return { postTitle, postId };
+  return { postTitle, postId, postBody };
 }
 async function popularityPost(title) {
   const popularityPost = await PostSchema.find({ postTitle: title })
