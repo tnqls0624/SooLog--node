@@ -76,7 +76,7 @@ html
                                         a(href="/api/posts" class="font-bold ") 더 알아보기...
                                 div#any_Bord(class="w-2/3 flex-wrap hidden")
                                     - for (let index = 0; index <= 4; index++)
-                                        a#hover_underline(href=`/api/posts/${_postId_any[index]}`, class="flex py-2 pl-8 block mb-2" )
+                                        a#hover_underline(href=`/api/posts/${_postId_any[index]}`, class="flex py-2 pl-8 block mb-2" , data-aos="fade-up", data-aos-anchor-placement="bottom-bottom")
                                             div(class="w-36 h-24 overflow-hidden")
                                                 img(src="/fashion.jpg", alt="", srcset="")
                                             div(class=" justify-end items-center p-3 w-full h-24")
@@ -96,7 +96,7 @@ html
                             div(class="flex h-full w-full py-1 px-5")
                                 div#game_Bord(class="w-2/3 flex-wrap hidden")
                                     - for (let index = 0; index <= 4; index++)
-                                        a#hover_underline(href=`/api/posts/${_postId_game[index]}`, class="flex py-2 pl-8 block mb-2")
+                                        a#hover_underline(href=`/api/posts/${_postId_game[index]}`, class="flex py-2 pl-8 block mb-2" , data-aos="zoom-in-right")
                                             div(class="w-36 h-24 overflow-hidden")
                                                 img(src="/fashion.jpg", alt="", srcset="")
                                             div(class=" justify-end items-center p-3 w-full h-24")

@@ -27,6 +27,7 @@
       any_Populate_btn.innerHTML = '인기글 보기';
     }
     count_any++;
+    AOS.refresh();
   });
   game_Populate_btn.addEventListener('click', () => {
     game_Bord.forEach((item) => {
@@ -38,6 +39,7 @@
       game_Populate_btn.innerHTML = '인기글 보기';
     }
     count_game++;
+    AOS.refresh();
   });
 
   hover_underline.forEach((item) => {
