@@ -79,7 +79,6 @@ home.get('/', async (ctx) => {
       postTitle_game: postTitle_game,
       postId_game: postId_game,
       postBody_game: postBody_game,
-      // postBody_game: postBody_game,
       //게임게시판 새로운
       newPostTitle_game: newPostTitle_game,
       newPostId_game: newPostId_game,
@@ -93,12 +92,20 @@ home.get('/', async (ctx) => {
     await ctx.render('home', {
       postTitle_any: postTitle_any,
       postId_any: postId_any,
-      newPostTitle_any: _newPost_any.postTitle,
-      newPostId_any: _newPost_any.postId,
+      postBody_any: postBody_any,
+      //자유게시판 새로운
+      newPostTitle_any: newPostTitle_any,
+      newPostId_any: newPostId_any,
+      newPostBody_any: newPostBody_any,
+      //게임게시판 인기
       postTitle_game: postTitle_game,
       postId_game: postId_game,
-      newPostTitle_game: _newPost_game.postTitle,
-      newPostId_game: _newPost_game.postId,
+      postBody_game: postBody_game,
+      //게임게시판 새로운
+      newPostTitle_game: newPostTitle_game,
+      newPostId_game: newPostId_game,
+      newPostBody_game: newPostBody_game,
+      //네이버 뉴스기사
       newsDataTitle: _newsDataTitle,
       newsPostUrl: _newsPostUrl,
       newsPostImg: _newsPostImg,
