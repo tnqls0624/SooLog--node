@@ -4,7 +4,12 @@ const game = new Router();
 const PostSchema = require('../models/post');
 const userSchema = require('../models/user');
 const commentSchema = require('../models/comments');
+const File = require('../models/file');
 const auth = require('../middleware/auth');
+const multer = require('koa-multer');
+const upload = multer({
+  dest: 'uploads/',
+});
 // 첫화면 만든 시간을 순서로 게시글을 가져옴
 game.get('/game', async (ctx) => {
   const searchQuery = await createSearchQuery(ctx.query);
@@ -88,12 +93,20 @@ game.get('/game/new', auth, async (ctx) => {
 });
 
 // 작성
-game.post('/game', auth, async (ctx) => {
+game.post('/game', auth, upload.single('img'), async (ctx) => {
   let { _accessToken, _refreshToken } = await loadToken(ctx);
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
   const _posts = await PostSchema.find({}).sort('-createAt').exec();
-  const data = ctx.request.body;
+  let data = ctx.req.body;
+  const attachment = ctx.req.file
+    ? await File.createNewInstance(ctx.req.file, data.writer)
+    : undefined;
+  data.attachment = attachment;
   const { _id } = await PostSchema.create(data);
+  if (attachment) {
+    attachment.postId = _id;
+    attachment.save();
+  }
   await PostSchema.findOneAndUpdate(
     { _id: _id },
     {
@@ -126,12 +139,16 @@ game.get('/game/:id', auth, async (ctx) => {
   let { _accessToken, _refreshToken } = await loadToken(ctx);
   const data = ctx.params;
   const user = await userSchema.findOne({ rfToken: _refreshToken }).exec();
-  const post = await PostSchema.findOne({ _id: ObjectId(data.id) }).exec();
+  const post = await PostSchema.findOne({ _id: ObjectId(data.id) })
+    .populate({ path: 'writer', select: 'username' })
+    .populate({ path: 'attachment', match: { isDeleted: false } })
+    .exec();
   const comments = await commentSchema
     .find({ post: ObjectId(data.id) })
     .sort('createdAt')
     .exec();
-
+  post.views++;
+  post.save();
   if (user) {
     await ctx.render('game/show', {
       post: post,

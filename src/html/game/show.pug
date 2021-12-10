@@ -48,6 +48,9 @@ html
                     div.inline-block.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.w-full.max-w-3xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2.pb-6
                         form(action=`/api/game/${_post.id}/delete`, method="post").border-b-2.border-gray-200.border-solid
                             div#post_title.text-center 타이틀
+                                if(_post.attachment)
+                                    div.text-right.p-10
+                                        small 📁 Attachment: #{_post.attachment.originalFileName}
                                 div#card.p-10.text-left
                                     label(for="title") 제목
                                     div.border-gray-200.border-b-2.border-gray-200.p-5.break-words #{_post.title}

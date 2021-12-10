@@ -43,11 +43,14 @@ html
                 div(class="container w-full md:max-w-7xl mx-auto pt-24")
                     div.inline-block.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.w-full.max-w-2xl.border-r-2.border-l-2
                         div#post_title.text-center.pt-16.font-bold 자유게시판
-                            form(action="/api/posts" method="post").p-10
+                            form(action="/api/posts" method="post" enctype="multipart/form-data").p-10
                                 div.form-group
                                     label(for="title").block.text-left.pt-14 &emsp;제목
                                     input#newPost(type="text", name='title', value='').px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
                                     input(type="hidden", name="postTitle", value="any")
+                                div.form-group.pb-16
+                                    label(for="img").block.text-left.pt-16 &emsp;파일첨부
+                                    input(type="file" name="img").px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
                                 div.form-group.pb-16
                                     label(for="body").block.text-left.pt-16 &emsp;본문
                                     textarea#newPost(type="text" name="body",  rows="5").px-3.py-2.text-gray-700.border.rounded-lg.w-full.max-w-2xl
