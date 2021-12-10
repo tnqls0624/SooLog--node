@@ -28,6 +28,7 @@ const postSchema = mongoose.Schema({
   numId: {
     type: Number,
   },
+  attachment: { type: mongoose.Schema.Types.ObjectId, ref: 'file' },
   createdAt: {
     type: Date,
     default: Date.now,
