@@ -1249,6 +1249,9 @@ video {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
+.active {
+  background-color: skyblue;
+}
 @media (min-width: 640px) {
 }
 
