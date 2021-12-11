@@ -11,35 +11,39 @@
   const hover_underline = document.querySelectorAll('#hover_underline');
   const moveItPost = document.getElementById('itPost');
   const itArea = document.getElementById('itArea');
-  const any_Bord = document.querySelectorAll('#any_Bord');
+  const any_bord_populate = document.getElementById('any_bord_populate');
+  const any_bord_new = document.getElementById('any_bord_new');
   const any_Populate_btn = document.getElementById('any_Populate_btn');
-  const game_Bord = document.querySelectorAll('#game_Bord');
+  const any_New_btn = document.getElementById('any_New_btn');
+  const game_bord_populate = document.getElementById('game_bord_populate');
+  const game_bord_new = document.getElementById('game_bord_new');
   const game_Populate_btn = document.getElementById('game_Populate_btn');
-  let count_any = 0;
-  let count_game = 0;
+  const game_New_btn = document.getElementById('game_New_btn');
+
   any_Populate_btn.addEventListener('click', () => {
-    any_Bord.forEach((item) => {
-      item.classList.toggle('hidden');
-    });
-    if (count_any % 2 == 0) {
-      any_Populate_btn.innerHTML = '새로운글 보기';
-    } else {
-      any_Populate_btn.innerHTML = '인기글 보기';
-    }
-    count_any++;
-    AOS.refresh();
+    any_New_btn.classList.remove('active');
+    any_Populate_btn.classList.add('active');
+    any_bord_populate.classList.remove('hidden');
+    any_bord_new.classList.add('hidden');
   });
+  any_New_btn.addEventListener('click', () => {
+    any_Populate_btn.classList.remove('active');
+    any_New_btn.classList.add('active');
+    any_bord_populate.classList.add('hidden');
+    any_bord_new.classList.remove('hidden');
+  });
+
   game_Populate_btn.addEventListener('click', () => {
-    game_Bord.forEach((item) => {
-      item.classList.toggle('hidden');
-    });
-    if (count_game % 2 == 0) {
-      game_Populate_btn.innerHTML = '새로운글 보기';
-    } else {
-      game_Populate_btn.innerHTML = '인기글 보기';
-    }
-    count_game++;
-    AOS.refresh();
+    game_New_btn.classList.remove('active');
+    game_Populate_btn.classList.add('active');
+    game_bord_populate.classList.remove('hidden');
+    game_bord_new.classList.add('hidden');
+  });
+  game_New_btn.addEventListener('click', () => {
+    game_Populate_btn.classList.remove('active');
+    game_New_btn.classList.add('active');
+    game_bord_populate.classList.add('hidden');
+    game_bord_new.classList.remove('hidden');
   });
 
   hover_underline.forEach((item) => {
