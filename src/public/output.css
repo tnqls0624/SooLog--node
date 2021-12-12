@@ -1250,7 +1250,8 @@ video {
   -webkit-line-clamp: 1;
 }
 .active {
-  background-color: skyblue;
+  outline: rgb(147 ,197 ,253) solid 1px;
+  text-shadow: 1px 1px 2px rgb(255, 235, 238);
 }
 @media (min-width: 640px) {
 }
