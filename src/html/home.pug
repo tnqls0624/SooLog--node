@@ -61,16 +61,16 @@ html
                         li(class="mr-3")
                             button#itPost(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4") IT 기사
             main
-                div(class="clear-both container w-full md:max-w-7xl mx-auto pt-24")
-                    div.inline-block.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.border-r-2.border-l-2
+                div(class="clear-both container ml-auto w-full md:max-w-8xl pt-24")
+                    div.inline-block.h-full.max-w-6xl.border-t-2.border-gray-200.border-solid.border-r-2.border-l-2
                         div
                             img(src="/banner.jpg", alt="배너")
                         div(class="mt-4")
-                            div(class="text-right py-1 px-5")
+                            div(class="text-right py-1 px-10")
                                 button#any_Populate_btn(class="inline-block text-white bg-blue-400 rounded p-1 hover:bg-blue-300 py-1 mr-3") 인기글 보기
                                 button#any_New_btn(class="inline-block text-white bg-blue-400 rounded p-1 hover:bg-blue-300  py-1 active") 새로운글 보기
-                            div(class="flex h-full w-full py-1 px-5")
-                                div(class="pt-16 w-1/3 h-full text-center items-center break-words leading-8") 
+                            div(class="flex h-full w-full py-1 px-10")
+                                div(class="pt-12 w-1/3 h-full text-center items-center break-words leading-8") 
                                     div(class="pb-4 text-xl font-bold") 자유게시글
                                     span(class="") 유저들이 자유롭게 글을 만들고 소통할 수 있는 공간입니다. 새로운글과 인기글 3개를 버튼을 통해 오른쪽 화면에서 보여주며 , 더 알아보기 버튼으로 자유게시글 전체를 보실 수 있습니다 <br/>  
                                     span(class="pl-2")
@@ -91,14 +91,14 @@ html
                                                 div(class="pt-2 text-sm line-clamp-2") #{_newPostBody_any[index]}
                                             div(class="w-36 h-24 overflow-hidden")
                                                 img(src="/fashion.jpg", alt="", srcset="")
-                        div(class="mt-14")
-                            div(class="text-left py-1 px-5")
+                        div(class="mt-10")
+                            div(class="text-left py-1 px-10")
                                 button#game_Populate_btn(class="inline-block text-white bg-blue-400 rounded p-1 hover:bg-blue-300 py-1 mr-3") 인기글 보기
                                 button#game_New_btn(class="inline-block text-white bg-blue-400 rounded p-1 hover:bg-blue-300 py-1 active") 새로운글 보기
-                            div(class="flex h-full w-full py-1 px-5")
+                            div(class="flex h-full w-full py-1 px-10")
                                 div#game_bord_populate(class="w-2/3 flex-wrap hidden")
                                     - for (let index = 0; index <= 2; index++)
-                                        a#hover_underline(href=`/api/posts/${_postId_game[index]}`, class="flex py-2 pl-8 block mb-2" , data-aos="zoom-in-right")
+                                        a#hover_underline(href=`/api/posts/${_postId_game[index]}`, class="flex py-2 pr-8 block mb-2" , data-aos="zoom-in-right")
                                             div(class="w-36 h-24 overflow-hidden")
                                                 img(src="/fashion.jpg", alt="", srcset="")
                                             div(class=" justify-end items-center p-3 w-full h-24")
@@ -106,13 +106,13 @@ html
                                                 div(class="pt-2 text-sm line-clamp-2") #{_postBody_game[index]}
                                 div#game_bord_new(class="w-2/3 flex-wrap")
                                     - for (let index = 0; index <= 2; index++)
-                                        a#hover_underline(href=`/api/posts/${_newPostId_game[index]}`, class="flex py-2 pl-8 block mb-2" , data-aos="zoom-in-right")
+                                        a#hover_underline(href=`/api/posts/${_newPostId_game[index]}`, class="flex py-2 pr-8 block mb-2" , data-aos="zoom-in-right")
                                             div(class="w-36 h-24 overflow-hidden")
                                                 img(src="/fashion.jpg", alt="", srcset="")
                                             div(class=" justify-end items-center p-3 w-full h-24")
                                                 div(class="font-bold h-5 line-clamp-1") #{_newPostTitle_game[index]}
                                                 div(class="pt-2 text-sm line-clamp-2") #{_newPostBody_game[index]}
-                                div(class="pt-16 w-1/3 h-full text-center items-center break-words leading-8") 
+                                div(class="pt-12 w-1/3 h-full text-center items-center break-words leading-8")
                                     div(class="pb-4 text-xl font-bold") 게임게시글
                                     span(class="") 유저들이 게임과 관련된 글을 만들고 소통할 수 있는 공간입니다. 새로운글과 인기글 3개를 버튼을 통해 오른쪽 화면에서 보여주며 , 더 알아보기 버튼으로 자유게시글 전체를 보실 수 있습니다 <br/>  
                                     span(class="pl-2")
@@ -157,8 +157,8 @@ html
                                 - for (let index = 6; index <= 9; index++)
                                     li.py-4
                                         a#text_hover(href=`${_newsPostUrl[index]}`, target="_blank") #{_newsDataTitle[index]}
-                    div.float-right.h-full.w-80.pt-16
-                        div#chatWrap.w-80.border.border-gray-300.rounded-md
+                    div.float-right.h-full.w-80.pt-16.mr-7
+                        div#chatWrap.w-80.border.border-gray-300.rounded-md.fixed
                             h1#chatHeader.h-16.text-center.text-2xl.pt-4.font-bold.border-b.border-gray-300 채팅창
                             div#chats.h-96.overflow-y-auto.p-2.rounded-md
                             form#form.block.w-full.h-12.border-2.border-red-50.rounded-md
@@ -171,12 +171,15 @@ html
                         div(class="flex w-full md:w-1/2 ")
                             div(class="px-8")
                                 h3(class="font-bold text-gray-900") About
-                                p(class="py-4 text-gray-600 text-sm")
-                                    Lorem 수로그에 오신것을 환영합니다...!
+                                    ul(class="list-reset items-center text-sm pt-3")
+                                        li
+                                            p(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1") 수로그에 오신것을 환영합니다...!
                         div(class="flex w-full md:w-1/2")
                             div(class="px-8")
                                 h3(class="font-bold text-gray-900") Contact
                                 ul(class="list-reset items-center text-sm pt-3")
+                                    li
+                                        p(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1") Email : dktnqls0624@naver.com
                                     li
                                         a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1" href="https://github.com/tnqls0624" target="_blank") git hub
         script(src="/homePage.js")

@@ -44,18 +44,18 @@ html
                         li(class="mr-3")
                             a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") link
             main
-                div(class="container w-full md:max-w-7xl mx-auto pt-24")
-                    div.inline-block.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.w-full.max-w-3xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2.pb-6
+                div(class="container w-full md:max-w-8xl mx-auto pt-24")
+                    div.inline-block.h-full.max-w-6xl.border-t-2.border-gray-200.border-solid.w-full.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2.pb-6
                         form(action=`/api/game/${_post.id}/delete`, method="post").border-b-2.border-gray-200.border-solid
-                            div#post_title.text-center 타이틀
+                            div#post_title.text-center.font-bold 게임 게시판
                                 if(_post.attachment)
                                     div.text-right.p-10
                                         small 📁 Attachment: #{_post.attachment.originalFileName}
-                                div#card.p-10.text-left
-                                    label(for="title") 제목
+                                div#card.p-10.text-left.font-normal
+                                    label(for="title").font-bold 제목
                                     div.border-gray-200.border-b-2.border-gray-200.p-5.break-words #{_post.title}
-                                div.p-10.text-left
-                                    label(for="body") 본문
+                                div.p-10.text-left.font-normal
+                                    label(for="body").font-bold 본문
                                     div#post-body.border-gray-200.border-b-2.border-gray-200.p-5.break-words #{_post.body}
                             div.m-2.p-2.clear-both
                                     div.text-right
@@ -84,10 +84,10 @@ html
                                                     if val.updatedAt
                                                         span 수정일
                                                         div.text-xs#data-comment-updatedAt(data-comment-updatedAt=val.updatedAt)
-                                                div.pr-2.text-blue-500.inline-block
+                                                div.pr-2.relative
                                                     button#commentParent(data-commentId=`${val._id}`) 댓글
                                                     div#reply_show.hidden.text-black(data-commentText=`${val._id}`)
-                                                            form(action=`/api/comments/${_post._id}` method="post").pt-3
+                                                            form(action=`/api/comments/${_post._id}` method="post")
                                                                 input(type="hidden" name="parentComment" value=val._id)
                                                                 div.inline-block.text-left.pb-1.pl-28.align-top
                                                                     textarea.border-2.border-black.rounded-md(name="text", cols="46", rows="3")
@@ -95,20 +95,20 @@ html
                                                                 div.inline-block.pl-10
                                                                     button(class="block md:inline-block appearance-none bg-blue-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-blue-400 py-2 px-4") 작성
                                                 if val.writer === _userId
-                                                    div.inline-block
-                                                        div.text-blue-500
-                                                            div.inline-block.pr-2
+                                                    div.relative
+                                                        div
+                                                            div.inline-block.pr-2.absolute.top-0.text-blue-500
                                                                 button#commentEdit(data-commentId=`${val._id}`) 편집
                                                             div.inline-block
                                                                 form(action=`/api/comments/${_post._id}/delete`, method="post")
                                                                     input(type="hidden", name="commentId", value=val._id)
-                                                                    button#commentDelete 삭제
+                                                                    button#commentDelete.absolute.top-0.left-8.text-blue-500 삭제
                                                         div#comment_show.hidden(data-commentText=`${val._id}`)
                                                             form(action=`/api/comments/${_post._id}/edit` method="post").pt-3
                                                                 div.inline-block.text-left.pb-1.pl-28.align-top
                                                                     textarea.border-2.border-black.rounded-md(name="text", cols="46", rows="3")=val.text
                                                                     input(type="hidden", name="commentId", value=val._id)
-                                                                div.inline-block.pl-10
+                                                                div.inline-block.pl-10.absolute
                                                                     button(class="block md:inline-block appearance-none bg-blue-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-blue-400 py-2 px-4") 편집
                                             -for(let i = 0; i<= _comments.length-1; i++)
                                                 -for(let j=0;j<=val.childComment.length-1;j++ )
@@ -124,13 +124,13 @@ html
                                                                     div.text-xs#data-comment-updatedAt(data-comment-updatedAt=val.updatedAt)
                                                             if _comments[i].writer === _userId
                                                                 div.inline-block
-                                                                    div.text-blue-500
+                                                                    div
                                                                         div.inline-block.pr-2
                                                                             button#commentEdit(data-commentId=`${_comments[i]._id}`) 편집
                                                                         div.inline-block
                                                                             form(action=`/api/comments/${_post._id}/delete`, method="post")
                                                                                 input(type="hidden", name="commentId", value=_comments[i]._id)
-                                                                                button#commentDelete 삭제
+                                                                                button#commentDelete.text-blue-500 삭제
                                                                     div#comment_show.hidden(data-commentText=`${_comments[i]._id}`)
                                                                         form(action=`/api/comments/${_post._id}/edit` method="post").pt-3
                                                                             div.inline-block.text-left.pb-1.pl-28.align-top
@@ -144,8 +144,8 @@ html
                                         textarea.border-2.border-black.rounded-md(name="text", cols="46", rows="3")
                                     div.float-right
                                         button(class="block md:inline-block appearance-none bg-blue-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-blue-400 py-2 px-4") 댓글 작성
-                    div.float-right.h-full.w-80.pt-16
-                        div#chatWrap.w-80.border.border-gray-300.rounded-md
+                    div.float-right.h-full.w-80.pt-16.mr-7
+                        div#chatWrap.w-80.border.border-gray-300.rounded-md.fixed
                             h1#chatHeader.h-16.text-center.text-2xl.pt-4.font-bold.border-b.border-gray-300 채팅창
                             div#chats.h-96.overflow-y-auto.p-2.rounded-md
                             form#form.block.w-full.h-12.border-2.border-red-50.rounded-md
