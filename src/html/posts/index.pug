@@ -10,7 +10,7 @@ html
         - const _id = id
         - const _posts= posts
         div(class="font-sans leading-normal tracking-normal")
-            nav(id='header', class="bg-white border-b border-gray-400 shadow fixed w-full z-10 top-0 mx-auto")
+            nav(id='header', class="bg-white border-b border-gray-400 shadow fixed w-full z-10 top-0")
                 div(id="progress" class="h-1 z-20 top-0" style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);")
                 div(class="w-full md:max-w-7xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3")
                     div(class="pl-4")
@@ -41,18 +41,18 @@ html
                         li(class="mr-3")
                             a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#") link
             main
-                div(class="container w-full md:max-w-7xl mx-auto pt-24")
-                    div.inline-block.h-full.max-w-4xl.border-t-2.border-gray-200.border-solid.w-full.max-w-3xl.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
+                div(class="container w-full md:max-w-8xl ml-auto pt-24")
+                    div.inline-block.h-full.max-w-6xl.border-t-2.border-gray-200.border-solid.w-full.pt-14.border-r-2.border-gray-200.border-l-2.border-b-2
                         div#post_title.text-center.font-bold 자유 게시판
                             div#post_content.p-10.font-normal
-                                table.border-t-2.border-b-2.border-gray-200.border-solid.w-full.max-w-4xl
+                                table.border-t-2.border-b-2.border-gray-200.border-solid.w-full.max-w-6xl
                                     thead
                                         tr
-                                            th.w-14 글번호
-                                            th.w-80 제목
-                                            th.w-30 작성자
-                                            th.date.w-26 날짜
-                                            th.w-14 조회수
+                                            th.w-20 글번호
+                                            th.max-w-2xl 제목
+                                            th.w-28 작성자
+                                            th.date.w-28 날짜
+                                            th.w-20 조회수
                                     tbody
                                         if  _posts === null || _posts === undefined || _posts.length === 0
                                             tr
@@ -62,7 +62,7 @@ html
                                                 td.px-1
                                                     span #{val.numId}
                                                 td.px-1#select.text-left
-                                                    a(href=`/api/posts/${val._id}`).overflow-ellipsis.overflow-hidden.whitespace-nowrap.w-80.leading-10.block.h-12 #{val.title}
+                                                    a(href=`/api/posts/${val._id}`).max-w-2xl.overflow-ellipsis.overflow-hidden.whitespace-nowrap.leading-10.block.h-12 #{val.title}
                                                         if val.commentCount
                                                             span.text-xs.text-blue-500 &nbsp;[#{val.commentCount}]
                                                 td.px-1
@@ -130,9 +130,9 @@ html
                                         option(value="title") Title
                                         option(value="body") Body
                                     input(type="text" name="searchText" value=searchText).border.bg-white.rounded.px-3.py-2.outline-none.mr-2
-                                    button(type="submit" class="block md:inline-block appearance-none bg-blue-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-blue-400 py-2 px-4") 검색
-                    div.float-right.h-full.w-80.pt-16
-                        div#chatWrap.w-80.border.border-gray-300.rounded-md
+                                    button(type="submit" class="block md:inline-block appearance-none bg-blue-500 text-white text-base font-semibold tracking-wider uppercase rounded shadow hover:bg-blue-400 py-2 px-4 mr-6") 검색
+                    div.float-right.h-full.w-80.pt-16.mr-7
+                        div#chatWrap.w-80.border.border-gray-300.rounded-md.fixed
                             h1#chatHeader.h-16.text-center.text-2xl.pt-4.font-bold.border-b.border-gray-300 채팅창
                             div#chats.h-96.overflow-y-auto.p-2.rounded-md
                             form#form.block.w-full.h-12.border-2.border-red-50.rounded-md
