@@ -2,14 +2,15 @@ doctype html
 html
     head
         link(href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet")
-        link(href="" rel="stylesheet")
+        link(href="/output.css" rel="stylesheet")
+        link(rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css")
         meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
     body
         - const token= actoken
         - const _name= name
         - const _id = id
         - const _posts= posts
-        div(class="font-sans leading-normal tracking-normal")
+        div(class="font-sans leading-normal tracking-normal" ,style="background:linear-gradient(to bottom, #4dc0b5 var(--scroll), transparent 0);")
             nav(id='header', class="bg-white border-b border-gray-400 shadow fixed w-full z-10 top-0")
                 div(id="progress" class="h-1 z-20 top-0" style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);")
                 div(class="w-full md:max-w-7xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3")
@@ -157,8 +158,8 @@ html
                                         a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1" href="#") Add social link
                                     li
                                         a(class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1" href="#") Add social link
-        script(src="/homePage.js")
+        script(src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js")
         script(src="/post.js")
         script(src="/postLimit.js")
         script(src="/chat.js")
-
+        script(src="/nav.js")
