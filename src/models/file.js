@@ -21,14 +21,20 @@ fileSchema.methods.processDelete = function () {
   this.save();
 };
 
-fileSchema.methods.getFileStream = function () {
+fileSchema.methods.getFileStream = async function () {
   let stream;
-  const filePath = path.join(__dirname, '..', 'uploads', this.serverFileName);
+  const filePath = path.join(
+    __dirname,
+    '..',
+    '..',
+    'uploads',
+    this.serverFileName
+  );
   const fileExists = fs.existsSync(filePath);
   if (fileExists) {
-    stream = fs.createReadStream(filePath);
+    stream = await fs.createReadStream(filePath);
   } else {
-    // this.processDelete();
+    this.processDelete();
   }
   return stream;
 };
