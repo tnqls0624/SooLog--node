@@ -50,7 +50,8 @@ html
                             div#post_title.text-center.font-bold 자유 게시판
                                 if(_post.attachment)
                                     div.text-right.p-10
-                                        small 📁 Attachment: #{_post.attachment.originalFileName}
+                                        small 📁 Attachment:
+                                            a(href=`/api/posts/${_post.attachment.serverFileName}/${_post.attachment.originalFileName}`) #{_post.attachment.originalFileName}
                                 div#card.p-10.text-left.font-normal
                                     label(for="title").font-bold 제목
                                     div.border-gray-200.border-b-2.border-gray-200.p-5.break-words #{_post.title}

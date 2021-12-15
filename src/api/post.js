@@ -257,6 +257,27 @@ posts.post('/posts/:id/delete', auth, async (ctx) => {
     });
   }
 });
+//파일 다운
+posts.get('/posts/:serverFileName/:originalFileName', async function (ctx) {
+  const param = ctx.params;
+  const file = await File.findOne({
+    serverFileName: param.serverFileName,
+    originalFileName: param.originalFileName,
+  });
+
+  let stream = await file.getFileStream();
+  if (stream) {
+    ctx.res.writeHead(200, {
+      'Content-Type': 'application/octet-stream',
+      'Content-Disposition':
+        'attachment; filename=' + encodeURI(file.originalFileName),
+    });
+    stream.pipe(ctx.res);
+  } else {
+    ctx.res.statusCode = 404;
+    ctx.res.end();
+  }
+});
 
 async function createSearchQuery(queries) {
   var searchQuery = {};
