@@ -267,12 +267,12 @@ posts.get('/posts/:serverFileName/:originalFileName', async function (ctx) {
 
   let stream = await file.getFileStream();
   if (stream) {
-    ctx.res.writeHead(200, {
+    ctx.response.set({
       'Content-Type': 'application/octet-stream',
       'Content-Disposition':
         'attachment; filename=' + encodeURI(file.originalFileName),
     });
-    stream.pipe(ctx.res);
+    ctx.body = stream;
   } else {
     ctx.res.statusCode = 404;
     ctx.res.end();

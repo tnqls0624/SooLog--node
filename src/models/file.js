@@ -32,7 +32,7 @@ fileSchema.methods.getFileStream = async function () {
   );
   const fileExists = fs.existsSync(filePath);
   if (fileExists) {
-    stream = await fs.createReadStream(filePath);
+    stream = fs.createReadStream(filePath);
   } else {
     this.processDelete();
   }
